@@ -1,0 +1,87 @@
+{
+  "name": "tb-studio",
+  "displayName": "TB Studio",
+  "description": "Develop ThingsBoard widgets without leaving VS Code.",
+  "version": "1.0.0",
+  "publisher": "nasir",
+  "icon": "media/tb-studio.svg",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:tb-studio.updateLocalAndServer",
+    "onCommand:tb-studio.createEnvFromHost",
+    "onView:tbStudioView",
+    "onLanguage:javascript",
+    "onLanguage:html"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tb-studio",
+          "title": "TB Studio",
+          "icon": "media/tb-studio.svg"
+        }
+      ]
+    },
+    "views": {
+      "tb-studio": [
+        {
+          "type": "webview",
+          "id": "tbStudioView",
+          "name": "TB Studio"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "tb-studio.updateLocalAndServer",
+        "title": "TB Studio: Update Local & Server"
+      },{
+        "command": "tb-studio.createEnvFromHost",
+        "title": "TB Studio: Create ENV"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "tb-studio.updateLocalAndServer",
+        "key": "ctrl+u",
+        "when": "editorTextFocus && !inDebugRepl && !terminalFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.2",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "dotenv": "^17.2.2",
+    "os": "^0.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullstacknasir/tb-studio.git"
+  }
+}

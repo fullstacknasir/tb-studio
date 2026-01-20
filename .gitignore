@@ -1,0 +1,10 @@
+/node_modules
+node_modules/
+node_modules
+node_modules/*
+./node_modules
+/node_modules/**
+node_modules/**
+/outvs-syncross-0.0.1.vsix vs-syncross-0.0.2.vsix
+"*.vsix" 
+"NUL" 

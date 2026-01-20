@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!-- The provider will inject a full CSP string here -->
+<meta http-equiv="Content-Security-Policy" content="{{CSP}}" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login</title>
+<style>
+:root {
+color-scheme: light dark;
+}
+body { font: 13px/1.4 var(--vscode-font-family); color: var(--vscode-foreground); padding: 12px; }
+.card { background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border); border-radius: 8px; padding: 0 12px 12px 12px; }
+.label { display:block; margin-top:8px; }
+input[type="email"], input[type="password"] {
+width:100%; padding:6px; border:1px solid var(--vscode-input-border); background: var(--vscode-input-background);
+color: var(--vscode-input-foreground); border-radius:4px; box-sizing:border-box; margin-right: 20px;
+}
+.refreshBtn:hover { background-color: #00a3e494;}
+
+button.singin {
+margin-top:10px; padding:6px 10px; border:1px solid var(--vscode-button-border);
+background: var(--vscode-button-background); color: var(--vscode-button-foreground); border-radius:4px; cursor:pointer;
+width: 100%;
+}
+.error { color: var(--vscode-errorForeground); margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div style="display: flex; justify-content: end; align-items: center;gap: 10px;">
+        <div style="display: flex; border: 1px solid #00a3e4; border-radius: 2px; cursor: pointer;" id="hostEntry" class="refreshBtn"><svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></svg></div>
+        <div style="text-align: right;"><small>Server: {{connectedServer}}</small></div>
+        <div style="display: flex; border: 1px solid #00a3e4; border-radius: 2px; cursor: pointer;" id="refreshBtn" class="refreshBtn"><svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg></div>
+     </div>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <div style="font-size:24px; font-weight: 600;">TB-Studio</div>
+</div>
+<form id="login-form">
+    <label for="username" id="label">Email</label>
+    <input id="username" type="email" value="{{username}}" autocomplete="username" placeholder="Enter Email"/>
+    <div id="username-error" class="error" role="alert" aria-live="polite"></div>
+    <label for="password" id="label">Password</label>
+    <input id="password" type="password" value="{{password}}" autocomplete="current-password" placeholder="Enter Password"/>
+    <div id="password-error" class="error" role="alert" aria-live="polite"></div>
+    <div style="display: flex; gap: 10px; align-items: center;margin: 10px 0;"><input type="checkbox" id="rememberMe" name="rememberMe" {{checkStatus}}/> <label for="rememberMe">Remember me</label></div>
+    <button class="singin">Sign In</button>
+</form>
+<div id="msg" class="error" role="alert" aria-live="polite"></div>
+</div>
+
+
+<script nonce="{{NONCE}}">
+const vscode = acquireVsCodeApi();
+const $ = (id) => document.getElementById(id);
+document.getElementById('login-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    let hasError = false;
+
+    if (!$('username').value.trim()) {
+        $('username-error').textContent = 'Email is required.';
+        hasError = true;
+    }
+
+    if (!$('password').value) {
+        $('password-error').textContent = 'Password is required.';
+        hasError = true;
+    }
+
+    if (hasError) {
+        return;
+    }
+    vscode.postMessage({ type: 'submit', payload: { username: $('username').value.trim(), password: $('password').value, rememberMe: $('rememberMe').checked } });
+});
+// handle refreshServerBtn click
+document.getElementById('refreshBtn').addEventListener('click', () => {
+    vscode.postMessage({ type: 'reload' });    // ask backend to refrsh html with new server url
+    // clear input fields and messages
+    $('username').value = '';
+    $('password').value = '';
+    $('username-error').textContent = '';
+    $('password-error').textContent = '';
+    $('msg').textContent = '';
+});
+document.getElementById('hostEntry').addEventListener('click', ()=>{
+    vscode.postMessage({type: 'host', payload: {}});
+});
+//auto clear validation on typing
+document.getElementById('username').addEventListener('input', () => {
+    if ($('username').value.trim()) {
+        $('username-error').textContent = '';
+    }
+});
+document.getElementById('password').addEventListener('input', () => {
+    if ($('password').value) {
+        $('password-error').textContent = '';
+    }
+});
+
+window.addEventListener('message', (event) => {
+    const msg = event.data;
+    if (msg?.type === 'error') {
+        $('msg').textContent = msg.message || 'Login failed.'; 
+        setTimeout(() => { $('msg').textContent = ''; }, 2000);
+    }
+});
+</script> 
+</body>
+</html> 

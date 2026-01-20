@@ -1,0 +1,1871 @@
+[
+  {
+    "caption": "sc:token",
+    "snippet": "localStorage.getItem('jwt_token');",
+    "meta": "token",
+    "docHTML": "<b>localStorage.getItem('jwt_token');</b><hr>Retrieves the JSON Web Token (JWT) from the browser's local storage.<br><br>This is a standard method for accessing a stored authentication token needed to make authenticated API calls."
+  },
+  {
+    "caption": "sc:headers",
+    "value": "{headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}",
+    "meta": "snippet",
+    "score": 2,
+    "docHTML": "<b>{headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}</b><hr>Generates the standard HTTP headers object required for making authenticated API requests to a <strong>Thingsboard server</strong>.This snippet first retrieves the JWT from <code>localStorage</code> and then constructs the headers object."
+  },
+  {
+    "caption": "sc:http.get",
+    "value": "self.ctx.http.get(``, {headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}).subscribe(res=>{\n\n    }, error=>{\n\n    })",
+    "meta": "snippet",
+    "score": 3,
+    "docHTML": "<b>self.ctx.http.get(`url`, {headers})</b><hr>This snippet sends an HTTP GET request with a JWT token retrieved from localStorage for authorization. The response is handled asynchronously using the subscribe method."
+  },
+  {
+    "caption": "sc:http.post",
+    "value": "self.ctx.http.post(``, payload, {headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}).subscribe(res=>{\n\n    }, error=>{\n\n    })",
+    "meta": "snippet",
+    "score": 4,
+    "docHTML": "<b>self.ctx.http.post(`url`, payload={}, {headers})</b><hr> This snippet sends an HTTP POST request with a payload and a JWT token in the Authorization header. Like the GET request, the response is handled asynchronously using the subscribe method."
+  },
+  {
+    "caption": "sc:tablePagination",
+    "snippet": "syncross.tablePagination(${1:defaultPageSize}, ${2:defaultPageOptions})",
+    "meta": "function",
+    "docHTML": "<b>syncross.tablePagination(defaultPageSize=20, defaultPageOptions=[20, 50, 100])</b><hr>Creates a pagination controller with utility methods to manage paging state.<br><br><b>@param</b> <code>{number} [defaultPageSize=20]</code> - Default number of items per page.<br><b>@param</b> <code>{number[]} [defaultPageOptions=[20, 50, 100]]</code> - Available page size options.<br><b>@returns</b> <code>{object}</code> Pagination controller with methods to manage page state."
+  },
+  {
+    "caption": "sc:getStateList",
+    "snippet": "syncross.getStateList()",
+    "meta": "function",
+    "docHTML": "<b>syncross.getStateList()</b><hr>Returns a list of state types used in the application.<br><br><b>@returns</b> <code>{string[]}</code> An array of state names."
+  },
+  {
+    "caption": "sc:getTimeMacroList",
+    "snippet": "syncross.getTimeMacroList()",
+    "meta": "function",
+    "docHTML": "<b>syncross.getTimeMacroList()</b><hr>Returns a list of predefined time macros commonly used in filters and reports.<br><br><b>@returns</b> <code>{string[]}</code> An array of time macro labels such as \"Today\", \"Last 7 Days\", etc."
+  },
+  {
+    "caption": "sc:timeFormatMap",
+    "snippet": "syncross.timeFormatMap(${1:type})",
+    "meta": "function",
+    "docHTML": "<b>syncross.timeFormatMap(type='Today')</b><hr>Returns a time format string based on the given macro type.<br><br><b>@param</b> <code>{string} [type='Today']</code> - The time macro type.<br><b>@returns</b> <code>{string}</code> The corresponding time format string."
+  },
+  {
+    "caption": "sc:getTimeData",
+    "snippet": "syncross.getTimeData(${1:type}, ${2:weekStartDay}, ${3:dayStartTime}, ${4:prev})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getTimeData(type='Today', weekStartDay='Sunday', dayStartTime='00:00', prev=false)</b><hr>Generates time range data based on a time macro type.<br><br><b>@param</b> <code>{string} type</code> - A valid time macro type (e.g., from `getTimeMacroList()`).<br><b>@param</b> <code>{string} weekStartDay</code> - The day the week starts on (e.g., \"Sunday\", \"Monday\").<br><b>@param</b> <code>{string} dayStartTime</code> - The starting time of the day in \"HH:mm\" format.<br><b>@param</b> <code>{boolean} prev</code> - Whether to generate the previous period's time range.<br><b>@returns</b> <code>{object}</code> An object containing the computed start date, end date, and aggregation type."
+  },
+  {
+    "caption": "sc:getSyncedChartOptions",
+    "snippet": "syncross.getSyncedChartOptions(${1:chartOption}, ${2:theme})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getSyncedChartOptions(chartOption, theme='light')</b><hr>Applies theme-based styling to a given chart option configuration object.<br><br><b>@param</b> <code>{object} chartOption</code> - The chart configuration object (e.g., ECharts option).<br><b>@param</b> <code>{string} [theme='light']</code> - The theme to apply (\"light\" or \"dark\").<br><b>@returns</b> <code>{object}</code> The updated chart option object with synchronized theme styles."
+  },
+  {
+    "caption": "sc:getTheme",
+    "snippet": "syncross.getTheme()",
+    "meta": "function",
+    "docHTML": "<b>syncross.getTheme()</b><hr>Retrieves the current UI theme from the document element.<br><br><b>@returns</b> <code>{string}</code> 'dark' or 'light'."
+  },
+  {
+    "caption": "sc:getTimeFilter",
+    "snippet": "syncross.getTimeFilter()",
+    "meta": "function",
+    "docHTML": "<b>syncross.getTimeFilter()</b><hr>Retrieves the stored time filter configuration from localStorage.<br><br><b>@returns</b> <code>{object}</code> An object containing the selected time range type and associated date information."
+  },
+  {
+    "caption": "sc:getBarChartOption",
+    "snippet": "syncross.getBarChartOption(${1:title}, ${2:subtitle}, ${3:xAxisData}, ${4:yAxisName}, ${5:series}, ${6:theme}, ${7:tooltipUnit})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getBarChartOption(title, subtitle, xAxisData, yAxisName, series, theme='light', tooltipUnit='tCO2e')</b><hr>Generates the configuration object for a themed bar chart.<br><br><b>@param</b> <code>{string} [title='title']</code> - The main title of the chart.<br><b>@param</b> <code>{string} [subtitle='subtitle']</code> - The subtitle of the chart.<br><b>@param</b> <code>{Array} xAxisData</code> - The data array for the x-axis categories.<br><b>@param</b> <code>{string} yAxisName</code> - The label for the y-axis.<br><b>@param</b> <code>{Array} series</code> - The series data array for the chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme for the chart.<br><b>@param</b> <code>{string} [tooltipUnit='tCO2e']</code> - The unit for the tooltip.<br><b>@returns</b> <code>{object}</code> The ECharts bar chart configuration object."
+  },
+  {
+    "caption": "sc:getLineChartOption",
+    "snippet": "syncross.getLineChartOption(${1:title}, ${2:subtitle}, ${3:xAxisData}, ${4:yAxisName}, ${5:series}, ${6:theme})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getLineChartOption(title, subtitle, xAxisData, yAxisName, series, theme='light')</b><hr>Generates the configuration object for a themed line chart.<br><br><b>@param</b> <code>{string} [title='title']</code> - The main title of the chart.<br><b>@param</b> <code>{string} [subtitle='subtitle']</code> - The subtitle of the chart.<br><b>@param</b> <code>{Array} xAxisData</code> - The data array for the x-axis categories.<br><b>@param</b> <code>{string} yAxisName</code> - The label for the y-axis.<br><b>@param</b> <code>{Array} series</code> - The series data array for the chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme for the chart.<br><b>@returns</b> <code>{object}</code> The ECharts line chart configuration object."
+  },
+  {
+    "caption": "sc:getDoughnutOption",
+    "snippet": "syncross.getDoughnutOption(${1:color}, ${2:theme})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getDoughnutOption(color, theme)</b><hr>Generates the configuration object for a themed doughnut gauge chart.<br><br><b>@param</b> <code>{string} color</code> - The color used for the progress indicator.<br><b>@param</b> <code>{string} theme</code> - The theme of the chart, either 'light' or 'dark'.<br><b>@returns</b> <code>{object}</code> The ECharts doughnut gauge chart configuration object."
+  },
+  {
+    "caption": "sc:getPiechartOption",
+    "snippet": "syncross.getPiechartOption(${1:title}, ${2:seriesName}, ${3:data}, ${4:theme})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getPiechartOption(title='', seriesName='', data=[], theme='light')</b><hr>Generates an ECharts pie chart option configuration.<br><br><b>@param</b> <code>{string} [title='']</code> - The title of the pie chart.<br><b>@param</b> <code>{string} [seriesName='']</code> - The name for the data series.<br><b>@param</b> <code>{Array<Object>} [data=[]]</code> - The data array for the pie chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme of the chart.<br><b>@returns</b> <code>{Object}</code> ECharts configuration object for a pie chart."
+  },
+  {
+    "caption": "sc:getChartSubtitle",
+    "snippet": "syncross.getChartSubtitle(${1:type}, ${2:mode})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getChartSubtitle(type='Today', mode='Consumption')</b><hr>Generates a formatted subtitle string for charts based on the selected time type and mode.<br><br><b>@param</b> <code>{string} [type='Today']</code> - The selected time range type.<br><b>@param</b> <code>{string} [mode='Consumption']</code> - The mode or metric type.<br><b>@returns</b> <code>{string}</code> A formatted subtitle describing the time range and mode."
+  },
+  {
+    "caption": "sc:getDataFromSource",
+    "snippet": "syncross.getDataFromSource(${1:data}, ${2:param}, ${3:dataOnly})",
+    "meta": "function",
+    "docHTML": "<b>syncross.getDataFromSource(data, param={}, dataOnly=false)</b><hr>Filters and retrieves data from a given data source based on optional parameters.<br><br><b>@param</b> <code>{Array} data</code> - The array of data objects to filter (e.g., `self.ctx.data`).<br><b>@param</b> <code>{Object} [param={}]</code> - Optional filtering parameters.<br><b>@param</b> <code>{boolean} [dataOnly=false]</code> - If true, returns only the `.data` property of the first matched item.<br><b>@returns</b> <code>{Array|Object|string}</code> Filtered data array, single data object, or error message."
+  },
+  {
+    "caption": "sc:customDialog",
+    "snippet": "template=`\n<div aria-label=\"Info\" style=\"width: 500px\">\n  <mat-toolbar class=\"flex justify-between items-center\" color=\"primary\">\n    <div>Title</div>\n    <button mat-icon-button (click)=\"close()\"><mat-icon>close</mat-icon></button>\n  </mat-toolbar>\n  <div mat-dialog-content>\n    <mat-spinner style=\"position: absolute; left: 45%;text-align: center;\"></mat-spinner>\n    <form method=\"POST\" [formGroup]=\"form\" (submit)=\"saveUser()\">\n      <mat-form-field appearance=\"fill\">\n        <mat-label>some text</mat-label>\n        <input matInput type=\"text\" formControlName=\"typeControlNameHere\">\n      </mat-form-field>\n      <button mat-flat-button color=\"primary\">Save</button>\n    </form>\n  </div>\n</div>\n`;\nself.ctx.customDialog.customDialog(template, InfoDialogController, {data: data, index: index, type: \\$scope.currentSelectedItem}).subscribe(resp=>{});\nfunction InfoDialogController(instance) {\n    instance.close=function(){\n        instance.dialogRef.close(null);\n    }        \n}",
+    "meta": "snippet",
+    "docHTML": "<strong>self.ctx.customDialog(template, InfoDialogController, {data: data})</strong><hr>\nOpens a custom dialog with the provided template and controller, passing data, index, and optional type. The dialog can handle form submissions and close events, with responses managed through an observable.\n<strong>Returns:</strong> An observable for response handling.\n"
+  },
+  {
+    "caption": "sc:actionSource",
+    "snippet": "self.actionSources = function() {\n    return {\n        'actionKey': {\n            name: 'actionName',\n            multiple: false,\n        },\n    }\n}",
+    "meta": "snippet",
+    "docHTML": "<strong>self.actionSources()</strong><hr>\nCreate a custom action for dashboard button\n"
+  },
+  {
+    "caption": "sc:actionHandler",
+    "snippet": "let actionDescriptor = self.ctx.actionsApi.getActionDescriptors('actionKey');\n    \\$scope.onClickOnlineStatus = function(\\$event){\n        self.ctx.actionsApi.handleWidgetAction(\\$event,actionDescriptor[0]);\n    };",
+    "meta": "snippet",
+    "docHTML": "<strong>Action handler</strong><hr>\nHandle created action\n"
+  },
+  {
+    "caption": "sc:getAttribute",
+    "snippet": "self.ctx.attributeService.getEntityAttributes({entityType: 'DEVICE', id: 'Enter_Entity_ID_Here'}, 'SERVER_SCOPE', ['key1', 'key2']).subscribe(res=>{\n\n})",
+    "meta": "snippet",
+    "docHTML": "<strong>Attribute Service API</strong><hr>\nSee <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/attribute.service.ts#L28\">AttributeService</a> for API reference.\n"
+  },
+  {
+    "caption": "sc:saveAttribute",
+    "snippet": "self.ctx.attributeService.saveEntityAttributes({entityType: 'DEVICE', id: 'ENTITY_ID_HERE'}, 'SERVER_SCOPE', [{key: 'key1', value: {}}]).subscribe(res=>{\n\n})",
+    "meta": "snippet",
+    "docHTML": "<strong>Attribute Service API</strong><hr>\nSee <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/attribute.service.ts#L28\">AttributeService</a> for API reference.\n"
+  },
+  {
+    "caption": "sc:hasPermission",
+    "snippet": "syncross.hasPermission(self.ctx, \"control\", \"perm_text\")",
+    "meta": "function",
+    "docHTML": "<strong>syncross.hasPermission(self.ctx, \"control\", \"perm_text\")<hr>\nCheck the current user permission for a specific control widget. Add permission in User management Dashbaord, then use the permission here.\nCheck the code at <a href=\"https://github.com/stsvinc/code-repo/blob/main/syncross-utils.js#L502\">github code</a>\n"
+  },
+  {
+    "caption": "sc:click",
+    "snippet": "(click)=\"handleClick(\\$event)\"",
+    "meta": "snippet",
+    "docHTML": "<strong>(click)=\"handleClick(\\$event)\"</strong>"
+  },
+  {
+    "caption": "sc:button",
+    "snippet": "<button mat-button></button>",
+    "meta": "snippet",
+    "docHTML": "<strong>material button</strong>"
+  },
+  {
+    "caption": "sc:button-flat",
+    "snippet": "<button mat-flat-button></button>",
+    "meta": "snippet",
+    "docHTML": "<strong>material flat button</strong>"
+  },
+  {
+    "caption": "sc:ts-template",
+    "snippet": "<main class=\"overflow-auto h-full w-full\">\n    <header class=\"bg-white dark:bg-gray-800 py-2 px-4 rounded-lg shadow-lg flex justify-between items-center\">\n    <!--Left Side content-->\n        <div class=\"overflow-hidden transition-all duration-300 ease-in-out flex w-full\" [class]=\"isMobile&&isVisibleFilter?['Single Date', 'Date Range', 'Single Month', 'Single Year'].indexOf(selectedType)>-1?'h-[160px]':'h-[105px]':'h-[50px]'\">\n            <form class=\"flex items-center justify-start lt-md:flex-col md:flex-row gt-md:flex-row gap-[10px] w-full\">\n                <div class=\"w-full lg:!w-auto flex justify-between items-center\">\n                    <button mat-icon-button (click)=\"goBack()\"><mat-icon class=\"ml-2 text-black dark:text-white\">arrow_back_ios</mat-icon></button>\n                    <div class=\"flex items-stretch h-[40px] divide-x divide-slate-200 dark:divide-slate-600 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm overflow-hidden block lg:!hidden\">\n                        <div (click)=\"onClickOnlineStatus(\\$event, 'Online')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View online devices\">\n                            <span class=\"w-2.5 h-2.5 bg-green-500 dark:bg-green-300 rounded-full animate-pulse\"></span>\n                            <span class=\"text-green-500 dark:text-green-300 font-semibold\">{{deviceOnlineStatus?.device_online||0}}</span>\n                            <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Online</span>\n                        </div>\n                        <div (click)=\"onClickOnlineStatus(\\$event, 'All')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View all devices\">\n                            <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-4 w-4 text-gray-600 dark:text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\">\n                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path>\n                            </svg>\n                            <span class=\"text-gray-900 dark:text-gray-100 font-semibold\">{{deviceOnlineStatus?.device_total||0}}</span>\n                            <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Total</span>\n                        </div>\n                    </div>\n                    <button mat-icon-button class=\"block lg:!hidden\" (click)=\"isVisibleFilter=!isVisibleFilter\"><mat-icon class=\"nav-icon-bell text-black dark:text-white\">{{ isVisibleFilter ? 'close' : 'filter_list' }}</mat-icon></button>\n                </div>\n                <mat-form-field appearance=\"outline\" SubscriptSizing=\"dynamic\" class=\"nav-dropdown filter w-full lg:!w-[220px]\" *ngIf=\"reportTypes?.length\">\n                    <mat-select id=\"report-type\" [(value)]=\"selectedType\" (selectionChange)=\"typeSelect(\\$event.value)\" required>\n                        <mat-option *ngFor=\"let reportType of reportTypes\" [value]=\"reportType\">{{reportType}}</mat-option>\n                    </mat-select>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Month'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput id=\"monthOrYear\" (click)=\"myPicker.open()\" [max]=\"today\" [matDatepicker]=\"myPicker\" placeholder=\"Select Month\">\n                    <mat-datepicker-toggle matSuffix [for]=\"myPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #myPicker startView=\"year\" (monthSelected)=\"selectMonthOrYear(\\$event, myPicker)\"></mat-datepicker>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Year'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput id=\"monthOrYear\" (click)=\"myPicker.open()\" [max]=\"today\" [matDatepicker]=\"myPicker\" placeholder=\"Select Year\">\n                    <mat-datepicker-toggle matSuffix [for]=\"myPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #myPicker startView=\"multi-year\" (yearSelected)=\"selectMonthOrYear(\\$event, myPicker)\"></mat-datepicker>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Date'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput [value]=\"showDateFromTs(timeFilter.dateData.singleDt)\" id=\"startDate\" (click)=\"startPicker.open()\" [max]=\"today\" [matDatepicker]=\"startPicker\" (dateChange)=\"singleDateChange(\\$event.value)\" placeholder=\"select date\">\n                    <mat-datepicker-toggle matSuffix [for]=\"startPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #startPicker></mat-datepicker>\n                </mat-form-field>\n    \n                <mat-form-field *ngIf=\"selectedType=='Date Range'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[300px] filter\">\n                    <mat-date-range-input [rangePicker]=\"picker\" (click)=\"picker.open()\">\n                        <input [value]=\"showDateFromTs(timeFilter.dateData.startDt)\" (dateInput)=\"chooseDateRange(\\$event.value, 'start')\" matStartDate placeholder=\"Start date\">\n                        <input [value]=\"showDateFromTs(timeFilter.dateData.endDt)\" (dateInput)=\"chooseDateRange(\\$event.value, 'end')\" matEndDate placeholder=\"End date\">\n                    </mat-date-range-input>\n                    <mat-datepicker-toggle matIconSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                    <mat-date-range-picker #picker></mat-date-range-picker>\n                </mat-form-field>\n            </form>\n        </div>\n        <div class=\"block lt-lg:!hidden\">\n            <div class=\"flex items-stretch h-[40px] divide-x divide-slate-200 dark:divide-slate-600 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm overflow-hidden\">\n                <div (click)=\"onClickOnlineStatus(\\$event, 'Online')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View online devices\">\n                    <span class=\"w-2.5 h-2.5 bg-green-500 dark:bg-green-300 rounded-full animate-pulse\"></span>\n                    <span class=\"text-green-500 dark:text-green-300 font-semibold\">{{deviceOnlineStatus?.device_online||0}}</span>\n                    <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Online</span>\n                </div>\n                <div (click)=\"onClickOnlineStatus(\\$event, 'All')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View all devices\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-4 w-4 text-gray-600 dark:text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\">\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path>\n                    </svg>\n                    <span class=\"text-gray-900 dark:text-gray-100 font-semibold\">{{deviceOnlineStatus?.device_total||0}}</span>\n                    <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Total</span>\n                </div>\n            </div>\n        </div>\n    </header>\n    \n    <section class=\"sc-main-content\">\n        <h2>Write your code here</h2>\n    </section>\n</main>\n",
+    "meta": "snippet",
+    "docHTML": "<strong>synCross time-series template</strong><hr>This is an starter template for time-series widget. It's has some input fields for filtering"
+  },
+  {
+    "caption": "sc:ts-template-js",
+    "snippet": "self.onInit = function() {\n    \\$scope = self.ctx.\\$scope;\n    let weekStartDay = 'Sunday';\n    let dayStartTime = '06:00';\n    \\$scope.reportTypes = syncross.getTimeMacroList();\n    \\$scope.timeFilter = syncross.getTimeFilter();\n    \\$scope.selectedType = \\$scope.timeFilter?.selectedRangeType||\\$scope.reportTypes[0];\n    \\$(document).ready(function(){\n        init();\n        self.onResize()\n    })\n    /*******************************************\n     * ************Initialize the process*******\n     * ****************************************/\n    function init(){\n        \\$scope.form=syncross.getTimeData(\\$scope.selectedType, weekStartDay, dayStartTime);\n        if(['Single Month', 'Single Year'].includes(\\$scope.timeFilter.selectedRangeType)) {\n            \\$('#monthOrYear').val(moment(new Date(\\$scope.timeFilter.dateData.singleDt)).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'));\n        }\n        submitSearch();\n    }\n    function submitSearch(){\n        //TODO: Write your logic here.\n        // You can create payload, call an https request, implements complex logic here.\n        console.log(\\$scope.form);\n    }\n    \\$scope.typeSelect=function(\\$event='Today'){\n        if(['Single Date', 'Date Range', 'Single Month', 'Single Year'].indexOf(\\$event)>-1){\n            \\$scope.timeFilter.dateData={ singleDt: \\$event=='Single Date'?new Date().getTime():\\$event=='Single Month'?new Date(moment().format('YYYY-MM-01')).getTime():\\$event=='Single Year'?new Date(moment().format('YYYY-01-01')).getTime():'', startDt: \\$event=='Date Range'?moment().subtract(1, 'days').format('YYYY-MM-DD'):'', endDt: \\$event=='Date Range'?moment().format('YYYY-MM-DD'):'' };\n            setTimeout(function() {\n                if(['Single Month', 'Single Year'].includes(\\$scope.timeFilter.selectedRangeType)) {\n                    \\$('#monthOrYear').val(moment(new Date(\\$scope.timeFilter.dateData.singleDt)).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'));\n                }\n            }, 10);\n        }\n        \\$scope.form=solveTypeData(\\$event, weekStartDay);\n        submitSearch();\n    }\n    function solveTypeData(type='Today', weekStartDay){\n        \\$scope.timeFilter.selectedRangeType=type;\n        localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n        return syncross.getTimeData(type, weekStartDay, dayStartTime);\n    }\n    \\$scope.selectMonthOrYear=function(eventData, dp){\n        \\$scope.timeFilter.dateData.singleDt=new Date(moment(eventData).format(\\$scope.selectedType=='Single Month'?'YYYY-MM-01':'YYYY-01-01')).getTime();\n        $('#monthOrYear').val(moment(eventData).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'))\n        dp.close();\n        \\$scope.form=solveTypeData(\\$scope.timeFilter.selectedRangeType, weekStartDay, dayStartTime);\n        submitSearch();\n    }\n    \\$scope.singleDateChange=function(\\$event){\n        \\$scope.form.startDate=moment(\\$event).format('YYYY-MM-DD 00:00:00');\n        \\$scope.form.endDate=moment(\\$event).format('YYYY-MM-DD 23:59:59');\n        \\$scope.timeFilter.dateData.singleDt=\\$event.getTime();\n        localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n        submitSearch();\n    }\n    \\$scope.chooseDateRange=function(\\$event, pos='start', pk){\n        if (\\$event) {\n            const isStart = pos === 'start';\n            \\$scope.form[isStart ? 'startDate' : 'endDate'] = moment(\\$event).format(`YYYY-MM-DD \\${isStart ? '00:00:00' : '23:59:59'}`);\n            \\$scope.timeFilter.dateData[isStart ? 'startDt' : 'endDt'] = \\$event.getTime();\n            localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n            if(!isStart) {\n                pk.close();\n                submitSearch();\n            }\n        }\n    }\n    \\$scope.showDateFromTs=function(ts=''){ return ts==''?'':new Date(ts); }\n    \\$scope.goBack = function() { window.history.back(); }\n}\nself.onDataUpdated=function(){\n    \n}\n\nself.onResize = function() {\n     const \\$scope=self.ctx.\\$scope;\n    \\$scope.screenHeight = self.ctx.height;\n    \\$scope.isMobile=self.ctx.isMobile;\n    self.ctx.detectChanges();\n}\n\nself.onDestroy = function() {\n}\n \n",
+    "meta": "snippet",
+    "docHTML": "<strong>synCross time-series javascript associated to template</strong><hr>This is an starter javascript template for time-series widget. All event of time-series template are implemented here."
+  },
+  {
+    "caption": "sc:tiny-template",
+    "snippet": "<main class=\"overflow-auto h-full w-full\">\n    <header class=\"bg-white dark:bg-gray-800 pt-1 pb-2 px-4 rounded-lg shadow-lg h-[48px]\">\n        <button mat-icon-button (click)=\"goBack()\" class=\"!p-0 !h-10 !w-10 flex items-center justify-center\"><mat-icon class=\"ml-2 text-black dark:text-white\">arrow_back_ios</mat-icon></button>\n    </header>\n    <section class=\"sc-main-content\">\n        <h2>Write your code here</h2>\n        <button mat-flat-button color=\"primary\" (click)=\"handleClick(\\$event)\"></button>\n    </section>\n</main>\n",
+    "meta": "snippet",
+    "docHTML": "<strong>synCross tiny template</strong><hr>This is an starter template for simple widget. You can start widget development from here."
+  },
+  {
+    "caption": "sc:tiny-template-js",
+    "snippet": "self.onInit = function() {\n    \\$(document).ready(function(){ self.onResize(); });\n    const \\$scope = self.ctx.\\$scope;\n    //TODO: Write your logic here.\n    \\$scope.goBack = function() { window.history.back(); }\n}\nself.onDataUpdated=function(){\n    const \\$scope=self.ctx.\\$scope;\n    if (self.ctx.data) {\n        if (self.ctx.data[0] && self.ctx.data[0].data.length) {\n            //TODO: Write your logic here.\n        }\n    }\n}\n\nself.onResize = function() {\n    const \\$scope=self.ctx.\\$scope;\n    \\$scope.height = self.ctx.height;\n    \\$scope.width=self.ctx.width;\n    \\$scope.isMobile=self.ctx.isMobile;\n    self.ctx.detectChanges();\n}\n\nself.onDestroy = function() {\n    \n}\nself.actionSources = function() {\n    return {\n        'actionKey': {\n            name: 'actionName',\n            multiple: false,\n        },\n    }\n}\n \n",
+    "meta": "snippet",
+    "docHTML": "<strong>synCross tiny javascript associated to template</strong><hr>This is an starter template for simple widget. You can start widget development from here."
+  },
+  {
+    "caption": "tw:card",
+    "snippet": "<div class=\"bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl\">\n    <div class=\"text-lg font-semibold tracking-wider text-gray-700 dark:text-gray-100 mb-2\">Title</div>\n</div>",
+    "meta": "Tailwind Component",
+    "docHTML": "<b>Basic Tailwindcss Card Container</b><hr>A responsive container component that supports both light and dark modes.<br><strong>Includes:</strong><ul><li>Theme-aware background (<code>bg-white dark:bg-gray-800</code>)</li><li>Generous padding (<code>p-6</code>)</li><li>Rounded corners (<code>rounded-lg</code>) and a prominent shadow (<code>shadow-xl</code>).</li></ul>"
+  },
+  {
+    "caption": "tw:flex",
+    "snippet": "<div class=\"flex lt-lg:flex-col gap-2\">\n    <div>\n        <!--Left/Top div: Write you code here-->\n    </div>\n    <div>\n        <!--Right/Bottom div: Write you code here-->\n    </div>\n</div>",
+    "meta": "snippet",
+    "docHTML": "Write responsive flex layout using tailwindcss."
+  },
+  {
+    "caption": "tw:flex-grow",
+    "snippet": "<div class=\"flex lt-lg:flex-col gap-2\">\n    <div class=\"flex-grow\">\n        <!--Left/Top div: Write you code here-->\n    </div>\n    <div class=\"flex-grow\">\n        <!--Right/Bottom div: Write you code here-->\n    </div>\n</div>",
+    "meta": "snippet",
+    "docHTML": "Write responsive flex layout with 50/50 grow using tailwindcss."
+  },
+  {
+    "caption": "tw:grid",
+    "snippet": "<div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2\">\n    <div> Item 1 </div>\n    <div> Item 2 </div>\n    <div> Item 3 </div>\n    <div> Item 4 </div>\n    <div> Item 5 </div>\n</div>",
+    "meta": "snippet",
+    "docHTML": "Responsive layout using grid cols in tailwindcss"
+  },
+  {
+    "caption": "tw:chip",
+    "snippet": "<span class=\"px-2 flex items-center gap-2 w-min bg-emerald-400 text-black dark:text-white rounded-full text-xs font-bold\">\n    <mat-icon class=\"scale-75\">directions_run</mat-icon>\n    <span>RUNNING</span>\n</span>",
+    "meta": "snippet",
+    "docHTML": "Chip using tailwindcss"
+  },
+  {
+    "caption": "tw:chip-outline",
+    "snippet": "<span class=\"px-2 flex items-center gap-2 w-min border border-[#34d399] text-[#34d399] rounded-full text-xs font-bold\">\n    <mat-icon class=\"scale-75\">hourglass_bottom</mat-icon>\n    <span>ONLOAD</span>\n</span>",
+    "meta": "snippet",
+    "docHTML": "Outline chip using tailwindcss"
+  },
+  {
+      "caption": "tw:input",
+      "snippet": "<div class=\"m-2\">\n   <label class=\"block text-xs font-semibold mb-2 text-gray-600 dark:text-gray-400 uppercase\" for=\"inputId\">Replace Label</label>\n    <input id=\"inputId\" type=\"text\" class=\"w-full p-2.5 text-sm bg-white dark:bg-[#2c2c2c] border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition\" placeholder=\"Replace the placeholder\">\n</div>",
+      "meta": "snippet",
+      "docHTML": "Input field using tailwindcss"
+  },
+  {
+      "caption": "tw:select",
+      "snippet": "<div class=\"relative w-48 group text-xs\">\n    <button class=\"w-full px-3 py-2 bg-gray-100 dark:bg-[#2c2c2c] rounded-md text-gray-800 dark:text-gray-200 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 transition-colors\">\n        <span class=\"flex items-center\">\n            <span class=\"w-3 h-3 rounded-full mr-2 bg-yellow-500\"></span>\n            {{selectedItem}}\n        </span>\n        <svg class=\"w-4 h-4 ml-2 text-gray-500 transition-transform duration-300 group-focus-within:rotate-180\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"/>\n        </svg>\n    </button>\n    <div class=\"absolute mt-1 w-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 invisible opacity-0 transform scale-95 transition-all duration-200 origin-top group-focus-within:visible group-focus-within:opacity-100 group-focus-within:scale-100\">\n        <ul class=\"py-1 max-h-60 overflow-y-auto\">\n            <li *ngFor=\"let item of items\" (click)=\"itemChanged(item)\" class=\"flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700\">\n                <div class=\"flex items-center\">\n                    <span class=\"w-3 h-3 rounded-full mr-2 bg-yellow-500\"></span>\n                    <span class=\"text-gray-800 dark:text-gray-200\">{{item}}</span>\n                </div>\n                <span *ngIf=\"item==selectedItem\" class=\"text-green-500\">✔</span>\n            </li>\n        </ul>\n    </div>\n</div>\n<script>\n    const scope=Object.assign(self.ctx.$scope, {\n        items: ['Pending', 'In Progress', 'Waiting'],\n        selectedItem: '',\n        itemChanged(item){\n            this.selectedItem=item;\n        }\n    })\n</script>",
+      "meta": "snippet",
+      "docHTML": "Tailwindcss select option"
+  },
+  {
+    "caption": "mat:input",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <mat-label>Label</mat-label>\n    <input matInput placeholder=\"Placeholder\" formControlName=\"name\">\n</mat-form-field>",
+    "meta": "snippet",
+    "docHTML": "<b>Angular Material form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/form-field/overview\">Form Field</a>"
+  },
+  {
+    "caption": "mat:auto-complete",
+    "snippet": "<mat-form-field appearance=\"fill\" floatLabel=\"never\" subscriptSizing=\"dynamic\"> \n<!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Label</mat-label>\n    <input type=\"text\" placeholder=\"Pick one\" matInput [matAutocomplete]=\"auto\" (input)=\"handleInput(\\$event)\">\n    <mat-autocomplete autoActiveFirstOption #auto=\"matAutocomplete\">\n      @for (option of options; track option) {<mat-option [value]=\"option\">{{option}}</mat-option>}\n    </mat-autocomplete>\n</mat-form-field>\n",
+    "meta": "snippet",
+    "docHTML": "<b>Angular Material autocompletion form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/form-field/overview\">Form Field</a>"
+  },
+  {
+    "caption": "mat:chip-input",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Label</mat-label>\n    <mat-chip-grid #chipGrid>\n        @for (fruit of fruits; track fruit) {\n            <mat-chip-row (removed)=\"remove(fruit)\">\n                {{fruit}}\n                <button matChipRemove [attr.aria-label]=\"'remove ' + fruit\"><mat-icon>cancel</mat-icon></button>\n            </mat-chip-row>\n        }\n    </mat-chip-grid>\n    <input placeholder=\"New Fruit...\" #fruitInput [matChipInputFor]=\"chipGrid\" (input)=\"handleInput(\\$event)\" [matAutocomplete]=\"auto\" />\n    <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selected(\\$event)\">\n        @for (fruit of options; track fruit) {<mat-option [value]=\"fruit\">{{fruit}}</mat-option>}\n    </mat-autocomplete>\n</mat-form-field>\n\n<script type=\"text/javascript\" charset=\"utf-8\">\nconst \\$scope=self.ctx.\\$scope;\n\\$scope.options= ['One', 'Two', 'Three'];\n\\$scope.fruits=[]\n\\$scope.selected=function(\\$event){\n    \\$scope.fruits.push(\\$event.option.viewValue)\n}\n\\$scope.remove=function(item){\n    indx=\\$scope.fruits.indexOf(item);\n    \\$scope.fruits.splice(indx,1)\n}\n\\$scope.handleInput=function(\\$event){\n    if (\\$event.data!=',') {\n    }else{\n        \\$scope.fruits.push(\\$event.target.value)\n        \\$event.target.value='';\n    }\n}\n</script>",
+    "meta": "snippet",
+    "docHTML": "<b>Angular Material chip form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/chips/overview\">Form Field</a>"
+  },
+  {
+    "caption": "mat:date-picker",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n  <mat-label>Choose a date</mat-label>\n  <input matInput [matDatepicker]=\"picker\" (dateChange)=\"handleDateChange(\\$event)\" (click)=\"picker.open()\">\n  <mat-datepicker-toggle matIconSuffix [for]=\"picker\"></mat-datepicker-toggle>\n  <mat-datepicker #picker></mat-datepicker>\n</mat-form-field>\n<!--Move the javascript code to javascript block\n\\$scope.handleDateChange=function(\\$event){\n    console.log(\\$event.value)\n}\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular Material date-picker.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/datepicker/overview\">Form Field</a>"
+  },
+  {
+    "caption": "mat:date-range-picker",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n  <mat-label>Enter a date range</mat-label>\n  <mat-date-range-input [rangePicker]=\"rangePicker\">\n    <input matStartDate placeholder=\"Start date\" (dateChange)=\"handleDateChange(\\$event, 'start')\" (click)=\"rangePicker.open()\">\n    <input matEndDate placeholder=\"End date\" (dateChange)=\"handleDateChange(\\$event, 'end')\">\n  </mat-date-range-input>\n  <mat-datepicker-toggle matIconSuffix [for]=\"rangePicker\"></mat-datepicker-toggle>\n  <mat-date-range-picker #rangePicker></mat-date-range-picker>\n</mat-form-field>\n\n<!--Javascript code.\nMove Javascript code to javascript block.\n\\$scope.handleDateChange=function(\\$event, pos){\n    console.log(\\$event.value, pos)\n}\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular Material date-range-picker.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/datepicker/overview\">Form Field</a>"
+  },
+  {
+    "caption": "mat:month-picker",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"fixed\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Select Month</mat-label>\n    <input matInput [matDatepicker]=\"monthPicker\" id=\"monthPicker\" (click)=\"monthPicker.open()\">\n    <mat-datepicker-toggle matIconSuffix [for]=\"monthPicker\"></mat-datepicker-toggle>\n    <mat-datepicker #monthPicker startView=\"year\" (monthSelected)=\"setMonth(\\$event, monthPicker)\"></mat-datepicker>\n</mat-form-field>\n\n<!--Here is the javascript. Move this code snippet to javascript block.\n\\$scope.setMonth=function(\\$event, monthPicker){\n    // TODO:Write your logic here\n    $('#monthPicker').val(moment(\\$event).format('YYYY-MM'))\n    monthPicker.close()\n}\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material custom month picker</b><hr>Follow the datepicker documentation. Move the javascript code to javascript block in widget editor"
+  },
+  {
+    "caption": "mat:year-picker",
+    "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"fixed\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Select Year</mat-label>\n    <input matInput [matDatepicker]=\"yearPicker\" id=\"yearPicker\" (click)=\"yearPicker.open()\">\n    <mat-datepicker-toggle matIconSuffix [for]=\"yearPicker\"></mat-datepicker-toggle>\n    <mat-datepicker #yearPicker startView=\"multi-year\" (yearSelected)=\"setYear(\\$event, yearPicker)\"></mat-datepicker>\n</mat-form-field>\n\n<!--Here is the javascript. Move this code snippet to javascript block.\n\\$scope.setYear=function(\\$event, yearPicker){\n    // TODO:Write your logic here\n    $('#yearPicker').val(moment(\\$event).format('YYYY'))\n    yearPicker.close()\n}\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material custom year picker</b><hr>Follow the datepicker documentation. Move the javascript code to javascript block in widget editor"
+  },
+  {
+    "caption": "mat:menu",
+    "snippet": "<button mat-button [matMenuTriggerFor]=\"menu\">Menu</button>\n<mat-menu #menu=\"matMenu\">\n  <button mat-menu-item>Item 1</button>\n  <button mat-menu-item>Item 2</button>\n</mat-menu>",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material menu</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/menu/overview\">Menu</a> documentation."
+  },
+  {
+    "caption": "mat:paginator",
+    "snippet": "<mat-paginator [length]=\"data.length\" [pageSize]=\"tablePagination.pageSize\" [pageSizeOptions]=\"tablePagination.pageSizeOptions\" (page)=\"tablePagination.handler(\\$event)\" aria-label=\"Select page\" showFirstLastButtons=\"true\"></mat-paginator>",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material paginator</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/paginator/overview\">Paginator</a> documentation."
+  },
+  {
+    "caption": "mat:radio-button",
+    "snippet": "<mat-radio-group aria-label=\"Select an option\">\n  <mat-radio-button value=\"1\">Option 1</mat-radio-button>\n  <mat-radio-button value=\"2\">Option 2</mat-radio-button>\n</mat-radio-group>",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material radio-button</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/radio/overview\">Radio-button</a> documentation."
+  },
+  {
+    "caption": "mat:select",
+    "snippet": "<mat-form-field appearance=\"fill\" class=\"w-full\">\n  <mat-label>Select</mat-label>\n  <mat-select>\n    @for (item of list; track item) {\n      <mat-option [value]=\"item\">{{item}}</mat-option>\n    }\n  </mat-select>\n</mat-form-field>\n<!--Here is the javascript code.\n\n\\$scope.list=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\nMove the javascript to javascript block in widget editor.\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material select</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/select/overview\">Select</a> documentation."
+  },
+  {
+    "caption": "mat:select-multiple",
+    "snippet": "<mat-form-field appearance=\"fill\" class=\"w-full\">\n  <mat-label>Select</mat-label>\n  <mat-select [(value)]=\"selected\" multiple>\n      <mat-select-trigger>\n      {{selected?.[0] || ''}}\n      @if ((selected?.length || 0) > 1) {\n        <span class=\"opacity-[0.75] text-[0.75em]\">\n          (+{{(selected?.length || 0) - 1}} {{selected?.length === 2 ? 'other' : 'others'}})\n        </span>\n      }\n    </mat-select-trigger>\n    @for (item of list; track item) {\n      <mat-option [value]=\"item\">{{item}}</mat-option>\n    }\n  </mat-select>\n</mat-form-field>\n<!--Here is the javascript code.\n\n\\$scope.list=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\\$scope.selected=[];\n\nMove the javascript to javascript block in widget editor.\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material multi-select</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/select/overview\">Select</a> documentation."
+  },
+  {
+    "caption": "mat:table",
+    "snippet": "<div class=\"w-full h-full overflow-auto sc-table\">\n    <mat-table *ngIf=\"data\" [dataSource]=\"data\">\n      @for (col of columns; track col){\n      <ng-container [matColumnDef]=\"col.key\">\n        <mat-header-cell *matHeaderCellDef> {{col.title}} </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element[col.key]}} </mat-cell>\n      </ng-container>\n      }\n      <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n      <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n    </mat-table>\n</div>\n<!--Here is the Javascript\n\\$scope.data=[];\n\\$scope.columns=[{key: 'any key', title: 'title'}]\n\\$scope.displayedColumns=\\$scope.columns.map(c=>c.key);\n\nMove this Javascript code to Javascript block in widget editor.\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material table</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/table/overview\">Table</a> documentation."
+  },
+  {
+    "caption": "mat:table-with-pagination",
+    "snippet": "<div class=\"flex flex-col w-full h-full overflow-auto\">\n    <div class=\"w-full flex-shrink overflow-auto sc-table\">\n        <mat-table *ngIf=\"data\" [dataSource]=\"data.slice(tablePagination.getFrom(), tablePagination.getTo())\">\n          @for (col of columns; track col){\n          <ng-container [matColumnDef]=\"col.key\">\n            <mat-header-cell *matHeaderCellDef> {{col.title}} </mat-header-cell>\n            <mat-cell *matCellDef=\"let element\"> {{element[col.key]}} </mat-cell>\n          </ng-container>\n          }\n          <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n          <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n        </mat-table>\n    </div>\n    <div>\n        <mat-paginator class=\"h-[60px]\" [length]=\"data?.length\" [pageSize]=\"tablePagination?.pageSize\" [pageSizeOptions]=\"tablePagination?.pageSizeOptions\" (page)=\"tablePagination.handler(\\$event)\" aria-label=\"Select page\" showFirstLastButtons=\"true\"></mat-paginator>\n    </div>\n</div>\n\n<!--Here is the Javascript\n\\$scope.tablePagination=syncross.tablePagination(defaultPageSize, defaultPageOptions)\n\\$scope.data=[];\n\\$scope.columns=[{key: 'any key', title: 'title'}]\n\\$scope.displayedColumns=.columns.map(c=>c.key);\n\nMove this Javascript code to Javascript block in widget editor.\n-->",
+    "meta": "snippet",
+    "docHTML": "<b>Angular material table with pagination</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/table/overview\">Table</a> documentation."
+  },
+  {
+    "caption": "self",
+    "snippet": "self",
+    "meta": "object",
+    "docHTML": "Built-in variable <b>self</b> that is a reference to the widget instance"
+  },
+  {
+    "caption": "self.onInit",
+    "snippet": "self.onInit()",
+    "meta": "function",
+    "docHTML": "The first function which is called when widget is ready for initialization.<br>Should be used to prepare widget DOM, process widget settings and initial subscription information."
+  },
+  {
+    "caption": "self.onDataUpdated",
+    "snippet": "self.onDataUpdated()",
+    "meta": "function",
+    "docHTML": "Called when the new data is available from the widget subscription.<br>Latest data can be accessed from the <code>defaultSubscription</code> property of <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/models/widget-component.models.ts#L83\" target=\"_blank\">widget context (<code>ctx</code>)</a>."
+  },
+  {
+    "caption": "self.onResize",
+    "snippet": "self.onResize()",
+    "meta": "function",
+    "docHTML": "Called when widget container is resized. Latest <code>width</code> and <code>height</code> can be obtained from <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/models/widget-component.models.ts#L83\" target=\"_blank\">widget context (<code>ctx</code>)</a>."
+  },
+  {
+    "caption": "self.onEditModeChanged",
+    "snippet": "self.onEditModeChanged()",
+    "meta": "function",
+    "docHTML": "Called when dashboard editing mode is changed. Latest mode is handled by <code>isEdit</code> property of <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/models/widget-component.models.ts#L83\" target=\"_blank\">widget context (<code>ctx</code>)</a>."
+  },
+  {
+    "caption": "self.onMobileModeChanged",
+    "snippet": "self.onMobileModeChanged()",
+    "meta": "function",
+    "docHTML": "Called when dashboard view width crosses mobile breakpoint. Latest state is handled by <code>isMobile</code> property of <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/models/widget-component.models.ts#L83\" target=\"_blank\">widget context (<code>ctx</code>)</a>."
+  },
+  {
+    "caption": "self.onDestroy",
+    "snippet": "self.onDestroy()",
+    "meta": "function",
+    "docHTML": "Called when widget element is destroyed. Should be used to cleanup all resources if necessary."
+  },
+  {
+    "caption": "self.getSettingsForm",
+    "snippet": "self.getSettingsForm()",
+    "meta": "function",
+    "docHTML": "Optional function returning widget settings form array as alternative to <b>Settings form</b> tab of settings section."
+  },
+  {
+    "caption": "self.getDataKeySettingsForm",
+    "snippet": "self.getDataKeySettingsForm()",
+    "meta": "function",
+    "docHTML": "Optional function returning particular data key settings form array as alternative to <b>Data key settings form</b> tab of settings section."
+  },
+  {
+    "caption": "self.getSettingsSchema",
+    "snippet": "self.getSettingsSchema()",
+    "meta": "function",
+    "docHTML": "<b>Deprecated</b>. Use getSettingsForm() function."
+  },
+  {
+    "caption": "self.getDataKeySettingsSchema",
+    "snippet": "self.getDataKeySettingsSchema()",
+    "meta": "function",
+    "docHTML": "<b>Deprecated</b>. Use getDataKeySettingsForm() function."
+  },
+  {
+    "caption": "self.typeParameters",
+    "snippet": "self.typeParameters()",
+    "meta": "function",
+    "docHTML": "Returns object describing widget datasource parameters."
+  },
+  {
+    "caption": "self.actionSources",
+    "snippet": "self.actionSources()",
+    "meta": "function",
+    "docHTML": "Returns map describing available widget action sources used to define user actions."
+  },
+  {
+    "caption": "self.ctx",
+    "snippet": "self.ctx",
+    "meta": "object",
+    "docHTML": "A reference to widget context that has all necessary API<br>and data used by widget instance."
+  },
+  {
+    "caption": "self.ctx.$container",
+    "snippet": "self.ctx.$container",
+    "meta": "property",
+    "docHTML": "Container element of the widget.<br>Can be used to dynamically access or modify widget DOM using jQuery API."
+  },
+  {
+    "caption": "self.ctx.$scope",
+    "snippet": "self.ctx.$scope",
+    "meta": "property",
+    "docHTML": "Reference to the current widget component.<br>Can be used to access/modify component properties when widget is built using Angular approach."
+  },
+  {
+    "caption": "self.ctx.width",
+    "snippet": "self.ctx.width",
+    "meta": "property",
+    "docHTML": "Current width of widget container in pixels."
+  },
+  {
+    "caption": "self.ctx.height",
+    "snippet": "self.ctx.height",
+    "meta": "property",
+    "docHTML": "Current height of widget container in pixels."
+  },
+  {
+    "caption": "self.ctx.isEdit",
+    "snippet": "self.ctx.isEdit",
+    "meta": "property",
+    "docHTML": "Indicates whether the dashboard is in in the view or editing state."
+  },
+  {
+    "caption": "self.ctx.isMobile",
+    "snippet": "self.ctx.isMobile",
+    "meta": "property",
+    "docHTML": "Indicates whether the dashboard view is less then 960px width (default mobile breakpoint)."
+  },
+  {
+    "caption": "self.ctx.widgetConfig",
+    "snippet": "self.ctx.widgetConfig",
+    "meta": "property",
+    "docHTML": "Common widget configuration containing properties such as <code>color</code> (text color), <code>backgroundColor</code> (widget background color), etc."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.title",
+    "snippet": "self.ctx.widgetConfig.title",
+    "meta": "property",
+    "docHTML": "Widget title."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.titleIcon",
+    "snippet": "self.ctx.widgetConfig.titleIcon",
+    "meta": "property",
+    "docHTML": "Widget title icon."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.showTitle",
+    "snippet": "self.ctx.widgetConfig.showTitle",
+    "meta": "property",
+    "docHTML": "Whether to show widget title."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.showTitleIcon",
+    "snippet": "self.ctx.widgetConfig.showTitleIcon",
+    "meta": "property",
+    "docHTML": "Whether to show widget title icon."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.iconColor",
+    "snippet": "self.ctx.widgetConfig.iconColor",
+    "meta": "property",
+    "docHTML": "Widget title icon color."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.iconSize",
+    "snippet": "self.ctx.widgetConfig.iconSize",
+    "meta": "property",
+    "docHTML": "Widget title icon size."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.titleTooltip",
+    "snippet": "self.ctx.widgetConfig.titleTooltip",
+    "meta": "property",
+    "docHTML": "Widget title tooltip content."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.dropShadow",
+    "snippet": "self.ctx.widgetConfig.dropShadow",
+    "meta": "property",
+    "docHTML": "Enable/disable widget card shadow."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.enableFullscreen",
+    "snippet": "self.ctx.widgetConfig.enableFullscreen",
+    "meta": "property",
+    "docHTML": "Whether to enable fullscreen button on widget."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.useDashboardTimewindow",
+    "snippet": "self.ctx.widgetConfig.useDashboardTimewindow",
+    "meta": "property",
+    "docHTML": "Whether to use dashboard timewindow (applicable for timeseries widgets)."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.displayTimewindow",
+    "snippet": "self.ctx.widgetConfig.displayTimewindow",
+    "meta": "property",
+    "docHTML": "Whether to display timewindow (applicable for timeseries widgets)."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.showLegend",
+    "snippet": "self.ctx.widgetConfig.showLegend",
+    "meta": "property",
+    "docHTML": "Whether to show legend."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig",
+    "snippet": "self.ctx.widgetConfig.legendConfig",
+    "meta": "property",
+    "docHTML": "Legend configuration."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.position",
+    "snippet": "self.ctx.widgetConfig.legendConfig.position",
+    "meta": "property",
+    "docHTML": "Legend position. Possible values: <code>'top', 'bottom', 'left', 'right'</code>"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.direction",
+    "snippet": "self.ctx.widgetConfig.legendConfig.direction",
+    "meta": "property",
+    "docHTML": "Legend direction. Possible values: <code>'column', 'row'</code>"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.showMin",
+    "snippet": "self.ctx.widgetConfig.legendConfig.showMin",
+    "meta": "property",
+    "docHTML": "Whether to display aggregated min values."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.showMax",
+    "snippet": "self.ctx.widgetConfig.legendConfig.showMax",
+    "meta": "property",
+    "docHTML": "Whether to display aggregated max values."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.showAvg",
+    "snippet": "self.ctx.widgetConfig.legendConfig.showAvg",
+    "meta": "property",
+    "docHTML": "Whether to display aggregated average values."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.legendConfig.showTotal",
+    "snippet": "self.ctx.widgetConfig.legendConfig.showTotal",
+    "meta": "property",
+    "docHTML": "Whether to display aggregated total values."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow",
+    "snippet": "self.ctx.widgetConfig.timewindow",
+    "meta": "property",
+    "docHTML": "Timewindow configuration object"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.displayValue",
+    "snippet": "self.ctx.widgetConfig.timewindow.displayValue",
+    "meta": "property",
+    "docHTML": "Current timewindow display value."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.hideInterval",
+    "snippet": "self.ctx.widgetConfig.timewindow.hideInterval",
+    "meta": "property",
+    "docHTML": "Whether to hide interval selection in timewindow panel."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.hideAggregation",
+    "snippet": "self.ctx.widgetConfig.timewindow.hideAggregation",
+    "meta": "property",
+    "docHTML": "Whether to hide aggregation selection in timewindow panel."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.hideAggInterval",
+    "snippet": "self.ctx.widgetConfig.timewindow.hideAggInterval",
+    "meta": "property",
+    "docHTML": "Whether to hide aggregation interval selection in timewindow panel."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.selectedTab",
+    "snippet": "self.ctx.widgetConfig.timewindow.selectedTab",
+    "meta": "property",
+    "docHTML": "Current selected timewindow type (0 - realtime, 1 - history)."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.realtime",
+    "snippet": "self.ctx.widgetConfig.timewindow.realtime",
+    "meta": "property",
+    "docHTML": "Realtime timewindow configuration object."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.realtime.interval",
+    "snippet": "self.ctx.widgetConfig.timewindow.realtime.interval",
+    "meta": "property",
+    "docHTML": "Timewindow aggregation interval in milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.realtime.timewindowMs",
+    "snippet": "self.ctx.widgetConfig.timewindow.realtime.timewindowMs",
+    "meta": "property",
+    "docHTML": "Timewindow interval in milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history",
+    "snippet": "self.ctx.widgetConfig.timewindow.history",
+    "meta": "property",
+    "docHTML": "History timewindow configuration object."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.historyType",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.historyType",
+    "meta": "property",
+    "docHTML": "History timewindow type (0 - last interval, 1 - fixed)"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.interval",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.interval",
+    "meta": "property",
+    "docHTML": "Timewindow aggregation interval in milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.timewindowMs",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.timewindowMs",
+    "meta": "property",
+    "docHTML": "Timewindow interval in milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow",
+    "meta": "property",
+    "docHTML": "Fixed history timewindow configuration object"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow.startTimeMs",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow.startTimeMs",
+    "meta": "property",
+    "docHTML": "Timewindow start time in UTC milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow.endTimeMs",
+    "snippet": "self.ctx.widgetConfig.timewindow.history.fixedTimewindow.endTimeMs",
+    "meta": "property",
+    "docHTML": "Timewindow end time in UTC milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.aggregation",
+    "snippet": "self.ctx.widgetConfig.timewindow.aggregation",
+    "meta": "property",
+    "docHTML": "Timewindow aggregation configuration object."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.aggregation.interval",
+    "snippet": "self.ctx.widgetConfig.timewindow.aggregation.interval",
+    "meta": "property",
+    "docHTML": "Aggregation interval in milliseconds"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.aggregation.type",
+    "snippet": "self.ctx.widgetConfig.timewindow.aggregation.type",
+    "meta": "property",
+    "docHTML": "Aggregation type"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.timewindow.aggregation.limit",
+    "snippet": "self.ctx.widgetConfig.timewindow.aggregation.limit",
+    "meta": "property",
+    "docHTML": "Maximum allowed datapoints when aggregation is disabled (<code>AggregationType == 'NONE'</code>)"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.mobileHeight",
+    "snippet": "self.ctx.widgetConfig.mobileHeight",
+    "meta": "property",
+    "docHTML": "Widget height in mobile mode."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.mobileOrder",
+    "snippet": "self.ctx.widgetConfig.mobileOrder",
+    "meta": "property",
+    "docHTML": "Widget order in mobile mode."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.color",
+    "snippet": "self.ctx.widgetConfig.color",
+    "meta": "property",
+    "docHTML": "Widget text color."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.backgroundColor",
+    "snippet": "self.ctx.widgetConfig.backgroundColor",
+    "meta": "property",
+    "docHTML": "Widget background color."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.padding",
+    "snippet": "self.ctx.widgetConfig.padding",
+    "meta": "property",
+    "docHTML": "Widget card padding."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.margin",
+    "snippet": "self.ctx.widgetConfig.margin",
+    "meta": "property",
+    "docHTML": "Widget card margin."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.widgetStyle",
+    "snippet": "self.ctx.widgetConfig.widgetStyle",
+    "meta": "property",
+    "docHTML": "Widget element style object."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.titleStyle",
+    "snippet": "self.ctx.widgetConfig.titleStyle",
+    "meta": "property",
+    "docHTML": "Widget title element style object."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.units",
+    "snippet": "self.ctx.widgetConfig.units",
+    "meta": "property",
+    "docHTML": "Optional property defining units text of values displayed by widget. Useful for simple widgets like cards or gauges."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.decimals",
+    "snippet": "self.ctx.widgetConfig.decimals",
+    "meta": "property",
+    "docHTML": "Optional property defining how many positions should be used to display decimal part of the value number."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.actions",
+    "snippet": "self.ctx.widgetConfig.actions",
+    "meta": "property",
+    "docHTML": "Map of configured widget actions."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.settings",
+    "snippet": "self.ctx.widgetConfig.settings",
+    "meta": "property",
+    "docHTML": "Widget settings containing widget specific properties according to the defined settings form."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.settings.sendMail",
+    "snippet": "self.ctx.widgetConfig.settings.sendMail",
+    "meta": "property",
+    "docHTML": "Send activation link to email"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.settings.showActivationLink",
+    "snippet": "self.ctx.widgetConfig.settings.showActivationLink",
+    "meta": "property",
+    "docHTML": "Show activation link"
+  },
+  {
+    "caption": "self.ctx.widgetConfig.alarmSource",
+    "snippet": "self.ctx.widgetConfig.alarmSource",
+    "meta": "property",
+    "docHTML": "Configured alarm source for alarm widget type."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.alarmSearchStatus",
+    "snippet": "self.ctx.widgetConfig.alarmSearchStatus",
+    "meta": "property",
+    "docHTML": "Configured default alarm search status for alarm widget type."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.alarmsPollingInterval",
+    "snippet": "self.ctx.widgetConfig.alarmsPollingInterval",
+    "meta": "property",
+    "docHTML": "Configured alarms polling interval for alarm widget type."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.alarmsMaxCountLoad",
+    "snippet": "self.ctx.widgetConfig.alarmsMaxCountLoad",
+    "meta": "property",
+    "docHTML": "Configured maximum alarms to load for alarm widget type."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.alarmsFetchSize",
+    "snippet": "self.ctx.widgetConfig.alarmsFetchSize",
+    "meta": "property",
+    "docHTML": "Configured alarms page size used to load alarms."
+  },
+  {
+    "caption": "self.ctx.widgetConfig.datasources",
+    "snippet": "self.ctx.widgetConfig.datasources",
+    "meta": "property",
+    "docHTML": "Array of configured widget datasources."
+  },
+  {
+    "caption": "self.ctx.settings",
+    "snippet": "self.ctx.settings",
+    "meta": "property",
+    "docHTML": "Widget settings containing widget specific properties according to the defined settings form."
+  },
+  {
+    "caption": "self.ctx.datasources",
+    "snippet": "self.ctx.datasources",
+    "meta": "property",
+    "docHTML": "Array of resolved widget datasources."
+  },
+  {
+    "caption": "self.ctx.data",
+    "snippet": "self.ctx.data",
+    "meta": "property",
+    "docHTML": "Array of latest datasources data."
+  },
+  {
+    "caption": "self.ctx.timeWindow",
+    "snippet": "self.ctx.timeWindow",
+    "meta": "property",
+    "docHTML": "Current widget timewindow (applicable for timeseries widgets)."
+  },
+  {
+    "caption": "self.ctx.units",
+    "snippet": "self.ctx.units",
+    "meta": "property",
+    "docHTML": "Optional property defining units text of values displayed by widget. Useful for simple widgets like cards or gauges."
+  },
+  {
+    "caption": "self.ctx.decimals",
+    "snippet": "self.ctx.decimals",
+    "meta": "property",
+    "docHTML": "Optional property defining how many positions should be used to display decimal part of the value number."
+  },
+  {
+    "caption": "self.ctx.currentUser",
+    "snippet": "self.ctx.currentUser",
+    "meta": "property",
+    "docHTML": "Current user object."
+  },
+  {
+    "caption": "self.ctx.currentUser.sub",
+    "snippet": "self.ctx.currentUser.sub",
+    "meta": "property",
+    "docHTML": "User subject (email)."
+  },
+  {
+    "caption": "self.ctx.currentUser.scopes",
+    "snippet": "self.ctx.currentUser.scopes",
+    "meta": "property",
+    "docHTML": "User security scopes."
+  },
+  {
+    "caption": "self.ctx.currentUser.userId",
+    "snippet": "self.ctx.currentUser.userId",
+    "meta": "property",
+    "docHTML": "User id."
+  },
+  {
+    "caption": "self.ctx.currentUser.firstName",
+    "snippet": "self.ctx.currentUser.firstName",
+    "meta": "property",
+    "docHTML": "User first name."
+  },
+  {
+    "caption": "self.ctx.currentUser.lastName",
+    "snippet": "self.ctx.currentUser.lastName",
+    "meta": "property",
+    "docHTML": "User last name."
+  },
+  {
+    "caption": "self.ctx.currentUser.enabled",
+    "snippet": "self.ctx.currentUser.enabled",
+    "meta": "property",
+    "docHTML": "Whether is user enabled."
+  },
+  {
+    "caption": "self.ctx.currentUser.tenantId",
+    "snippet": "self.ctx.currentUser.tenantId",
+    "meta": "property",
+    "docHTML": "Tenant id of the user."
+  },
+  {
+    "caption": "self.ctx.currentUser.customerId",
+    "snippet": "self.ctx.currentUser.customerId",
+    "meta": "property",
+    "docHTML": "Customer id of the user (available when user belongs to specific customer)."
+  },
+  {
+    "caption": "self.ctx.currentUser.isPublic",
+    "snippet": "self.ctx.currentUser.isPublic",
+    "meta": "property",
+    "docHTML": "Special flag indicating public user."
+  },
+  {
+    "caption": "self.ctx.currentUser.authority",
+    "snippet": "self.ctx.currentUser.authority",
+    "meta": "property",
+    "docHTML": "User authority. Possible values: SYS_ADMIN, TENANT_ADMIN, CUSTOMER_USER"
+  },
+  {
+    "caption": "self.ctx.currentUser.permission",
+    "snippet": "self.ctx.currentUser.permission",
+    "meta": "property",
+    "docHTML": "User permission. A JSON object"
+  },
+  {
+    "caption": "self.ctx.hideTitlePanel",
+    "snippet": "self.ctx.hideTitlePanel",
+    "meta": "property",
+    "docHTML": "Manages visibility of widget title panel. Useful for widget with custom title panels or different states. <b>updateWidgetParams()</b> function must be called after this property change."
+  },
+  {
+    "caption": "self.ctx.widgetTitle",
+    "snippet": "self.ctx.widgetTitle",
+    "meta": "property",
+    "docHTML": "If set, will override configured widget title text. <b>updateWidgetParams()</b> function must be called after this property change."
+  },
+  {
+    "caption": "self.ctx.detectChanges",
+    "snippet": "self.ctx.detectChanges()",
+    "meta": "function",
+    "docHTML": "Trigger change detection for current widget. Must be invoked when widget HTML template bindings should be updated due to widget data changes."
+  },
+  {
+    "caption": "self.ctx.updateWidgetParams",
+    "snippet": "self.ctx.updateWidgetParams()",
+    "meta": "function",
+    "docHTML": "Updates widget with runtime set properties such as <b>widgetTitle</b>, <b>hideTitlePanel</b>, etc. Must be invoked in order these properties changes take effect."
+  },
+  {
+    "caption": "self.ctx.defaultSubscription",
+    "snippet": "self.ctx.defaultSubscription",
+    "meta": "property",
+    "docHTML": "Default widget subscription object contains all subscription information,<br>including current data, according to the widget type."
+  },
+  {
+    "caption": "self.ctx.timewindowFunctions",
+    "snippet": "self.ctx.timewindowFunctions",
+    "meta": "property",
+    "docHTML": "Object with timewindow functions used to manage widget data time frame. Can by used by Time-series or Alarm widgets."
+  },
+  {
+    "caption": "self.ctx.timewindowFunctions.onUpdateTimewindow",
+    "snippet": "self.ctx.timewindowFunctions.onUpdateTimewindow(${1:startTimeMs}, ${2:endTimeMs})",
+    "meta": "function",
+    "docHTML": "This function can be used to update current subscription time frame<br>to historical one identified by <code>startTimeMs</code> and <code>endTimeMs</code> arguments."
+  },
+  {
+    "caption": "self.ctx.timewindowFunctions.onResetTimewindow",
+    "snippet": "self.ctx.timewindowFunctions.onResetTimewindow()",
+    "meta": "function",
+    "docHTML": "Resets subscription time frame to default defined by widget timewindow component<br>or dashboard timewindow depending on widget settings."
+  },
+  {
+    "caption": "self.ctx.controlApi",
+    "snippet": "self.ctx.controlApi",
+    "meta": "property",
+    "docHTML": "Object that provides API functions for RPC (Control) widgets."
+  },
+  {
+    "caption": "self.ctx.controlApi.sendOneWayCommand",
+    "snippet": "self.ctx.controlApi.sendOneWayCommand(${1:method}, ${2:params}, ${3:timeout}, ${4:persistent}, ${5:persistentPollingInterval})",
+    "meta": "function",
+    "docHTML": "Sends one way (without response) RPC command to the device."
+  },
+  {
+    "caption": "self.ctx.controlApi.sendTwoWayCommand",
+    "snippet": "self.ctx.controlApi.sendTwoWayCommand(${1:method}, ${2:params}, ${3:timeout}, ${4:persistent}, ${5:persistentPollingInterval})",
+    "meta": "function",
+    "docHTML": "Sends two way (with response) RPC command to the device."
+  },
+  {
+    "caption": "self.ctx.actionsApi",
+    "snippet": "self.ctx.actionsApi",
+    "meta": "property",
+    "docHTML": "Set of API functions to work with user defined actions."
+  },
+  {
+    "caption": "self.ctx.actionsApi.getActionDescriptors",
+    "snippet": "self.ctx.actionsApi.getActionDescriptors(${1:actionSourceId})",
+    "meta": "function",
+    "docHTML": "Get list of action descriptors for provided <code>actionSourceId</code>."
+  },
+  {
+    "caption": "self.ctx.actionsApi.handleWidgetAction",
+    "snippet": "self.ctx.actionsApi.handleWidgetAction(${1:$event}, ${2:descriptor}, ${3:entityId}, ${4:entityName})",
+    "meta": "function",
+    "docHTML": "Handle action produced by particular action source."
+  },
+  {
+    "caption": "self.ctx.stateController",
+    "snippet": "self.ctx.stateController",
+    "meta": "property",
+    "docHTML": "Reference to Dashboard state controller, providing API to manage current dashboard state."
+  },
+  {
+    "caption": "self.ctx.stateController.openState",
+    "snippet": "self.ctx.stateController.openState(${1:id}, ${2:params}, ${3:openRightLayout})",
+    "meta": "function",
+    "docHTML": "Navigate to new dashboard state."
+  },
+  {
+    "caption": "self.ctx.stateController.pushAndOpenState",
+    "snippet": "self.ctx.stateController.pushAndOpenState(${1:id}, ${2:openRightLayout})",
+    "meta": "function",
+    "docHTML": "Navigate to new dashboard state and adding intermediate states."
+  },
+  {
+    "caption": "self.ctx.stateController.updateState",
+    "snippet": "self.ctx.stateController.updateState(${1:id}, ${2:params}, ${3:openRightLayout})",
+    "meta": "function",
+    "docHTML": "Updates current dashboard state."
+  },
+  {
+    "caption": "self.ctx.stateController.getStateId",
+    "snippet": "self.ctx.stateController.getStateId()",
+    "meta": "function",
+    "docHTML": "Get current dashboard state id."
+  },
+  {
+    "caption": "self.ctx.stateController.getStateParams",
+    "snippet": "self.ctx.stateController.getStateParams()",
+    "meta": "function",
+    "docHTML": "Get current dashboard state parameters."
+  },
+  {
+    "caption": "self.ctx.stateController.getStateParamsByStateId",
+    "snippet": "self.ctx.stateController.getStateParamsByStateId(${1:id})",
+    "meta": "function",
+    "docHTML": "Get state parameters for particular dashboard state identified by <code>id</code>."
+  },
+  {
+    "caption": "self.ctx.deviceService",
+    "snippet": "self.ctx.deviceService",
+    "meta": "service",
+    "docHTML": "Device Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/device.service.ts#L37\" target=\"_blank\">DeviceService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.deviceService.getTenantDeviceInfos",
+    "snippet": "self.ctx.deviceService.getTenantDeviceInfos(${1:pageLink}, ${2:type}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get tenant devices"
+  },
+  {
+    "caption": "self.ctx.deviceService.getCustomerDeviceInfos",
+    "snippet": "self.ctx.deviceService.getCustomerDeviceInfos(${1:customerId}, ${2:pageLink}, ${3:type}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get customer devices"
+  },
+  {
+    "caption": "self.ctx.deviceService.getDevice",
+    "snippet": "self.ctx.deviceService.getDevice(${1:deviceId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get device by id"
+  },
+  {
+    "caption": "self.ctx.deviceService.getDevices",
+    "snippet": "self.ctx.deviceService.getDevices(${1:deviceIds}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get devices by ids"
+  },
+  {
+    "caption": "self.ctx.deviceService.getDeviceInfo",
+    "snippet": "self.ctx.deviceService.getDeviceInfo(${1:deviceId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get device info by id"
+  },
+  {
+    "caption": "self.ctx.deviceService.saveDevice",
+    "snippet": "self.ctx.deviceService.saveDevice(${1:device}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save device"
+  },
+  {
+    "caption": "self.ctx.deviceService.deleteDevice",
+    "snippet": "self.ctx.deviceService.deleteDevice(${1:deviceId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete device by id"
+  },
+  {
+    "caption": "self.ctx.deviceService.getDeviceTypes",
+    "snippet": "self.ctx.deviceService.getDeviceTypes(${1:config})",
+    "meta": "function",
+    "docHTML": "Get all available devices types"
+  },
+  {
+    "caption": "self.ctx.deviceService.getDeviceCredentials",
+    "snippet": "self.ctx.deviceService.getDeviceCredentials(${1:deviceId}, ${2:sync}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get device credentials by device id"
+  },
+  {
+    "caption": "self.ctx.deviceService.saveDeviceCredentials",
+    "snippet": "self.ctx.deviceService.saveDeviceCredentials(${1:deviceCredentials}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save device credentials"
+  },
+  {
+    "caption": "self.ctx.deviceService.makeDevicePublic",
+    "snippet": "self.ctx.deviceService.makeDevicePublic(${1:deviceId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Make device public (available from public dashboard)"
+  },
+  {
+    "caption": "self.ctx.deviceService.assignDeviceToCustomer",
+    "snippet": "self.ctx.deviceService.assignDeviceToCustomer(${1:customerId}, ${2:deviceId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign device to specific customer"
+  },
+  {
+    "caption": "self.ctx.deviceService.unassignDeviceFromCustomer",
+    "snippet": "self.ctx.deviceService.unassignDeviceFromCustomer(${1:deviceId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Unassign device from any customer"
+  },
+  {
+    "caption": "self.ctx.deviceService.sendOneWayRpcCommand",
+    "snippet": "self.ctx.deviceService.sendOneWayRpcCommand(${1:deviceId}, ${2:requestBody}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Send one way (without response) RPC command to the device."
+  },
+  {
+    "caption": "self.ctx.deviceService.sendTwoWayRpcCommand",
+    "snippet": "self.ctx.deviceService.sendTwoWayRpcCommand(${1:deviceId}, ${2:requestBody}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Sends two way (with response) RPC command to the device."
+  },
+  {
+    "caption": "self.ctx.deviceService.findByQuery",
+    "snippet": "self.ctx.deviceService.findByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find devices by search query"
+  },
+  {
+    "caption": "self.ctx.deviceService.findByName",
+    "snippet": "self.ctx.deviceService.findByName(${1:deviceName}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find device by name"
+  },
+  {
+    "caption": "self.ctx.deviceService.claimDevice",
+    "snippet": "self.ctx.deviceService.claimDevice(${1:deviceName}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Send claim device request"
+  },
+  {
+    "caption": "self.ctx.deviceService.unclaimDevice",
+    "snippet": "self.ctx.deviceService.unclaimDevice(${1:deviceName}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Send un-claim device request"
+  },
+  {
+    "caption": "self.ctx.assetService",
+    "snippet": "self.ctx.assetService",
+    "meta": "service",
+    "docHTML": "Asset Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/asset.service.ts#L29\" target=\"_blank\">AssetService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.assetService.getTenantAssetInfos",
+    "snippet": "self.ctx.assetService.getTenantAssetInfos(${1:pageLink}, ${2:type}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get tenant assets"
+  },
+  {
+    "caption": "self.ctx.assetService.getCustomerAssetInfos",
+    "snippet": "self.ctx.assetService.getCustomerAssetInfos(${1:customerId}, ${2:pageLink}, ${3:type}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get customer assets"
+  },
+  {
+    "caption": "self.ctx.assetService.getTenantAssetInfosByAssetProfileId",
+    "snippet": "self.ctx.assetService.getTenantAssetInfosByAssetProfileId(${1:pageLink}, ${2:assetProfileId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get tenant asset infos by asset profile ID"
+  },
+  {
+    "caption": "self.ctx.assetService.getCustomerAssetInfosByAssetProfileId",
+    "snippet": "self.ctx.assetService.getCustomerAssetInfosByAssetProfileId(${1:customerId}, ${2:pageLink}, ${3:assetProfileId}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get customer asset infos by asset profile ID"
+  },
+  {
+    "caption": "self.ctx.assetService.assignAssetToEdge",
+    "snippet": "self.ctx.assetService.assignAssetToEdge(${1:edgeId}, ${2:assetId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign an asset to an edge"
+  },
+  {
+    "caption": "self.ctx.assetService.unassignAssetFromEdge",
+    "snippet": "self.ctx.assetService.unassignAssetFromEdge(${1:edgeId}, ${2:assetId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Unassign an asset from an edge"
+  },
+  {
+    "caption": "self.ctx.assetService.getEdgeAssets",
+    "snippet": "self.ctx.assetService.getEdgeAssets(${1:edgeId}, ${2:pageLink}, ${3:type}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get assets assigned to an edge"
+  },
+  {
+    "caption": "self.ctx.assetService.bulkImportAssets",
+    "snippet": "self.ctx.assetService.bulkImportAssets(${1:entitiesData}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Bulk import assets with provided entities data"
+  },
+  {
+    "caption": "self.ctx.assetService.getAsset",
+    "snippet": "self.ctx.assetService.getAsset(${1:assetId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get asset by id"
+  },
+  {
+    "caption": "self.ctx.assetService.getAssets",
+    "snippet": "self.ctx.assetService.getAssets(${1:assetIds}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get assets by ids"
+  },
+  {
+    "caption": "self.ctx.assetService.getAssetInfo",
+    "snippet": "self.ctx.assetService.getAssetInfo(${1:assetId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get asset info by id"
+  },
+  {
+    "caption": "self.ctx.assetService.saveAsset",
+    "snippet": "self.ctx.assetService.saveAsset(${1:asset}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save asset"
+  },
+  {
+    "caption": "self.ctx.assetService.deleteAsset",
+    "snippet": "self.ctx.assetService.deleteAsset(${1:assetId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete asset by id"
+  },
+  {
+    "caption": "self.ctx.assetService.getAssetTypes",
+    "snippet": "self.ctx.assetService.getAssetTypes(${1:config})",
+    "meta": "function",
+    "docHTML": "Get all available assets types"
+  },
+  {
+    "caption": "self.ctx.assetService.makeAssetPublic",
+    "snippet": "self.ctx.assetService.makeAssetPublic(${1:assetId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Make asset public (available from public dashboard)"
+  },
+  {
+    "caption": "self.ctx.assetService.assignAssetToCustomer",
+    "snippet": "self.ctx.assetService.assignAssetToCustomer(${1:customerId}, ${2:assetId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign asset to specific customer"
+  },
+  {
+    "caption": "self.ctx.assetService.unassignAssetFromCustomer",
+    "snippet": "self.ctx.assetService.unassignAssetFromCustomer(${1:assetId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Unassign asset from any customer"
+  },
+  {
+    "caption": "self.ctx.assetService.findByQuery",
+    "snippet": "self.ctx.assetService.findByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find assets by search query"
+  },
+  {
+    "caption": "self.ctx.assetService.findByName",
+    "snippet": "self.ctx.assetService.findByName(${1:assetName}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find asset by name"
+  },
+  {
+    "caption": "self.ctx.entityViewService",
+    "snippet": "self.ctx.entityViewService",
+    "meta": "service",
+    "docHTML": "EntityView Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/entity-view.service.ts#L29\" target=\"_blank\">EntityViewService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.entityViewService.getTenantEntityViewInfos",
+    "snippet": "self.ctx.entityViewService.getTenantEntityViewInfos(${1:pageLink}, ${2:type}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get tenant entity view infos"
+  },
+  {
+    "caption": "self.ctx.entityViewService.getCustomerEntityViewInfos",
+    "snippet": "self.ctx.entityViewService.getCustomerEntityViewInfos(${1:customerId}, ${2:pageLink}, ${3:type}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get customer entities view infos by id"
+  },
+  {
+    "caption": "self.ctx.entityViewService.getEntityView",
+    "snippet": "self.ctx.entityViewService.getEntityView(${1:entityViewId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get entity view by id"
+  },
+  {
+    "caption": "self.ctx.entityViewService.getEntityViewInfo",
+    "snippet": "self.ctx.entityViewService.getEntityViewInfo(${1:entityViewId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get entity view info by id"
+  },
+  {
+    "caption": "self.ctx.entityViewService.saveEntityView",
+    "snippet": "self.ctx.entityViewService.saveEntityView(${1:entityView}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save entity view"
+  },
+  {
+    "caption": "self.ctx.entityViewService.deleteEntityView",
+    "snippet": "self.ctx.entityViewService.deleteEntityView(${1:entityViewId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete entity view by id"
+  },
+  {
+    "caption": "self.ctx.entityViewService.getEntityViewTypes",
+    "snippet": "self.ctx.entityViewService.getEntityViewTypes(${1:config})",
+    "meta": "function",
+    "docHTML": "Get all available entity view types"
+  },
+  {
+    "caption": "self.ctx.entityViewService.makeEntityViewPublic",
+    "snippet": "self.ctx.entityViewService.makeEntityViewPublic(${1:entityViewId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Make entity view public (available from public dashboard)"
+  },
+  {
+    "caption": "self.ctx.entityViewService.assignEntityViewToCustomer",
+    "snippet": "self.ctx.entityViewService.assignEntityViewToCustomer(${1:customerId}, ${2:entityViewId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign entity view to specific customer"
+  },
+  {
+    "caption": "self.ctx.entityViewService.unassignEntityViewFromCustomer",
+    "snippet": "self.ctx.entityViewService.unassignEntityViewFromCustomer(${1:entityViewId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Unassign entity view from any customer"
+  },
+  {
+    "caption": "self.ctx.entityViewService.findByQuery",
+    "snippet": "self.ctx.entityViewService.findByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find entities view by search query"
+  },
+  {
+    "caption": "self.ctx.customerService",
+    "snippet": "self.ctx.customerService",
+    "meta": "service",
+    "docHTML": "Customer Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/customer.service.ts#L28\" target=\"_blank\">CustomerService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.customerService.getCustomer",
+    "snippet": "self.ctx.customerService.getCustomer(${1:customerId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get customer by id"
+  },
+  {
+    "caption": "self.ctx.customerService.getCustomers",
+    "snippet": "self.ctx.customerService.getCustomers(${1:pageLink}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get customers by ids"
+  },
+  {
+    "caption": "self.ctx.customerService.saveCustomer",
+    "snippet": "self.ctx.customerService.saveCustomer(${1:customer}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save customer"
+  },
+  {
+    "caption": "self.ctx.customerService.deleteCustomer",
+    "snippet": "self.ctx.customerService.deleteCustomer(${1:customerId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete customer by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService",
+    "snippet": "self.ctx.dashboardService",
+    "meta": "service",
+    "docHTML": "Dashboard Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/dashboard.service.ts#L32\" target=\"_blank\">DashboardService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.dashboardService.getTenantDashboards",
+    "snippet": "self.ctx.dashboardService.getTenantDashboards(${1:pageLink}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get tenant dashboards"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getTenantDashboardsByTenantId",
+    "snippet": "self.ctx.dashboardService.getTenantDashboardsByTenantId(${1:tenantId}, ${2:pageLink}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get dashboards by tenant id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getCustomerDashboards",
+    "snippet": "self.ctx.dashboardService.getCustomerDashboards(${1:customerId}, ${2:pageLink}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get dashboards by customer id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getDashboard",
+    "snippet": "self.ctx.dashboardService.getDashboard(${1:dashboardId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get dashboard by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getDashboardInfo",
+    "snippet": "self.ctx.dashboardService.getDashboardInfo(${1:dashboardId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get dashboard info by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.saveDashboard",
+    "snippet": "self.ctx.dashboardService.saveDashboard(${1:dashboard}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save dashboard"
+  },
+  {
+    "caption": "self.ctx.dashboardService.deleteDashboard",
+    "snippet": "self.ctx.dashboardService.deleteDashboard(${1:dashboardId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete dashboard by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.assignDashboardToCustomer",
+    "snippet": "self.ctx.dashboardService.assignDashboardToCustomer(${1:customerId}, ${2:dashboardId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign dashboard to specific customer"
+  },
+  {
+    "caption": "self.ctx.dashboardService.unassignDashboardFromCustomer",
+    "snippet": "self.ctx.dashboardService.unassignDashboardFromCustomer(${1:customerId}, ${2:dashboardId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Unassign dashboard from specific customer"
+  },
+  {
+    "caption": "self.ctx.dashboardService.makeDashboardPublic",
+    "snippet": "self.ctx.dashboardService.makeDashboardPublic(${1:dashboardId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Make dashboard public by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.makeDashboardPrivate",
+    "snippet": "self.ctx.dashboardService.makeDashboardPrivate(${1:dashboardId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Make dashboard private by id"
+  },
+  {
+    "caption": "self.ctx.dashboardService.updateDashboardCustomers",
+    "snippet": "self.ctx.dashboardService.updateDashboardCustomers(${1:dashboardId}, ${2:customerIds}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Update customers assigned to dashboard by ids"
+  },
+  {
+    "caption": "self.ctx.dashboardService.addDashboardCustomers",
+    "snippet": "self.ctx.dashboardService.addDashboardCustomers(${1:dashboardId}, ${2:customerIds}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Assign (Add) customers to dashboard by ids"
+  },
+  {
+    "caption": "self.ctx.dashboardService.removeDashboardCustomers",
+    "snippet": "self.ctx.dashboardService.removeDashboardCustomers(${1:dashboardId}, ${2:customerIds}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Unassign (Remove) customers from dashboard by ids"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getPublicDashboardLink",
+    "snippet": "self.ctx.dashboardService.getPublicDashboardLink(${1:dashboard})",
+    "meta": "function",
+    "docHTML": "Get public dashboard link"
+  },
+  {
+    "caption": "self.ctx.dashboardService.getServerTimeDiff",
+    "snippet": "self.ctx.dashboardService.getServerTimeDiff()",
+    "meta": "function",
+    "docHTML": "Get time difference"
+  },
+  {
+    "caption": "self.ctx.userService",
+    "snippet": "self.ctx.userService",
+    "meta": "service",
+    "docHTML": "User Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/user.service.ts#L29\" target=\"_blank\">UserService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.userService.getUsers",
+    "snippet": "self.ctx.userService.getUsers(${1:pageLink}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get  users"
+  },
+  {
+    "caption": "self.ctx.userService.getTenantAdmins",
+    "snippet": "self.ctx.userService.getTenantAdmins(${1:tenantId}, ${2:pageLink}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get tenant admins by id"
+  },
+  {
+    "caption": "self.ctx.userService.getCustomerUsers",
+    "snippet": "self.ctx.userService.getCustomerUsers(${1:customerId}, ${2:pageLink}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get customer users by id"
+  },
+  {
+    "caption": "self.ctx.userService.getUser",
+    "snippet": "self.ctx.userService.getUser(${1:userId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get user by id"
+  },
+  {
+    "caption": "self.ctx.userService.saveUser",
+    "snippet": "self.ctx.userService.saveUser(${1:user}, ${2:sendActivationMail}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Save user"
+  },
+  {
+    "caption": "self.ctx.userService.deleteUser",
+    "snippet": "self.ctx.userService.deleteUser(${1:userId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete user by id"
+  },
+  {
+    "caption": "self.ctx.userService.setUserCredentialsEnabled",
+    "snippet": "self.ctx.userService.setUserCredentialsEnabled(${1:userId}, ${2:userCredentialsEnabled}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Set user credentials enabled by id"
+  },
+  {
+    "caption": "self.ctx.userService.getActivationLink",
+    "snippet": "self.ctx.userService.getActivationLink(${1:userId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Get activation link by id"
+  },
+  {
+    "caption": "self.ctx.userService.sendActivationEmail",
+    "snippet": "self.ctx.userService.sendActivationEmail(${1:email}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Send activation email"
+  },
+  {
+    "caption": "self.ctx.entityRelationService",
+    "snippet": "self.ctx.entityRelationService",
+    "meta": "service",
+    "docHTML": "Entity Relation Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/entity-relation.service.ts#L27\" target=\"_blank\">EntityRelationService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.entityRelationService.saveRelation",
+    "snippet": "self.ctx.entityRelationService.saveRelation(${1:relation}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Save relation"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.deleteRelation",
+    "snippet": "self.ctx.entityRelationService.deleteRelation(${1:fromId}, ${2:relationType}, ${3:toId}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Delete relation by ids"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.deleteRelations",
+    "snippet": "self.ctx.entityRelationService.deleteRelations(${1:entityId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Delete relations by entity id"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.getRelation",
+    "snippet": "self.ctx.entityRelationService.getRelation(${1:fromId}, ${2:relationType}, ${3:toId}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get relation by ids"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findByFrom",
+    "snippet": "self.ctx.entityRelationService.findByFrom(${1:fromId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find by from-id"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findInfoByFrom",
+    "snippet": "self.ctx.entityRelationService.findInfoByFrom(${1:fromId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find info by from-id"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findByFromAndType",
+    "snippet": "self.ctx.entityRelationService.findByFromAndType(${1:fromId}, ${2:relationType}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Find by from-id and relation type"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findByTo",
+    "snippet": "self.ctx.entityRelationService.findByTo(${1:toId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find by to-id"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findInfoByTo",
+    "snippet": "self.ctx.entityRelationService.findInfoByTo(${1:toId}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find info by to-id"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findByToAndType",
+    "snippet": "self.ctx.entityRelationService.findByToAndType(${1:toId}, ${2:relationType}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Find by to-id and relation type"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findByQuery",
+    "snippet": "self.ctx.entityRelationService.findByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find by query"
+  },
+  {
+    "caption": "self.ctx.entityRelationService.findInfoByQuery",
+    "snippet": "self.ctx.entityRelationService.findInfoByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find info by query"
+  },
+  {
+    "caption": "self.ctx.attributeService",
+    "snippet": "self.ctx.attributeService",
+    "meta": "service",
+    "docHTML": "Attribute Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/attribute.service.ts#L28\" target=\"_blank\">AttributeService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.attributeService.getEntityAttributes",
+    "snippet": "self.ctx.attributeService.getEntityAttributes(${1:entityId}, ${2:attributeScope}, ${3:keys}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get entity attributes by id"
+  },
+  {
+    "caption": "self.ctx.attributeService.deleteEntityAttributes",
+    "snippet": "self.ctx.attributeService.deleteEntityAttributes(${1:entityId}, ${2:attributeScope}, ${3:attributes}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Delete entity attributes by id"
+  },
+  {
+    "caption": "self.ctx.attributeService.deleteEntityTimeseries",
+    "snippet": "self.ctx.attributeService.deleteEntityTimeseries(${1:entityId}, ${2:timeseries}, ${3:deleteAllDataForKeys}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Delete entity timeseries by id"
+  },
+  {
+    "caption": "self.ctx.attributeService.saveEntityAttributes",
+    "snippet": "self.ctx.attributeService.saveEntityAttributes(${1:entityId}, ${2:attributeScope}, ${3:attributes}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Save entity attributes"
+  },
+  {
+    "caption": "self.ctx.attributeService.saveEntityTimeseries",
+    "snippet": "self.ctx.attributeService.saveEntityTimeseries(${1:entityId}, ${2:timeseriesScope}, ${3:timeseries}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Save entity timeseries"
+  },
+  {
+    "caption": "self.ctx.attributeService.getEntityTimeseries",
+    "snippet": "self.ctx.attributeService.getEntityTimeseries(${1:entityId}, ${2:keys}, ${3:startTs}, ${4:endTs}, ${5:limit}, ${6:agg}, ${7:interval}, ${8:orderBy}, ${9:useStrictDataTypes}, ${10:config})",
+    "meta": "function",
+    "docHTML": "Get entity timeseries"
+  },
+  {
+    "caption": "self.ctx.entityService",
+    "snippet": "self.ctx.entityService",
+    "meta": "service",
+    "docHTML": "Entity Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/entity.service.ts#L64\" target=\"_blank\">EntityService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.entityService.getEntity",
+    "snippet": "self.ctx.entityService.getEntity(${1:entityType}, ${2:entityId}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get entity by id"
+  },
+  {
+    "caption": "self.ctx.entityService.getEntities",
+    "snippet": "self.ctx.entityService.getEntities(${1:entityType}, ${2:entityIds}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Get entities by ids"
+  },
+  {
+    "caption": "self.ctx.entityService.getEntitiesByNameFilter",
+    "snippet": "self.ctx.entityService.getEntitiesByNameFilter(${1:entityType}, ${2:entityNameFilter}, ${3:pageSize}, ${4:subType}, ${5:config})",
+    "meta": "function",
+    "docHTML": "Get entities by name filter"
+  },
+  {
+    "caption": "self.ctx.entityService.findEntityDataByQuery",
+    "snippet": "self.ctx.entityService.findEntityDataByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find entity data by query"
+  },
+  {
+    "caption": "self.ctx.entityService.findAlarmDataByQuery",
+    "snippet": "self.ctx.entityService.findAlarmDataByQuery(${1:query}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find alarm data by query"
+  },
+  {
+    "caption": "self.ctx.entityService.findEntityInfosByFilterAndName",
+    "snippet": "self.ctx.entityService.findEntityInfosByFilterAndName(${1:filter}, ${2:searchText}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Find entity infos by filter and name"
+  },
+  {
+    "caption": "self.ctx.entityService.findSingleEntityInfoByEntityFilter",
+    "snippet": "self.ctx.entityService.findSingleEntityInfoByEntityFilter(${1:filter}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find single entity infos by filter"
+  },
+  {
+    "caption": "self.ctx.entityService.getAliasFilterTypesByEntityTypes",
+    "snippet": "self.ctx.entityService.getAliasFilterTypesByEntityTypes(${1:entityTypes})",
+    "meta": "function",
+    "docHTML": "Get alias filter types by entity types"
+  },
+  {
+    "caption": "self.ctx.entityService.filterAliasByEntityTypes",
+    "snippet": "self.ctx.entityService.filterAliasByEntityTypes(${1:entityAlias}, ${2:entityTypes})",
+    "meta": "function",
+    "docHTML": "Filter alias by entity types"
+  },
+  {
+    "caption": "self.ctx.entityService.prepareAllowedEntityTypesList",
+    "snippet": "self.ctx.entityService.prepareAllowedEntityTypesList(${1:allowedEntityTypes}, ${2:useAliasEntityTypes})",
+    "meta": "function",
+    "docHTML": "Prepare allowed entity types list"
+  },
+  {
+    "caption": "self.ctx.entityService.getEntityKeys",
+    "snippet": "self.ctx.entityService.getEntityKeys(${1:entityId}, ${2:query}, ${3:type}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Get entity keys by id"
+  },
+  {
+    "caption": "self.ctx.entityService.createDatasourcesFromSubscriptionsInfo",
+    "snippet": "self.ctx.entityService.createDatasourcesFromSubscriptionsInfo(${1:subscriptionsInfo})",
+    "meta": "function",
+    "docHTML": "Create datasources from subscriptions info"
+  },
+  {
+    "caption": "self.ctx.entityService.createAlarmSourceFromSubscriptionInfo",
+    "snippet": "self.ctx.entityService.createAlarmSourceFromSubscriptionInfo(${1:subscriptionInfo})",
+    "meta": "function",
+    "docHTML": "Create alarm source from subscriptions info"
+  },
+  {
+    "caption": "self.ctx.entityService.resolveAlias",
+    "snippet": "self.ctx.entityService.resolveAlias(${1:entityAlias}, ${2:stateParams})",
+    "meta": "function",
+    "docHTML": "Resolve alias"
+  },
+  {
+    "caption": "self.ctx.entityService.resolveAliasFilter",
+    "snippet": "self.ctx.entityService.resolveAliasFilter(${1:filter}, ${2:stateParams})",
+    "meta": "function",
+    "docHTML": "Resolve alias filter"
+  },
+  {
+    "caption": "self.ctx.entityService.checkEntityAlias",
+    "snippet": "self.ctx.entityService.checkEntityAlias(${1:entityAlias})",
+    "meta": "function",
+    "docHTML": "Check entity alias"
+  },
+  {
+    "caption": "self.ctx.entityService.saveEntityParameters",
+    "snippet": "self.ctx.entityService.saveEntityParameters(${1:entityType}, ${2:entityData}, ${3:update}, ${4:config})",
+    "meta": "function",
+    "docHTML": "Save entity parameters"
+  },
+  {
+    "caption": "self.ctx.entityService.saveEntityData",
+    "snippet": "self.ctx.entityService.saveEntityData(${1:entityId}, ${2:entityData}, ${3:config})",
+    "meta": "function",
+    "docHTML": "Save entity data"
+  },
+  {
+    "caption": "self.ctx.resourceService",
+    "snippet": "self.ctx.resourceService",
+    "meta": "service",
+    "docHTML": "Resource Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/b033b51712244d08e0f5e0beb8be60c9f8fa4cd2/ui-ngx/src/app/core/http/resource.service.ts#L29\" target=\"_blank\">ResourceService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.resourceService.getResources",
+    "snippet": "self.ctx.resourceService.getResources(${1:pageLink}, ${2:config})",
+    "meta": "function",
+    "docHTML": "Find resources by search text"
+  },
+  {
+    "caption": "self.ctx.dialogs",
+    "snippet": "self.ctx.dialogs",
+    "meta": "service",
+    "docHTML": "Dialogs Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/services/dialog.service.ts#L39\" target=\"_blank\">DialogService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.dialogs.confirm",
+    "snippet": "self.ctx.dialogs.confirm(${1:title}, ${2:message}, ${3:cancel}, ${4:ok}, ${5:fullscreen})",
+    "meta": "function",
+    "docHTML": "Confirm"
+  },
+  {
+    "caption": "self.ctx.dialogs.alert",
+    "snippet": "self.ctx.dialogs.alert(${1:title}, ${2:message}, ${3:ok}, ${4:fullscreen})",
+    "meta": "function",
+    "docHTML": "Alert"
+  },
+  {
+    "caption": "self.ctx.dialogs.colorPicker",
+    "snippet": "self.ctx.dialogs.colorPicker(${1:color})",
+    "meta": "function",
+    "docHTML": "Color picker"
+  },
+  {
+    "caption": "self.ctx.dialogs.materialIconPicker",
+    "snippet": "self.ctx.dialogs.materialIconPicker(${1:icon})",
+    "meta": "function",
+    "docHTML": "Material icon picker"
+  },
+  {
+    "caption": "self.ctx.dialogs.forbidden",
+    "snippet": "self.ctx.dialogs.forbidden()",
+    "meta": "function",
+    "docHTML": "Forbidden"
+  },
+  {
+    "caption": "self.ctx.dialogs.todo",
+    "snippet": "self.ctx.dialogs.todo()",
+    "meta": "function",
+    "docHTML": "To do"
+  },
+  {
+    "caption": "self.ctx.customDialog",
+    "snippet": "self.ctx.customDialog",
+    "meta": "service",
+    "docHTML": "Custom Dialog Service API<br>See <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/components/widget/dialog/custom-dialog.service.ts#L33\" target=\"_blank\">CustomDialogService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.customDialog.customDialog",
+    "snippet": "self.ctx.customDialog.customDialog(${1:template}, ${2:controller}, ${3:data})",
+    "meta": "function",
+    "docHTML": "Custom Dialog"
+  },
+  {
+    "caption": "self.ctx.date",
+    "snippet": "self.ctx.date",
+    "meta": "service",
+    "docHTML": "Date Pipe<br>Formats a date value according to locale rules.<br>See <a href=\"https://angular.io/api/common/DatePipe\" target=\"_blank\">DatePipe</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.translate",
+    "snippet": "self.ctx.translate",
+    "meta": "service",
+    "docHTML": "Translate Service API<br>See <a href=\"https://github.com/ngx-translate/core#translateservice\" target=\"_blank\">TranslateService</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.http",
+    "snippet": "self.ctx.http",
+    "meta": "service",
+    "docHTML": "HTTP Client Service<br>See <a href=\"https://angular.io/api/common/http/HttpClient\" target=\"_blank\">HttpClient</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.sanitizer",
+    "snippet": "self.ctx.sanitizer",
+    "meta": "service",
+    "docHTML": "DomSanitizer Service<br>See <a href=\"https://angular.io/api/platform-browser/DomSanitizer\" target=\"_blank\">DomSanitizer</a> for API reference."
+  },
+  {
+    "caption": "self.ctx.router",
+    "snippet": "self.ctx.router",
+    "meta": "service",
+    "docHTML": "Router Service<br>See <a href=\"https://angular.io/api/router/Router\" target=\"_blank\">Router</a> for API reference."
+  }
+]

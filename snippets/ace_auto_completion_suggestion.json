@@ -1,0 +1,339 @@
+[
+    {
+        "caption": "sc:token",
+        "snippet": "localStorage.getItem('jwt_token');",
+        "meta": "token",
+        "docHTML": "<b>localStorage.getItem('jwt_token');</b><hr>Retrieves the JSON Web Token (JWT) from the browser's local storage.<br><br>This is a standard method for accessing a stored authentication token needed to make authenticated API calls."
+    },
+    {
+        "caption": "sc:headers",
+        "value": "{headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}",
+        "meta": "snippet",
+        "score": 2,
+        "docHTML": "<b>{headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}</b><hr>Generates the standard HTTP headers object required for making authenticated API requests to a <strong>Thingsboard server</strong>.This snippet first retrieves the JWT from <code>localStorage</code> and then constructs the headers object."
+    },
+    {
+        "caption": "sc:http.get",
+        "value": "self.ctx.http.get(``, {headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}).subscribe(res=>{\n\n    }, error=>{\n\n    })",
+        "meta": "snippet",
+        "score": 3,
+        "docHTML": "<b>self.ctx.http.get(`url`, {headers})</b><hr>This snippet sends an HTTP GET request with a JWT token retrieved from localStorage for authorization. The response is handled asynchronously using the subscribe method."
+    },
+    {
+        "caption": "sc:http.post",
+        "value": "self.ctx.http.post(``, payload, {headers:{\"Content-Type\":\"application/json\",\"X-Authorization\":\"Bearer \"+localStorage.getItem(\"jwt_token\")}}).subscribe(res=>{\n\n    }, error=>{\n\n    })",
+        "meta": "snippet",
+        "score": 4,
+        "docHTML": "<b>self.ctx.http.post(`url`, payload={}, {headers})</b><hr> This snippet sends an HTTP POST request with a payload and a JWT token in the Authorization header. Like the GET request, the response is handled asynchronously using the subscribe method."
+    },
+    {
+        "caption": "sc:tablePagination",
+        "snippet": "syncross.tablePagination(${1:defaultPageSize}, ${2:defaultPageOptions})",
+        "meta": "function",
+        "docHTML": "<b>syncross.tablePagination(defaultPageSize=20, defaultPageOptions=[20, 50, 100])</b><hr>Creates a pagination controller with utility methods to manage paging state.<br><br><b>@param</b> <code>{number} [defaultPageSize=20]</code> - Default number of items per page.<br><b>@param</b> <code>{number[]} [defaultPageOptions=[20, 50, 100]]</code> - Available page size options.<br><b>@returns</b> <code>{object}</code> Pagination controller with methods to manage page state."
+    },
+    {
+        "caption": "sc:getStateList",
+        "snippet": "syncross.getStateList()",
+        "meta": "function",
+        "docHTML": "<b>syncross.getStateList()</b><hr>Returns a list of state types used in the application.<br><br><b>@returns</b> <code>{string[]}</code> An array of state names."
+    },
+    {
+        "caption": "sc:getTimeMacroList",
+        "snippet": "syncross.getTimeMacroList()",
+        "meta": "function",
+        "docHTML": "<b>syncross.getTimeMacroList()</b><hr>Returns a list of predefined time macros commonly used in filters and reports.<br><br><b>@returns</b> <code>{string[]}</code> An array of time macro labels such as \"Today\", \"Last 7 Days\", etc."
+    },
+    {
+        "caption": "sc:timeFormatMap",
+        "snippet": "syncross.timeFormatMap(${1:type})",
+        "meta": "function",
+        "docHTML": "<b>syncross.timeFormatMap(type='Today')</b><hr>Returns a time format string based on the given macro type.<br><br><b>@param</b> <code>{string} [type='Today']</code> - The time macro type.<br><b>@returns</b> <code>{string}</code> The corresponding time format string."
+    },
+    {
+        "caption": "sc:getTimeData",
+        "snippet": "syncross.getTimeData(${1:type}, ${2:weekStartDay}, ${3:dayStartTime}, ${4:prev})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getTimeData(type='Today', weekStartDay='Sunday', dayStartTime='00:00', prev=false)</b><hr>Generates time range data based on a time macro type.<br><br><b>@param</b> <code>{string} type</code> - A valid time macro type (e.g., from `getTimeMacroList()`).<br><b>@param</b> <code>{string} weekStartDay</code> - The day the week starts on (e.g., \"Sunday\", \"Monday\").<br><b>@param</b> <code>{string} dayStartTime</code> - The starting time of the day in \"HH:mm\" format.<br><b>@param</b> <code>{boolean} prev</code> - Whether to generate the previous period's time range.<br><b>@returns</b> <code>{object}</code> An object containing the computed start date, end date, and aggregation type."
+    },
+    {
+        "caption": "sc:getSyncedChartOptions",
+        "snippet": "syncross.getSyncedChartOptions(${1:chartOption}, ${2:theme})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getSyncedChartOptions(chartOption, theme='light')</b><hr>Applies theme-based styling to a given chart option configuration object.<br><br><b>@param</b> <code>{object} chartOption</code> - The chart configuration object (e.g., ECharts option).<br><b>@param</b> <code>{string} [theme='light']</code> - The theme to apply (\"light\" or \"dark\").<br><b>@returns</b> <code>{object}</code> The updated chart option object with synchronized theme styles."
+    },
+    {
+        "caption": "sc:getTheme",
+        "snippet": "syncross.getTheme()",
+        "meta": "function",
+        "docHTML": "<b>syncross.getTheme()</b><hr>Retrieves the current UI theme from the document element.<br><br><b>@returns</b> <code>{string}</code> 'dark' or 'light'."
+    },
+    {
+        "caption": "sc:getTimeFilter",
+        "snippet": "syncross.getTimeFilter()",
+        "meta": "function",
+        "docHTML": "<b>syncross.getTimeFilter()</b><hr>Retrieves the stored time filter configuration from localStorage.<br><br><b>@returns</b> <code>{object}</code> An object containing the selected time range type and associated date information."
+    },
+    {
+        "caption": "sc:getBarChartOption",
+        "snippet": "syncross.getBarChartOption(${1:title}, ${2:subtitle}, ${3:xAxisData}, ${4:yAxisName}, ${5:series}, ${6:theme}, ${7:tooltipUnit})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getBarChartOption(title, subtitle, xAxisData, yAxisName, series, theme='light', tooltipUnit='tCO2e')</b><hr>Generates the configuration object for a themed bar chart.<br><br><b>@param</b> <code>{string} [title='title']</code> - The main title of the chart.<br><b>@param</b> <code>{string} [subtitle='subtitle']</code> - The subtitle of the chart.<br><b>@param</b> <code>{Array} xAxisData</code> - The data array for the x-axis categories.<br><b>@param</b> <code>{string} yAxisName</code> - The label for the y-axis.<br><b>@param</b> <code>{Array} series</code> - The series data array for the chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme for the chart.<br><b>@param</b> <code>{string} [tooltipUnit='tCO2e']</code> - The unit for the tooltip.<br><b>@returns</b> <code>{object}</code> The ECharts bar chart configuration object."
+    },
+    {
+        "caption": "sc:getLineChartOption",
+        "snippet": "syncross.getLineChartOption(${1:title}, ${2:subtitle}, ${3:xAxisData}, ${4:yAxisName}, ${5:series}, ${6:theme})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getLineChartOption(title, subtitle, xAxisData, yAxisName, series, theme='light')</b><hr>Generates the configuration object for a themed line chart.<br><br><b>@param</b> <code>{string} [title='title']</code> - The main title of the chart.<br><b>@param</b> <code>{string} [subtitle='subtitle']</code> - The subtitle of the chart.<br><b>@param</b> <code>{Array} xAxisData</code> - The data array for the x-axis categories.<br><b>@param</b> <code>{string} yAxisName</code> - The label for the y-axis.<br><b>@param</b> <code>{Array} series</code> - The series data array for the chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme for the chart.<br><b>@returns</b> <code>{object}</code> The ECharts line chart configuration object."
+    },
+    {
+        "caption": "sc:getDoughnutOption",
+        "snippet": "syncross.getDoughnutOption(${1:color}, ${2:theme})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getDoughnutOption(color, theme)</b><hr>Generates the configuration object for a themed doughnut gauge chart.<br><br><b>@param</b> <code>{string} color</code> - The color used for the progress indicator.<br><b>@param</b> <code>{string} theme</code> - The theme of the chart, either 'light' or 'dark'.<br><b>@returns</b> <code>{object}</code> The ECharts doughnut gauge chart configuration object."
+    },
+    {
+        "caption": "sc:getPiechartOption",
+        "snippet": "syncross.getPiechartOption(${1:title}, ${2:seriesName}, ${3:data}, ${4:theme})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getPiechartOption(title='', seriesName='', data=[], theme='light')</b><hr>Generates an ECharts pie chart option configuration.<br><br><b>@param</b> <code>{string} [title='']</code> - The title of the pie chart.<br><b>@param</b> <code>{string} [seriesName='']</code> - The name for the data series.<br><b>@param</b> <code>{Array<Object>} [data=[]]</code> - The data array for the pie chart.<br><b>@param</b> <code>{string} [theme='light']</code> - The theme of the chart.<br><b>@returns</b> <code>{Object}</code> ECharts configuration object for a pie chart."
+    },
+    {
+        "caption": "sc:getChartSubtitle",
+        "snippet": "syncross.getChartSubtitle(${1:type}, ${2:mode})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getChartSubtitle(type='Today', mode='Consumption')</b><hr>Generates a formatted subtitle string for charts based on the selected time type and mode.<br><br><b>@param</b> <code>{string} [type='Today']</code> - The selected time range type.<br><b>@param</b> <code>{string} [mode='Consumption']</code> - The mode or metric type.<br><b>@returns</b> <code>{string}</code> A formatted subtitle describing the time range and mode."
+    },
+    {
+        "caption": "sc:getDataFromSource",
+        "snippet": "syncross.getDataFromSource(${1:data}, ${2:param}, ${3:dataOnly})",
+        "meta": "function",
+        "docHTML": "<b>syncross.getDataFromSource(data, param={}, dataOnly=false)</b><hr>Filters and retrieves data from a given data source based on optional parameters.<br><br><b>@param</b> <code>{Array} data</code> - The array of data objects to filter (e.g., `self.ctx.data`).<br><b>@param</b> <code>{Object} [param={}]</code> - Optional filtering parameters.<br><b>@param</b> <code>{boolean} [dataOnly=false]</code> - If true, returns only the `.data` property of the first matched item.<br><b>@returns</b> <code>{Array|Object|string}</code> Filtered data array, single data object, or error message."
+    },
+    {
+        "caption": "sc:customDialog",
+        "snippet": "template=`\n<div aria-label=\"Info\" style=\"width: 500px\">\n  <mat-toolbar class=\"flex justify-between items-center\" color=\"primary\">\n    <div>Title</div>\n    <button mat-icon-button (click)=\"close()\"><mat-icon>close</mat-icon></button>\n  </mat-toolbar>\n  <div mat-dialog-content>\n    <mat-spinner style=\"position: absolute; left: 45%;text-align: center;\"></mat-spinner>\n    <form method=\"POST\" [formGroup]=\"form\" (submit)=\"saveUser()\">\n      <mat-form-field appearance=\"fill\">\n        <mat-label>some text</mat-label>\n        <input matInput type=\"text\" formControlName=\"typeControlNameHere\">\n      </mat-form-field>\n      <button mat-flat-button color=\"primary\">Save</button>\n    </form>\n  </div>\n</div>\n`;\nself.ctx.customDialog.customDialog(template, InfoDialogController, {data: data, index: index, type: \\$scope.currentSelectedItem}).subscribe(resp=>{});\nfunction InfoDialogController(instance) {\n    instance.close=function(){\n        instance.dialogRef.close(null);\n    }        \n}",
+        "meta": "snippet",
+        "docHTML": "<strong>self.ctx.customDialog(template, InfoDialogController, {data: data})</strong><hr>\nOpens a custom dialog with the provided template and controller, passing data, index, and optional type. The dialog can handle form submissions and close events, with responses managed through an observable.\n<strong>Returns:</strong> An observable for response handling.\n"
+    },
+    {
+        "caption": "sc:actionSource",
+        "snippet": "self.actionSources = function() {\n    return {\n        'actionKey': {\n            name: 'actionName',\n            multiple: false,\n        },\n    }\n}",
+        "meta": "snippet",
+        "docHTML": "<strong>self.actionSources()</strong><hr>\nCreate a custom action for dashboard button\n"
+    },
+    {
+        "caption": "sc:actionHandler",
+        "snippet": "let actionDescriptor = self.ctx.actionsApi.getActionDescriptors('actionKey');\n    \\$scope.onClickOnlineStatus = function(\\$event){\n        self.ctx.actionsApi.handleWidgetAction(\\$event,actionDescriptor[0]);\n    };",
+        "meta": "snippet",
+        "docHTML": "<strong>Action handler</strong><hr>\nHandle created action\n"
+    },
+    {
+        "caption": "sc:getAttribute",
+        "snippet": "self.ctx.attributeService.getEntityAttributes({entityType: 'DEVICE', id: 'Enter_Entity_ID_Here'}, 'SERVER_SCOPE', ['key1', 'key2']).subscribe(res=>{\n\n})",
+        "meta": "snippet",
+        "docHTML": "<strong>Attribute Service API</strong><hr>\nSee <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/attribute.service.ts#L28\">AttributeService</a> for API reference.\n"
+    },
+    {
+        "caption": "sc:saveAttribute",
+        "snippet": "self.ctx.attributeService.saveEntityAttributes({entityType: 'DEVICE', id: 'ENTITY_ID_HERE'}, 'SERVER_SCOPE', [{key: 'key1', value: {}}]).subscribe(res=>{\n\n})",
+        "meta": "snippet",
+        "docHTML": "<strong>Attribute Service API</strong><hr>\nSee <a href=\"https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/core/http/attribute.service.ts#L28\">AttributeService</a> for API reference.\n"
+    },
+    {
+        "caption": "sc:hasPermission",
+        "snippet": "syncross.hasPermission(self.ctx, \"control\", \"perm_text\")",
+        "meta": "function",
+        "docHTML": "<strong>syncross.hasPermission(self.ctx, \"control\", \"perm_text\")<hr>\nCheck the current user permission for a specific control widget. Add permission in User management Dashbaord, then use the permission here.\nCheck the code at <a href=\"https://github.com/stsvinc/code-repo/blob/main/syncross-utils.js#L502\">github code</a>\n"
+    },
+    {
+        "caption": "sc:click",
+        "snippet": "(click)=\"handleClick(\\$event)\"",
+        "meta": "snippet",
+        "docHTML": "<strong>(click)=\"handleClick(\\$event)\"</strong>"
+    },
+    {
+        "caption": "sc:button",
+        "snippet": "<button mat-button></button>",
+        "meta": "snippet",
+        "docHTML": "<strong>material button</strong>"
+    },
+    {
+        "caption": "sc:button-flat",
+        "snippet": "<button mat-flat-button></button>",
+        "meta": "snippet",
+        "docHTML": "<strong>material flat button</strong>"
+    },
+    {
+        "caption": "sc:ts-template",
+        "snippet": "<main class=\"overflow-auto h-full w-full\">\n    <header class=\"bg-white dark:bg-gray-800 py-2 px-4 rounded-lg shadow-lg flex justify-between items-center\">\n    <!--Left Side content-->\n        <div class=\"overflow-hidden transition-all duration-300 ease-in-out flex w-full\" [class]=\"isMobile&&isVisibleFilter?['Single Date', 'Date Range', 'Single Month', 'Single Year'].indexOf(selectedType)>-1?'h-[160px]':'h-[105px]':'h-[50px]'\">\n            <form class=\"flex items-center justify-start lt-md:flex-col md:flex-row gt-md:flex-row gap-[10px] w-full\">\n                <div class=\"w-full lg:!w-auto flex justify-between items-center\">\n                    <button mat-icon-button (click)=\"goBack()\"><mat-icon class=\"ml-2 text-black dark:text-white\">arrow_back_ios</mat-icon></button>\n                    <div class=\"flex items-stretch h-[40px] divide-x divide-slate-200 dark:divide-slate-600 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm overflow-hidden block lg:!hidden\">\n                        <div (click)=\"onClickOnlineStatus(\\$event, 'Online')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View online devices\">\n                            <span class=\"w-2.5 h-2.5 bg-green-500 dark:bg-green-300 rounded-full animate-pulse\"></span>\n                            <span class=\"text-green-500 dark:text-green-300 font-semibold\">{{deviceOnlineStatus?.device_online||0}}</span>\n                            <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Online</span>\n                        </div>\n                        <div (click)=\"onClickOnlineStatus(\\$event, 'All')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View all devices\">\n                            <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-4 w-4 text-gray-600 dark:text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\">\n                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path>\n                            </svg>\n                            <span class=\"text-gray-900 dark:text-gray-100 font-semibold\">{{deviceOnlineStatus?.device_total||0}}</span>\n                            <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Total</span>\n                        </div>\n                    </div>\n                    <button mat-icon-button class=\"block lg:!hidden\" (click)=\"isVisibleFilter=!isVisibleFilter\"><mat-icon class=\"nav-icon-bell text-black dark:text-white\">{{ isVisibleFilter ? 'close' : 'filter_list' }}</mat-icon></button>\n                </div>\n                <mat-form-field appearance=\"outline\" SubscriptSizing=\"dynamic\" class=\"nav-dropdown filter w-full lg:!w-[220px]\" *ngIf=\"reportTypes?.length\">\n                    <mat-select id=\"report-type\" [(value)]=\"selectedType\" (selectionChange)=\"typeSelect(\\$event.value)\" required>\n                        <mat-option *ngFor=\"let reportType of reportTypes\" [value]=\"reportType\">{{reportType}}</mat-option>\n                    </mat-select>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Month'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput id=\"monthOrYear\" (click)=\"myPicker.open()\" [max]=\"today\" [matDatepicker]=\"myPicker\" placeholder=\"Select Month\">\n                    <mat-datepicker-toggle matSuffix [for]=\"myPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #myPicker startView=\"year\" (monthSelected)=\"selectMonthOrYear(\\$event, myPicker)\"></mat-datepicker>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Year'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput id=\"monthOrYear\" (click)=\"myPicker.open()\" [max]=\"today\" [matDatepicker]=\"myPicker\" placeholder=\"Select Year\">\n                    <mat-datepicker-toggle matSuffix [for]=\"myPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #myPicker startView=\"multi-year\" (yearSelected)=\"selectMonthOrYear(\\$event, myPicker)\"></mat-datepicker>\n                </mat-form-field>\n                <mat-form-field *ngIf=\"selectedType=='Single Date'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[220px] filter\">\n                    <input matInput [value]=\"showDateFromTs(timeFilter.dateData.singleDt)\" id=\"startDate\" (click)=\"startPicker.open()\" [max]=\"today\" [matDatepicker]=\"startPicker\" (dateChange)=\"singleDateChange(\\$event.value)\" placeholder=\"select date\">\n                    <mat-datepicker-toggle matSuffix [for]=\"startPicker\"></mat-datepicker-toggle>\n                    <mat-datepicker #startPicker></mat-datepicker>\n                </mat-form-field>\n    \n                <mat-form-field *ngIf=\"selectedType=='Date Range'\" appearance=\"outline\" class=\"datepicker w-full lg:!w-[300px] filter\">\n                    <mat-date-range-input [rangePicker]=\"picker\" (click)=\"picker.open()\">\n                        <input [value]=\"showDateFromTs(timeFilter.dateData.startDt)\" (dateInput)=\"chooseDateRange(\\$event.value, 'start')\" matStartDate placeholder=\"Start date\">\n                        <input [value]=\"showDateFromTs(timeFilter.dateData.endDt)\" (dateInput)=\"chooseDateRange(\\$event.value, 'end')\" matEndDate placeholder=\"End date\">\n                    </mat-date-range-input>\n                    <mat-datepicker-toggle matIconSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                    <mat-date-range-picker #picker></mat-date-range-picker>\n                </mat-form-field>\n            </form>\n        </div>\n        <div class=\"block lt-lg:!hidden\">\n            <div class=\"flex items-stretch h-[40px] divide-x divide-slate-200 dark:divide-slate-600 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm overflow-hidden\">\n                <div (click)=\"onClickOnlineStatus(\\$event, 'Online')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View online devices\">\n                    <span class=\"w-2.5 h-2.5 bg-green-500 dark:bg-green-300 rounded-full animate-pulse\"></span>\n                    <span class=\"text-green-500 dark:text-green-300 font-semibold\">{{deviceOnlineStatus?.device_online||0}}</span>\n                    <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Online</span>\n                </div>\n                <div (click)=\"onClickOnlineStatus(\\$event, 'All')\" class=\"flex items-center space-x-2 px-4 py-2.5 hover:bg-slate-300 hover:dark:bg-slate-600 cursor-pointer transition-colors duration-200\" title=\"View all devices\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-4 w-4 text-gray-600 dark:text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\">\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path>\n                    </svg>\n                    <span class=\"text-gray-900 dark:text-gray-100 font-semibold\">{{deviceOnlineStatus?.device_total||0}}</span>\n                    <span class=\"text-gray-600 dark:text-gray-400 text-xs\">Total</span>\n                </div>\n            </div>\n        </div>\n    </header>\n    \n    <section class=\"sc-main-content\">\n        <h2>Write your code here</h2>\n    </section>\n</main>\n",
+        "meta": "snippet",
+        "docHTML": "<strong>synCross time-series template</strong><hr>This is an starter template for time-series widget. It's has some input fields for filtering"
+    },
+    {
+        "caption": "sc:ts-template-js",
+        "snippet": "self.onInit = function() {\n    \\$scope = self.ctx.\\$scope;\n    let weekStartDay = 'Sunday';\n    let dayStartTime = '06:00';\n    \\$scope.reportTypes = syncross.getTimeMacroList();\n    \\$scope.timeFilter = syncross.getTimeFilter();\n    \\$scope.selectedType = \\$scope.timeFilter?.selectedRangeType||\\$scope.reportTypes[0];\n    \\$(document).ready(function(){\n        init();\n        self.onResize()\n    })\n    /*******************************************\n     * ************Initialize the process*******\n     * ****************************************/\n    function init(){\n        \\$scope.form=syncross.getTimeData(\\$scope.selectedType, weekStartDay, dayStartTime);\n        if(['Single Month', 'Single Year'].includes(\\$scope.timeFilter.selectedRangeType)) {\n            \\$('#monthOrYear').val(moment(new Date(\\$scope.timeFilter.dateData.singleDt)).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'));\n        }\n        submitSearch();\n    }\n    function submitSearch(){\n        //TODO: Write your logic here.\n        // You can create payload, call an https request, implements complex logic here.\n        console.log(\\$scope.form);\n    }\n    \\$scope.typeSelect=function(\\$event='Today'){\n        if(['Single Date', 'Date Range', 'Single Month', 'Single Year'].indexOf(\\$event)>-1){\n            \\$scope.timeFilter.dateData={ singleDt: \\$event=='Single Date'?new Date().getTime():\\$event=='Single Month'?new Date(moment().format('YYYY-MM-01')).getTime():\\$event=='Single Year'?new Date(moment().format('YYYY-01-01')).getTime():'', startDt: \\$event=='Date Range'?moment().subtract(1, 'days').format('YYYY-MM-DD'):'', endDt: \\$event=='Date Range'?moment().format('YYYY-MM-DD'):'' };\n            setTimeout(function() {\n                if(['Single Month', 'Single Year'].includes(\\$scope.timeFilter.selectedRangeType)) {\n                    \\$('#monthOrYear').val(moment(new Date(\\$scope.timeFilter.dateData.singleDt)).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'));\n                }\n            }, 10);\n        }\n        \\$scope.form=solveTypeData(\\$event, weekStartDay);\n        submitSearch();\n    }\n    function solveTypeData(type='Today', weekStartDay){\n        \\$scope.timeFilter.selectedRangeType=type;\n        localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n        return syncross.getTimeData(type, weekStartDay, dayStartTime);\n    }\n    \\$scope.selectMonthOrYear=function(eventData, dp){\n        \\$scope.timeFilter.dateData.singleDt=new Date(moment(eventData).format(\\$scope.selectedType=='Single Month'?'YYYY-MM-01':'YYYY-01-01')).getTime();\n        $('#monthOrYear').val(moment(eventData).format(\\$scope.selectedType=='Single Month'?'MMM, YYYY':'YYYY'))\n        dp.close();\n        \\$scope.form=solveTypeData(\\$scope.timeFilter.selectedRangeType, weekStartDay, dayStartTime);\n        submitSearch();\n    }\n    \\$scope.singleDateChange=function(\\$event){\n        \\$scope.form.startDate=moment(\\$event).format('YYYY-MM-DD 00:00:00');\n        \\$scope.form.endDate=moment(\\$event).format('YYYY-MM-DD 23:59:59');\n        \\$scope.timeFilter.dateData.singleDt=\\$event.getTime();\n        localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n        submitSearch();\n    }\n    \\$scope.chooseDateRange=function(\\$event, pos='start', pk){\n        if (\\$event) {\n            const isStart = pos === 'start';\n            \\$scope.form[isStart ? 'startDate' : 'endDate'] = moment(\\$event).format(`YYYY-MM-DD \\${isStart ? '00:00:00' : '23:59:59'}`);\n            \\$scope.timeFilter.dateData[isStart ? 'startDt' : 'endDt'] = \\$event.getTime();\n            localStorage.setItem('time_filter', JSON.stringify(\\$scope.timeFilter));\n            if(!isStart) {\n                pk.close();\n                submitSearch();\n            }\n        }\n    }\n    \\$scope.showDateFromTs=function(ts=''){ return ts==''?'':new Date(ts); }\n    \\$scope.goBack = function() { window.history.back(); }\n}\nself.onDataUpdated=function(){\n    \n}\n\nself.onResize = function() {\n     const \\$scope=self.ctx.\\$scope;\n    \\$scope.screenHeight = self.ctx.height;\n    \\$scope.isMobile=self.ctx.isMobile;\n    self.ctx.detectChanges();\n}\n\nself.onDestroy = function() {\n}\n \n",
+        "meta": "snippet",
+        "docHTML": "<strong>synCross time-series javascript associated to template</strong><hr>This is an starter javascript template for time-series widget. All event of time-series template are implemented here."
+    },
+    {
+        "caption": "sc:tiny-template",
+        "snippet": "<main class=\"overflow-auto h-full w-full\">\n    <header class=\"bg-white dark:bg-gray-800 pt-1 pb-2 px-4 rounded-lg shadow-lg h-[48px]\">\n        <button mat-icon-button (click)=\"goBack()\" class=\"!p-0 !h-10 !w-10 flex items-center justify-center\"><mat-icon class=\"ml-2 text-black dark:text-white\">arrow_back_ios</mat-icon></button>\n    </header>\n    <section class=\"sc-main-content\">\n        <h2>Write your code here</h2>\n        <button mat-flat-button color=\"primary\" (click)=\"handleClick(\\$event)\"></button>\n    </section>\n</main>\n",
+        "meta": "snippet",
+        "docHTML": "<strong>synCross tiny template</strong><hr>This is an starter template for simple widget. You can start widget development from here."
+    },
+    {
+        "caption": "sc:tiny-template-js",
+        "snippet": "self.onInit = function() {\n    \\$(document).ready(function(){ self.onResize(); });\n    const \\$scope = self.ctx.\\$scope;\n    //TODO: Write your logic here.\n    \\$scope.goBack = function() { window.history.back(); }\n}\nself.onDataUpdated=function(){\n    const \\$scope=self.ctx.\\$scope;\n    if (self.ctx.data) {\n        if (self.ctx.data[0] && self.ctx.data[0].data.length) {\n            //TODO: Write your logic here.\n        }\n    }\n}\n\nself.onResize = function() {\n    const \\$scope=self.ctx.\\$scope;\n    \\$scope.height = self.ctx.height;\n    \\$scope.width=self.ctx.width;\n    \\$scope.isMobile=self.ctx.isMobile;\n    self.ctx.detectChanges();\n}\n\nself.onDestroy = function() {\n    \n}\nself.actionSources = function() {\n    return {\n        'actionKey': {\n            name: 'actionName',\n            multiple: false,\n        },\n    }\n}\n \n",
+        "meta": "snippet",
+        "docHTML": "<strong>synCross tiny javascript associated to template</strong><hr>This is an starter template for simple widget. You can start widget development from here."
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "caption": "tw:card",
+        "snippet": "<div class=\"bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl\">\n    <div class=\"text-lg font-semibold tracking-wider text-gray-700 dark:text-gray-100 mb-2\">Title</div>\n</div>",
+        "meta": "Tailwind Component",
+        "docHTML": "<b>Basic Tailwindcss Card Container</b><hr>A responsive container component that supports both light and dark modes.<br><strong>Includes:</strong><ul><li>Theme-aware background (<code>bg-white dark:bg-gray-800</code>)</li><li>Generous padding (<code>p-6</code>)</li><li>Rounded corners (<code>rounded-lg</code>) and a prominent shadow (<code>shadow-xl</code>).</li></ul>"
+    },
+    {
+        "caption": "tw:flex",
+        "snippet": "<div class=\"flex lt-lg:flex-col gap-2\">\n    <div>\n        <!--Left/Top div: Write you code here-->\n    </div>\n    <div>\n        <!--Right/Bottom div: Write you code here-->\n    </div>\n</div>",
+        "meta": "snippet",
+        "docHTML": "Write responsive flex layout using tailwindcss."
+    },
+    {
+        "caption": "tw:flex-grow",
+        "snippet": "<div class=\"flex lt-lg:flex-col gap-2\">\n    <div class=\"flex-grow\">\n        <!--Left/Top div: Write you code here-->\n    </div>\n    <div class=\"flex-grow\">\n        <!--Right/Bottom div: Write you code here-->\n    </div>\n</div>",
+        "meta": "snippet",
+        "docHTML": "Write responsive flex layout with 50/50 grow using tailwindcss."
+    },
+    {
+        "caption": "tw:grid",
+        "snippet": "<div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2\">\n    <div> Item 1 </div>\n    <div> Item 2 </div>\n    <div> Item 3 </div>\n    <div> Item 4 </div>\n    <div> Item 5 </div>\n</div>",
+        "meta": "snippet",
+        "docHTML": "Responsive layout using grid cols in tailwindcss"
+    },
+    {
+        "caption": "tw:chip",
+        "snippet": "<span class=\"px-2 flex items-center gap-2 w-min bg-emerald-400 text-black dark:text-white rounded-full text-xs font-bold\">\n    <mat-icon class=\"scale-75\">directions_run</mat-icon>\n    <span>RUNNING</span>\n</span>",
+        "meta": "snippet",
+        "docHTML": "Chip using tailwindcss"
+    },
+    {
+        "caption": "tw:chip-outline",
+        "snippet": "<span class=\"px-2 flex items-center gap-2 w-min border border-[#34d399] text-[#34d399] rounded-full text-xs font-bold\">\n    <mat-icon class=\"scale-75\">hourglass_bottom</mat-icon>\n    <span>ONLOAD</span>\n</span>",
+        "meta": "snippet",
+        "docHTML": "Outline chip using tailwindcss"
+    },
+    {
+        "caption": "tw:input",
+        "snippet": "<div class=\"m-2\">\n   <label class=\"block text-xs font-semibold mb-2 text-gray-600 dark:text-gray-400 uppercase\" for=\"inputId\">Replace Label</label>\n    <input id=\"inputId\" type=\"text\" class=\"w-full p-2.5 text-sm bg-white dark:bg-[#2c2c2c] border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition\" placeholder=\"Replace the placeholder\">\n</div>",
+        "meta": "snippet",
+        "docHTML": "Input field using tailwindcss"
+
+    },
+
+
+
+
+
+    {
+        "caption": "mat:input",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <mat-label>Label</mat-label>\n    <input matInput placeholder=\"Placeholder\" formControlName=\"name\">\n</mat-form-field>",
+        "meta": "snippet",
+        "docHTML": "<b>Angular Material form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/form-field/overview\">Form Field</a>"
+    },
+    {
+        "caption": "mat:auto-complete",
+        "snippet": "<mat-form-field appearance=\"fill\" floatLabel=\"never\" subscriptSizing=\"dynamic\"> \n<!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Label</mat-label>\n    <input type=\"text\" placeholder=\"Pick one\" matInput [matAutocomplete]=\"auto\" (input)=\"handleInput(\\$event)\">\n    <mat-autocomplete autoActiveFirstOption #auto=\"matAutocomplete\">\n      @for (option of options; track option) {<mat-option [value]=\"option\">{{option}}</mat-option>}\n    </mat-autocomplete>\n</mat-form-field>\n",
+        "meta": "snippet",
+        "docHTML": "<b>Angular Material autocompletion form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/form-field/overview\">Form Field</a>"
+    },
+    {
+        "caption": "mat:chip-input",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Label</mat-label>\n    <mat-chip-grid #chipGrid>\n        @for (fruit of fruits; track fruit) {\n            <mat-chip-row (removed)=\"remove(fruit)\">\n                {{fruit}}\n                <button matChipRemove [attr.aria-label]=\"'remove ' + fruit\"><mat-icon>cancel</mat-icon></button>\n            </mat-chip-row>\n        }\n    </mat-chip-grid>\n    <input placeholder=\"New Fruit...\" #fruitInput [matChipInputFor]=\"chipGrid\" (input)=\"handleInput(\\$event)\" [matAutocomplete]=\"auto\" />\n    <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selected(\\$event)\">\n        @for (fruit of options; track fruit) {<mat-option [value]=\"fruit\">{{fruit}}</mat-option>}\n    </mat-autocomplete>\n</mat-form-field>\n\n<script type=\"text/javascript\" charset=\"utf-8\">\nconst \\$scope=self.ctx.\\$scope;\n\\$scope.options= ['One', 'Two', 'Three'];\n\\$scope.fruits=[]\n\\$scope.selected=function(\\$event){\n    \\$scope.fruits.push(\\$event.option.viewValue)\n}\n\\$scope.remove=function(item){\n    indx=\\$scope.fruits.indexOf(item);\n    \\$scope.fruits.splice(indx,1)\n}\n\\$scope.handleInput=function(\\$event){\n    if (\\$event.data!=',') {\n    }else{\n        \\$scope.fruits.push(\\$event.target.value)\n        \\$event.target.value='';\n    }\n}\n</script>",
+        "meta": "snippet",
+        "docHTML": "<b>Angular Material chip form field.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/chips/overview\">Form Field</a>"
+    },
+    {
+        "caption": "mat:date-picker",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n  <mat-label>Choose a date</mat-label>\n  <input matInput [matDatepicker]=\"picker\" (dateChange)=\"handleDateChange(\\$event)\" (click)=\"picker.open()\">\n  <mat-datepicker-toggle matIconSuffix [for]=\"picker\"></mat-datepicker-toggle>\n  <mat-datepicker #picker></mat-datepicker>\n</mat-form-field>\n<!--Move the javascript code to javascript block\n\\$scope.handleDateChange=function(\\$event){\n    console.log(\\$event.value)\n}\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular Material date-picker.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/datepicker/overview\">Form Field</a>"
+    },
+    {
+        "caption": "mat:date-range-picker",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"dynamic\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n  <mat-label>Enter a date range</mat-label>\n  <mat-date-range-input [rangePicker]=\"rangePicker\">\n    <input matStartDate placeholder=\"Start date\" (dateChange)=\"handleDateChange(\\$event, 'start')\" (click)=\"rangePicker.open()\">\n    <input matEndDate placeholder=\"End date\" (dateChange)=\"handleDateChange(\\$event, 'end')\">\n  </mat-date-range-input>\n  <mat-datepicker-toggle matIconSuffix [for]=\"rangePicker\"></mat-datepicker-toggle>\n  <mat-date-range-picker #rangePicker></mat-date-range-picker>\n</mat-form-field>\n\n<!--Javascript code.\nMove Javascript code to javascript block.\n\\$scope.handleDateChange=function(\\$event, pos){\n    console.log(\\$event.value, pos)\n}\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular Material date-range-picker.</b> <hr>Visit <a href=\"https://v18.material.angular.dev/components/datepicker/overview\">Form Field</a>"
+    },
+    {
+        "caption": "mat:month-picker",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"fixed\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Select Month</mat-label>\n    <input matInput [matDatepicker]=\"monthPicker\" id=\"monthPicker\" (click)=\"monthPicker.open()\">\n    <mat-datepicker-toggle matIconSuffix [for]=\"monthPicker\"></mat-datepicker-toggle>\n    <mat-datepicker #monthPicker startView=\"year\" (monthSelected)=\"setMonth(\\$event, monthPicker)\"></mat-datepicker>\n</mat-form-field>\n\n<!--Here is the javascript. Move this code snippet to javascript block.\n\\$scope.setMonth=function(\\$event, monthPicker){\n    // TODO:Write your logic here\n    $('#monthPicker').val(moment(\\$event).format('YYYY-MM'))\n    monthPicker.close()\n}\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material custom month picker</b><hr>Follow the datepicker documentation. Move the javascript code to javascript block in widget editor"
+    },
+    {
+        "caption": "mat:year-picker",
+        "snippet": "<mat-form-field appearance=\"fill\" subscriptSizing=\"fixed\">\n    <!--subscriptSizing: 'fixed' | 'dynamic'; appearance: 'fill'|'outline' -->\n    <mat-label>Select Year</mat-label>\n    <input matInput [matDatepicker]=\"yearPicker\" id=\"yearPicker\" (click)=\"yearPicker.open()\">\n    <mat-datepicker-toggle matIconSuffix [for]=\"yearPicker\"></mat-datepicker-toggle>\n    <mat-datepicker #yearPicker startView=\"multi-year\" (yearSelected)=\"setYear(\\$event, yearPicker)\"></mat-datepicker>\n</mat-form-field>\n\n<!--Here is the javascript. Move this code snippet to javascript block.\n\\$scope.setYear=function(\\$event, yearPicker){\n    // TODO:Write your logic here\n    $('#yearPicker').val(moment(\\$event).format('YYYY'))\n    yearPicker.close()\n}\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material custom year picker</b><hr>Follow the datepicker documentation. Move the javascript code to javascript block in widget editor"
+    },
+    {
+        "caption": "mat:menu",
+        "snippet": "<button mat-button [matMenuTriggerFor]=\"menu\">Menu</button>\n<mat-menu #menu=\"matMenu\">\n  <button mat-menu-item>Item 1</button>\n  <button mat-menu-item>Item 2</button>\n</mat-menu>",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material menu</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/menu/overview\">Menu</a> documentation."
+    },
+    {
+        "caption": "mat:paginator",
+        "snippet": "<mat-paginator [length]=\"data.length\" [pageSize]=\"tablePagination.pageSize\" [pageSizeOptions]=\"tablePagination.pageSizeOptions\" (page)=\"tablePagination.handler(\\$event)\" aria-label=\"Select page\" showFirstLastButtons=\"true\"></mat-paginator>",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material paginator</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/paginator/overview\">Paginator</a> documentation."
+    },
+    {
+        "caption": "mat:radio-button",
+        "snippet": "<mat-radio-group aria-label=\"Select an option\">\n  <mat-radio-button value=\"1\">Option 1</mat-radio-button>\n  <mat-radio-button value=\"2\">Option 2</mat-radio-button>\n</mat-radio-group>",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material radio-button</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/radio/overview\">Radio-button</a> documentation."
+    },
+    {
+        "caption": "mat:select",
+        "snippet": "<mat-form-field appearance=\"fill\" class=\"w-full\">\n  <mat-label>Select</mat-label>\n  <mat-select>\n    @for (item of list; track item) {\n      <mat-option [value]=\"item\">{{item}}</mat-option>\n    }\n  </mat-select>\n</mat-form-field>\n<!--Here is the javascript code.\n\n\\$scope.list=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\nMove the javascript to javascript block in widget editor.\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material select</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/select/overview\">Select</a> documentation."
+    },
+    {
+        "caption": "mat:select-multiple",
+        "snippet": "<mat-form-field appearance=\"fill\" class=\"w-full\">\n  <mat-label>Select</mat-label>\n  <mat-select [(value)]=\"selected\" multiple>\n      <mat-select-trigger>\n      {{selected?.[0] || ''}}\n      @if ((selected?.length || 0) > 1) {\n        <span class=\"opacity-[0.75] text-[0.75em]\">\n          (+{{(selected?.length || 0) - 1}} {{selected?.length === 2 ? 'other' : 'others'}})\n        </span>\n      }\n    </mat-select-trigger>\n    @for (item of list; track item) {\n      <mat-option [value]=\"item\">{{item}}</mat-option>\n    }\n  </mat-select>\n</mat-form-field>\n<!--Here is the javascript code.\n\n\\$scope.list=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\\$scope.selected=[];\n\nMove the javascript to javascript block in widget editor.\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material multi-select</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/select/overview\">Select</a> documentation."
+    },
+    {
+        "caption": "mat:table",
+        "snippet": "<div class=\"w-full h-full overflow-auto sc-table\">\n    <mat-table *ngIf=\"data\" [dataSource]=\"data\">\n      @for (col of columns; track col){\n      <ng-container [matColumnDef]=\"col.key\">\n        <mat-header-cell *matHeaderCellDef> {{col.title}} </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element[col.key]}} </mat-cell>\n      </ng-container>\n      }\n      <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n      <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n    </mat-table>\n</div>\n<!--Here is the Javascript\n\\$scope.data=[];\n\\$scope.columns=[{key: 'any key', title: 'title'}]\n\\$scope.displayedColumns=\\$scope.columns.map(c=>c.key);\n\nMove this Javascript code to Javascript block in widget editor.\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material table</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/table/overview\">Table</a> documentation."
+    },
+    {
+        "caption": "mat:table-with-pagination",
+        "snippet": "<div class=\"flex flex-col w-full h-full overflow-auto\">\n    <div class=\"w-full flex-shrink overflow-auto sc-table\">\n        <mat-table *ngIf=\"data\" [dataSource]=\"data.slice(tablePagination.getFrom(), tablePagination.getTo())\">\n          @for (col of columns; track col){\n          <ng-container [matColumnDef]=\"col.key\">\n            <mat-header-cell *matHeaderCellDef> {{col.title}} </mat-header-cell>\n            <mat-cell *matCellDef=\"let element\"> {{element[col.key]}} </mat-cell>\n          </ng-container>\n          }\n          <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n          <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n        </mat-table>\n    </div>\n    <div>\n        <mat-paginator class=\"h-[60px]\" [length]=\"data?.length\" [pageSize]=\"tablePagination?.pageSize\" [pageSizeOptions]=\"tablePagination?.pageSizeOptions\" (page)=\"tablePagination.handler(\\$event)\" aria-label=\"Select page\" showFirstLastButtons=\"true\"></mat-paginator>\n    </div>\n</div>\n\n<!--Here is the Javascript\n\\$scope.tablePagination=syncross.tablePagination(defaultPageSize, defaultPageOptions)\n\\$scope.data=[];\n\\$scope.columns=[{key: 'any key', title: 'title'}]\n\\$scope.displayedColumns=.columns.map(c=>c.key);\n\nMove this Javascript code to Javascript block in widget editor.\n-->",
+        "meta": "snippet",
+        "docHTML": "<b>Angular material table with pagination</b><hr>Follow the <a href=\"https://v18.material.angular.dev/components/table/overview\">Table</a> documentation."
+    }
+]
