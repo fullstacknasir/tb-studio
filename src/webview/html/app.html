@@ -8,74 +8,214 @@
 <title>TB-Studio</title>
 <style>
 :root { color-scheme: light dark; }
-body { font: 13px/1.4 var(--vscode-font-family); color: var(--vscode-foreground); padding: 12px; }
-.card { background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border); border-radius: 8px; padding: 12px;min-height: 94vh; height: auto; }
-button { margin-top:10px; padding:6px 10px; border:1px solid var(--vscode-button-border); background: var(--vscode-button-background); color: #FFFFFF; border-radius:4px; cursor:pointer; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+    font: 13px/1.5 var(--vscode-font-family);
+    color: var(--vscode-foreground);
+    padding: 10px;
+    background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--vscode-textLink-foreground) 18%, transparent), transparent 60%), var(--vscode-editor-background);
+}
+.app { max-width: 1040px; margin: 0 auto; }
+.card {
+    background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%);
+    border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
+    border-radius: 22px;
+    padding: 10px;
+    min-height: 94vh;
+    height: auto;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.header { display:flex; align-items:center; justify-content: space-between; gap: 16px; padding: 8px 4px 12px; }
+.header-left { display:flex; align-items:center; gap: 14px; }
+.brand-badge { width: 40px; height: 40px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-weight: 600; font-size: 16px; color: #ffffff; background: linear-gradient(140deg, #3b7cff, #2d5ce8); box-shadow: 0 8px 18px rgba(45, 92, 232, 0.35); }
+.brand-title { font-size: 18px; font-weight: 600; letter-spacing: 0.2px; }
+.actions { display:flex; align-items:center; gap: 12px; }
+.icon-button {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
+    background: color-mix(in srgb, var(--vscode-editor-background) 75%, #11151f 25%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease;
+}
+.icon-button svg { width: 22px; height: 22px; fill: var(--vscode-descriptionForeground); }
+.icon-button:hover { border-color: var(--vscode-focusBorder); }
 .muted { color: var(--vscode-descriptionForeground); }
-.widget { padding:6px 8px; border-bottom: 1px solid var(--vscode-panel-border); cursor:pointer;}
-.widget:hover { background: var(--vscode-list-hoverBackground); }
-.row { display:flex; gap:8px; align-items:center; justify-content: space-between; }
+.tabs { display:flex; align-items:center; gap: 32px; border-bottom: 1px solid var(--vscode-panel-border); margin: 8px 0 0; padding: 0 6px; position: relative; width: 100%; }
+.tab { margin: 0; padding: 12px 2px 16px; background: transparent; border: 0; color: var(--vscode-descriptionForeground); cursor: pointer; font-size: 13px; font-weight: 600; text-transform: none; }
+.tab[aria-selected="true"] { color: #4c8bff; }
+.tab-indicator { position: absolute; bottom: -1px; height: 3px; width: 0; background: #4c8bff; transition: transform 160ms ease, width 160ms ease; border-radius: 3px 3px 0 0; }
+.content { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.panel { display: none; }
+.panel.active { display: flex; flex-direction: column; min-height: 0; }
+.toolbar { display:flex; align-items:center; justify-content: space-between; padding: 18px 6px 10px; background: transparent; }
+.toolbar-title { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--vscode-descriptionForeground); }
+.list { display:flex; flex-direction: column; gap: 12px; padding: 6px 0 12px; overflow: auto; min-height: 0; }
+.widget {
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
+    background: color-mix(in srgb, var(--vscode-editor-background) 78%, #11151f 22%);
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+.widget:hover { background: color-mix(in srgb, var(--vscode-list-hoverBackground) 40%, transparent); border-color: var(--vscode-focusBorder); transform: translateY(-1px); }
+.widget-icon { display:inline-flex; color: #4c8bff; }
+.widget-icon svg { width: 22px; height: 22px; fill: currentColor; }
+.widget-label { flex: 1; font-size: 13px; font-weight: 600; }
+.widget-chevron { display:inline-flex; color: var(--vscode-descriptionForeground); }
+.widget-chevron svg { width: 18px; height: 18px; fill: currentColor; }
+.status { padding: 12px; border: 1px dashed var(--vscode-panel-border); border-radius: 12px; margin-top: 10px; }
+.footer { display:flex; align-items:center; justify-content: space-between; padding: 14px 6px 2px; border-top: 1px solid var(--vscode-panel-border); margin-top: 18px; background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%); position: sticky; bottom: 0; }
+.user-chip { display:flex; align-items:center; gap: 10px; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--vscode-button-background) 40%, #2a2f3a 60%); display:flex; align-items:center; justify-content:center; font-weight: 700; color: var(--vscode-foreground); }
+.server-pill { display:flex; align-items:center; gap: 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, var(--vscode-editor-background) 75%, #11151f 25%); border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent); color: var(--vscode-descriptionForeground); }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; background: #37c974; }
 </style>
 </head>
 <body>
-<div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="font-size:24px; font-weight: 600;">TB-Studio</div>
-        <div><small>Server: {{connectedServer}}</small></div>
-    </div>
-    <div class="row" style="border-bottom: 1px solid var(--vscode-panel-border);margin-bottom: 15px;">
-        <div>
-            <div>Signed in as <strong id="username">{{username}}</strong></div>
+<div class="app">
+    <div class="card">
+        <div class="header">
+            <div class="header-left">
+                <div class="brand-badge">TB</div>
+                <div class="brand-title">TB-Studio</div>
+            </div>
+            <div class="actions">
+                <button id="reload" class="icon-button" type="button" aria-label="Reload"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></button>
+                <button id="logout" class="icon-button" type="button" aria-label="Logout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg></button>
+            </div>
         </div>
-        <div>
-            <button id="reload" type="button"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></button>
-            <button id="logout" type="button"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg></button>
+        <div class="content">
+            <div class="tabs" role="tablist" aria-label="Widget views">
+                <button class="tab" role="tab" id="tab-widgets" aria-selected="true" aria-controls="panel-widgets" type="button">Widgets</button>
+                <button class="tab" role="tab" id="tab-bundles" aria-selected="false" aria-controls="panel-bundles" type="button">Widget Bundles</button>
+                <div class="tab-indicator" id="tab-indicator" aria-hidden="true"></div>
+            </div>
+
+            <div id="panel-widgets" class="panel active" role="tabpanel" aria-labelledby="tab-widgets">
+                <div class="toolbar">
+                    <div class="toolbar-title" id="displayName">Available Widgets</div>
+                </div>
+                <div id="widgets" class="list status muted">Fetching widgets...</div>
+            </div>
+
+            <div id="panel-bundles" class="panel" role="tabpanel" aria-labelledby="tab-bundles">
+                <div class="toolbar">
+                    <div class="toolbar-title" id="bundleDisplayName">Widget Bundles</div>
+                </div>
+                <div id="widgetBundles" class="list status muted">Select a widget to view its bundles...</div>
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="user-chip">
+                <div class="avatar" aria-hidden="true">TB</div>
+                <div><strong id="username">{{username}}</strong></div>
+            </div>
+            <div class="server-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>{{connectedServer}}</span>
+            </div>
         </div>
     </div>
-    <div style="padding: 8px;background-color: rgb(0, 126, 185); color: #FFFFFF;">
-        <div style="font-size: 20px;" id="displayName">Available Widgets</div>
-    </div>
-    
-    <div id="widgets" class="muted">Fetching widgets…</div>
 </div>
 
 
 <script nonce="{{NONCE}}">
 const vscode = acquireVsCodeApi();
 const $ = (id) => document.getElementById(id);
+const createWidgetItem = (label, onClick) => {
+    const el = document.createElement('div');
+    el.className = 'widget';
+    const icon = document.createElement('span');
+    icon.className = 'widget-icon';
+    icon.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>';
+    const text = document.createElement('span');
+    text.className = 'widget-label';
+    text.textContent = label;
+    const chevron = document.createElement('span');
+    chevron.className = 'widget-chevron';
+    chevron.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 0 0 1.42 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.71 6.7a1 1 0 0 0-1.42.01Z"></path></svg>';
+    el.append(icon, text, chevron);
+    el.addEventListener('click', onClick);
+    return el;
+};
+const setActiveTab = (tabId) => {
+    const tabs = ['tab-widgets', 'tab-bundles'];
+    const panels = ['panel-widgets', 'panel-bundles'];
+    tabs.forEach((id) => $(id).setAttribute('aria-selected', id === tabId ? 'true' : 'false'));
+    panels.forEach((id) => $(id).classList.toggle('active', id === `panel-${tabId.split('-')[1]}`));
+    const activeTab = $(tabId);
+    const indicator = $('tab-indicator');
+    if (activeTab && indicator) {
+        const tabList = activeTab.parentElement;
+        const tabRect = activeTab.getBoundingClientRect();
+        const listRect = tabList.getBoundingClientRect();
+        indicator.style.width = `${tabRect.width}px`;
+        indicator.style.transform = `translateX(${tabRect.left - listRect.left}px)`;
+    }
+};
 document.getElementById('logout').addEventListener('click', () => vscode.postMessage({ type: 'logout' }));
 document.getElementById('reload').addEventListener('click', () => vscode.postMessage({ type: 'home' }));
+document.getElementById('tab-widgets').addEventListener('click', () => setActiveTab('tab-widgets'));
+document.getElementById('tab-bundles').addEventListener('click', () => setActiveTab('tab-bundles'));
 window.addEventListener('DOMContentLoaded', () => {
     vscode.postMessage({type: 'update-settings'});
     vscode.postMessage({ type: 'reload' });
+    setActiveTab('tab-widgets');
 });
 window.addEventListener('message', (event) => {
     const msg = event.data;
-    const container = $('widgets');
-    container.innerHTML = '';
+    const widgetsContainer = $('widgets');
+    const bundlesContainer = $('widgetBundles');
+    widgetsContainer.innerHTML = '';
+    bundlesContainer.innerHTML = '';
+    widgetsContainer.className = 'list status muted';
+    bundlesContainer.className = 'list status muted';
     $('displayName').textContent = 'Available Widgets';
+    $('bundleDisplayName').textContent = 'Widget Bundles';
     if (msg.type === 'widget-bundle-type') {
-        $('displayName').textContent = 'Widget: '+msg.payload.displayName || 'Available Widget Types';
+        setActiveTab('tab-bundles');
+        const bundleTitle = msg?.payload?.displayName ? `Widget: ${msg.payload.displayName}` : 'Widget Bundles';
+        $('bundleDisplayName').textContent = bundleTitle;
         (msg?.payload?.widgets || []).forEach((w) => {
-            const el = document.createElement('div');
-            el.className = 'widget';
-            el.textContent = w.name;
-            el.addEventListener('click', () => vscode.postMessage({ type: 'widget-bundle-type', payload: { widget: w } }));
-            container.appendChild(el);
+            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle-type', payload: { widget: w } }));
+            bundlesContainer.appendChild(el);
         });
-        if (!msg?.payload?.widgets?.length) container.textContent = 'No widget types.';
+        if (msg?.payload?.widgets?.length) {
+            bundlesContainer.className = 'list';
+        } else {
+            bundlesContainer.textContent = 'No widget types.';
+        }
     }
     if (msg?.type === 'widgets') {
+        setActiveTab('tab-widgets');
         (msg.widgets || []).forEach((w) => {
-            const el = document.createElement('div');
-            el.className = 'widget';
-            el.textContent = w.name;
-            el.addEventListener('click', () => vscode.postMessage({ type: 'widget-bundle', payload: { widget: w } }));
-            container.appendChild(el);
+            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle', payload: { widget: w } }));
+            widgetsContainer.appendChild(el);
         });
-        if (!msg.widgets?.length) container.textContent = 'No widgets.';
+        if (msg.widgets?.length) {
+            widgetsContainer.className = 'list';
+        } else {
+            widgetsContainer.textContent = 'No widgets.';
+        }
     } else if (msg?.type === 'error') {
-        $('widgets').textContent = msg.message || 'Something went wrong.';
+        widgetsContainer.className = 'list status muted';
+        bundlesContainer.className = 'list status muted';
+        widgetsContainer.textContent = msg.message || 'Something went wrong.';
+        bundlesContainer.textContent = msg.message || 'Something went wrong.';
     }
 });
 </script>

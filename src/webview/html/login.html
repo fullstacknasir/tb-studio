@@ -7,47 +7,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Login</title>
 <style>
-:root {
-color-scheme: light dark;
-}
-body { font: 13px/1.4 var(--vscode-font-family); color: var(--vscode-foreground); padding: 12px; }
-.card { background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border); border-radius: 8px; padding: 0 12px 12px 12px; }
-.label { display:block; margin-top:8px; }
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { font: 13px/1.5 var(--vscode-font-family); color: var(--vscode-foreground); padding: 20px; background: var(--vscode-editor-background); }
+.page { max-width: 520px; margin: 0 auto; }
+.card { background: var(--vscode-sideBar-background); border: 1px solid var(--vscode-panel-border); border-radius: 12px; padding: 16px; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18); position: relative; overflow: hidden; }
+.card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--vscode-textLink-foreground); }
+.topbar { display:flex; align-items:center; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--vscode-panel-border); }
+.brand { font-size: 20px; font-weight: 700; letter-spacing: 0.4px; }
+.meta { color: var(--vscode-descriptionForeground); font-size: 12px; }
+.actions { display:flex; align-items:center; gap: 8px; }
+.icon-button { display:inline-flex; align-items:center; justify-content:center; width: 28px; height: 28px; border: 1px solid var(--vscode-button-border); background: var(--vscode-button-background); border-radius: 6px; cursor: pointer; }
+.icon-button:hover { filter: brightness(1.05); }
+.icon-button svg { width: 16px; height: 16px; fill: var(--vscode-button-foreground); }
+.form { padding-top: 14px; }
+.label { display:block; margin: 10px 0 6px; color: var(--vscode-descriptionForeground); font-weight: 600; font-size: 12px; letter-spacing: 0.3px; text-transform: uppercase; }
 input[type="email"], input[type="password"] {
-width:100%; padding:6px; border:1px solid var(--vscode-input-border); background: var(--vscode-input-background);
-color: var(--vscode-input-foreground); border-radius:4px; box-sizing:border-box; margin-right: 20px;
+    width: 100%; padding: 8px 10px; border: 1px solid var(--vscode-input-border); background: var(--vscode-input-background);
+    color: var(--vscode-input-foreground); border-radius: 6px;
 }
-.refreshBtn:hover { background-color: #00a3e494;}
-
-button.singin {
-margin-top:10px; padding:6px 10px; border:1px solid var(--vscode-button-border);
-background: var(--vscode-button-background); color: var(--vscode-button-foreground); border-radius:4px; cursor:pointer;
-width: 100%;
-}
-.error { color: var(--vscode-errorForeground); margin-top:8px; }
+input[type="email"]:focus, input[type="password"]:focus { outline: 1px solid var(--vscode-focusBorder); }
+.checkbox-row { display:flex; gap: 8px; align-items:center; margin: 12px 0; color: var(--vscode-descriptionForeground); }
+button.signin { margin-top: 8px; padding: 8px 10px; border: 1px solid var(--vscode-button-border); background: var(--vscode-button-background); color: var(--vscode-button-foreground); border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600; }
+.error { color: var(--vscode-errorForeground); margin-top: 8px; }
 </style>
 </head>
 <body>
-<div class="card">
-    <div style="display: flex; justify-content: end; align-items: center;gap: 10px;">
-        <div style="display: flex; border: 1px solid #00a3e4; border-radius: 2px; cursor: pointer;" id="hostEntry" class="refreshBtn"><svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></svg></div>
-        <div style="text-align: right;"><small>Server: {{connectedServer}}</small></div>
-        <div style="display: flex; border: 1px solid #00a3e4; border-radius: 2px; cursor: pointer;" id="refreshBtn" class="refreshBtn"><svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg></div>
-     </div>
-<div style="display: flex; justify-content: center; align-items: center;">
-    <div style="font-size:24px; font-weight: 600;">TB-Studio</div>
-</div>
-<form id="login-form">
-    <label for="username" id="label">Email</label>
-    <input id="username" type="email" value="{{username}}" autocomplete="username" placeholder="Enter Email"/>
-    <div id="username-error" class="error" role="alert" aria-live="polite"></div>
-    <label for="password" id="label">Password</label>
-    <input id="password" type="password" value="{{password}}" autocomplete="current-password" placeholder="Enter Password"/>
-    <div id="password-error" class="error" role="alert" aria-live="polite"></div>
-    <div style="display: flex; gap: 10px; align-items: center;margin: 10px 0;"><input type="checkbox" id="rememberMe" name="rememberMe" {{checkStatus}}/> <label for="rememberMe">Remember me</label></div>
-    <button class="singin">Sign In</button>
-</form>
-<div id="msg" class="error" role="alert" aria-live="polite"></div>
+<div class="page">
+    <div class="card">
+        <div class="topbar">
+            <div>
+                <div class="brand">TB-Studio</div>
+                <div class="meta">Server: {{connectedServer}}</div>
+            </div>
+            <div class="actions">
+                <div id="hostEntry" class="icon-button" aria-label="Set host"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></svg></div>
+                <div id="refreshBtn" class="icon-button" aria-label="Refresh server"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg></div>
+            </div>
+        </div>
+        <form id="login-form" class="form">
+            <label for="username" class="label">Email</label>
+            <input id="username" type="email" value="{{username}}" autocomplete="username" placeholder="Enter Email"/>
+            <div id="username-error" class="error" role="alert" aria-live="polite"></div>
+            <label for="password" class="label">Password</label>
+            <input id="password" type="password" value="{{password}}" autocomplete="current-password" placeholder="Enter Password"/>
+            <div id="password-error" class="error" role="alert" aria-live="polite"></div>
+            <div class="checkbox-row">
+                <input type="checkbox" id="rememberMe" name="rememberMe" {{checkStatus}}/>
+                <label for="rememberMe">Remember me</label>
+            </div>
+            <button class="signin">Sign In</button>
+        </form>
+        <div id="msg" class="error" role="alert" aria-live="polite"></div>
+    </div>
 </div>
 
 
@@ -68,9 +80,7 @@ document.getElementById('login-form').addEventListener('submit', (event) => {
         hasError = true;
     }
 
-    if (hasError) {
-        return;
-    }
+    if (hasError) return;
     vscode.postMessage({ type: 'submit', payload: { username: $('username').value.trim(), password: $('password').value, rememberMe: $('rememberMe').checked } });
 });
 // handle refreshServerBtn click
@@ -88,14 +98,10 @@ document.getElementById('hostEntry').addEventListener('click', ()=>{
 });
 //auto clear validation on typing
 document.getElementById('username').addEventListener('input', () => {
-    if ($('username').value.trim()) {
-        $('username-error').textContent = '';
-    }
+    if ($('username').value.trim()) $('username-error').textContent = '';
 });
 document.getElementById('password').addEventListener('input', () => {
-    if ($('password').value) {
-        $('password-error').textContent = '';
-    }
+    if ($('password').value) $('password-error').textContent = '';
 });
 
 window.addEventListener('message', (event) => {

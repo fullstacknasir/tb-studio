@@ -13,11 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
    if (!providerRegistered) {
     const provider = new TbStudioWebviewProvider(context);
     context.subscriptions.push(
-      vscode.window.registerWebviewViewProvider(
-        TbStudioWebviewProvider.viewType,
-        provider,
-        { webviewOptions: { retainContextWhenHidden: true } }
-      )
+      vscode.window.registerWebviewViewProvider(TbStudioWebviewProvider.viewType, provider, { webviewOptions: { retainContextWhenHidden: true } })
     );
     providerRegistered = true;
   }
@@ -29,9 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
   statusBarItem.show();
   // Register command to create environment from host
   context.subscriptions.push(vscode.commands.registerCommand('tb-studio.createEnvFromHost', async () => {
-        createEnvFromHost();
-    })
-  );
+    createEnvFromHost();
+  }));
   // Register Ctrl+U command to update local and server widget
   context.subscriptions.push(
     vscode.commands.registerCommand("tb-studio.updateLocalAndServer", async () => {
@@ -47,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
   // watch JSON file for changes and reload
   const jsonPath = path.join(context.extensionPath, 'snippets', 'ace_auto_completion_suggestion.merged.json');
   try {
-    const watcher = fs.watch(jsonPath, () => {
+    const watcher = fs.watch(jsonPath, () => { 
       loadSuggestions(context);
     });
     context.subscriptions.push({ dispose: () => watcher.close() });
@@ -69,4 +64,3 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {}
-
