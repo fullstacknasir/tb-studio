@@ -219,6 +219,21 @@ const setListStatus = (container, text) => {
     container.className = 'list status muted';
     container.textContent = text;
 };
+const showWidgetsLoading = (text = 'Fetching widgets...') => {
+    $('displayName').textContent = 'Available Widgets';
+    setCount('widgetsCount', 0);
+    setListStatus($('widgets'), text);
+};
+const showBundlesLoading = (text = 'Fetching widget bundles...') => {
+    $('bundleDisplayName').textContent = 'Widget Bundles';
+    setCount('bundlesCount', 0);
+    setListStatus($('widgetBundles'), text);
+};
+const showWidgetTypesLoading = (bundleName) => {
+    $('bundleDisplayName').textContent = bundleName ? `Widget: ${bundleName}` : 'Widget Bundles';
+    setCount('bundlesCount', 0);
+    setListStatus($('widgetBundles'), 'Fetching bundle widgets...');
+};
 const setCount = (id, count) => {
     const el = $(id);
     if (!el) return;
@@ -239,12 +254,12 @@ document.getElementById('logout').addEventListener('click', () => vscode.postMes
 document.getElementById('reload').addEventListener('click', () => vscode.postMessage({ type: 'home' }));
 document.getElementById('tab-widgets').addEventListener('click', () => {
     setActiveTab('tab-widgets');
-    setListStatus($('widgets'), 'Fetching widgets...');
+    showWidgetsLoading();
     vscode.postMessage({ type: 'home' });
 });
 document.getElementById('tab-bundles').addEventListener('click', () => {
     setActiveTab('tab-bundles');
-    setListStatus($('widgetBundles'), 'Fetching widget bundles...');
+    showBundlesLoading();
     vscode.postMessage({ type: 'widget-bundles' });
 });
 window.addEventListener('DOMContentLoaded', () => {
@@ -264,6 +279,7 @@ window.addEventListener('message', (event) => {
     const bundlesContainer = $('widgetBundles');
     if (msg.type === 'widget-bundle-type') {
         setActiveTab('tab-bundles');
+        showWidgetTypesLoading(msg?.payload?.displayName);
         bundlesContainer.innerHTML = '';
         bundlesContainer.className = 'list status muted';
         const bundleTitle = msg?.payload?.displayName ? `Widget: ${msg.payload.displayName}` : 'Widget Bundles';
@@ -313,8 +329,12 @@ window.addEventListener('message', (event) => {
             bundlesContainer.textContent = 'No widget bundles.';
         }
     } else if (msg?.type === 'error') {
-        setListStatus(widgetsContainer, msg.message || 'Something went wrong.');
-        setListStatus(bundlesContainer, msg.message || 'Something went wrong.');
+        if ($('panel-widgets').classList.contains('active')) {
+            showWidgetsLoading(msg.message || 'Something went wrong.');
+        }
+        if ($('panel-bundles').classList.contains('active')) {
+            showBundlesLoading(msg.message || 'Something went wrong.');
+        }
         setCount('widgetsCount', 0);
         setCount('bundlesCount', 0);
     }
