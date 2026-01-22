@@ -12,18 +12,18 @@
 body {
     font: 13px/1.5 var(--vscode-font-family);
     color: var(--vscode-foreground);
-    padding: 10px;
-    background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--vscode-textLink-foreground) 18%, transparent), transparent 60%), var(--vscode-editor-background);
+    /* background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--vscode-textLink-foreground) 18%, transparent), transparent 60%), var(--vscode-editor-background); */
+    background: var(--vscode-sideBar-background);
 }
 .app { max-width: 1040px; margin: 0 auto; }
 .card {
-    background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%);
-    border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
-    border-radius: 22px;
-    padding: 10px;
+    /* background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%); */
+    /* border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent); */
+    /* border-radius: 22px; */
+    /* padding: 10px; */
     min-height: 94vh;
     height: auto;
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35);
+    /* box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35); */
     position: relative;
     overflow: hidden;
     display: flex;
@@ -31,33 +31,60 @@ body {
 }
 .header { display:flex; align-items:center; justify-content: space-between; gap: 16px; padding: 8px 4px 12px; }
 .header-left { display:flex; align-items:center; gap: 14px; }
-.brand-badge { width: 40px; height: 40px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-weight: 600; font-size: 16px; color: #ffffff; background: linear-gradient(140deg, #3b7cff, #2d5ce8); box-shadow: 0 8px 18px rgba(45, 92, 232, 0.35); }
+.brand-badge { width: 40px; height: 40px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-weight: 600; font-size: 16px; color: #ffffff; background: linear-gradient(140deg, #3b7cff, #2d5ce8); box-shadow: 0 8px 18px rgba(45, 92, 232, 0.2); }
 .brand-title { font-size: 18px; font-weight: 600; letter-spacing: 0.2px; }
 .actions { display:flex; align-items:center; gap: 12px; }
 .icon-button {
-    width: 46px;
-    height: 46px;
+    width: 35px;
+    height: 35px;
     border-radius: 12px;
     border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
-    background: color-mix(in srgb, var(--vscode-editor-background) 75%, #11151f 25%);
+    background: var(--vscode-button-background);
     display:flex;
     align-items:center;
     justify-content:center;
     cursor: pointer;
     transition: border-color 120ms ease, background 120ms ease;
 }
-.icon-button svg { width: 22px; height: 22px; fill: var(--vscode-descriptionForeground); }
-.icon-button:hover { border-color: var(--vscode-focusBorder); }
+.icon-button svg { width: 25px; height: 25px; fill: currentColor; border-color: var(--vscode-focusBorder);}
+.icon-button:hover { border-color: var(--vscode-focusBorder); background: var(--vscode-focusBorder); }
 .muted { color: var(--vscode-descriptionForeground); }
-.tabs { display:flex; align-items:center; gap: 32px; border-bottom: 1px solid var(--vscode-panel-border); margin: 8px 0 0; padding: 0 6px; position: relative; width: 100%; }
-.tab { margin: 0; padding: 12px 2px 16px; background: transparent; border: 0; color: var(--vscode-descriptionForeground); cursor: pointer; font-size: 13px; font-weight: 600; text-transform: none; }
+.tabs { display:flex; align-items:center; border-bottom: 1px solid var(--vscode-panel-border); margin: 8px 0 0; padding: 0 6px; position: relative; width: 100%; }
+.tab { margin: 0; padding: 12px; background: transparent; border: 0; color: var(--vscode-descriptionForeground); cursor: pointer; font-size: 13px; font-weight: 600; text-transform: none; }
 .tab[aria-selected="true"] { color: #4c8bff; }
-.tab-indicator { position: absolute; bottom: -1px; height: 3px; width: 0; background: #4c8bff; transition: transform 160ms ease, width 160ms ease; border-radius: 3px 3px 0 0; }
+.tab-indicator { position: absolute; bottom: -1px;left: 0; height: 3px; width: 0; background: #4c8bff; transition: transform 160ms ease, width 160ms ease; border-radius: 3px 3px 0 0; }
 .content { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .panel { display: none; }
 .panel.active { display: flex; flex-direction: column; min-height: 0; }
-.toolbar { display:flex; align-items:center; justify-content: space-between; padding: 18px 6px 10px; background: transparent; }
+.toolbar { display:flex; align-items:center; justify-content: space-between; gap: 12px; padding: 18px 6px 10px; background: transparent; }
 .toolbar-title { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--vscode-descriptionForeground); }
+.toolbar-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.search-input {
+    width: 135px;
+    max-width: 42vw;
+    padding: 6px 10px 6px 28px;
+    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
+    background: color-mix(in srgb, var(--vscode-editor-background) 85%, #11151f 15%);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2399a4b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 8px 50%;
+    background-size: 14px 14px;
+    color: var(--vscode-foreground);
+    font-size: 12px;
+    transition: width 160ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+.search-input:focus { width: 220px; }
+.search-input::placeholder { color: var(--vscode-descriptionForeground); }
+.search-input:focus {
+    outline: none;
+    border-color: var(--vscode-focusBorder);
+    box-shadow: 0 0 0 1px var(--vscode-focusBorder);
+}
 .list { display:flex; flex-direction: column; gap: 12px; padding: 6px 0 12px; overflow: auto; min-height: 0; }
 .widget {
     display:flex;
@@ -77,9 +104,9 @@ body {
 .widget-chevron { display:inline-flex; color: var(--vscode-descriptionForeground); }
 .widget-chevron svg { width: 18px; height: 18px; fill: currentColor; }
 .status { padding: 12px; border: 1px dashed var(--vscode-panel-border); border-radius: 12px; margin-top: 10px; }
-.footer { display:flex; align-items:center; justify-content: space-between; padding: 14px 6px 2px; border-top: 1px solid var(--vscode-panel-border); margin-top: 18px; background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%); position: sticky; bottom: 0; }
+.footer { display:flex; align-items:center; justify-content: space-between; padding: 14px 6px 2px; border-top: 1px solid var(--vscode-panel-border); margin-top: 18px; position: sticky; bottom: 0; }
 .user-chip { display:flex; align-items:center; gap: 10px; }
-.avatar { width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--vscode-button-background) 40%, #2a2f3a 60%); display:flex; align-items:center; justify-content:center; font-weight: 700; color: var(--vscode-foreground); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--vscode-button-background) 40%, #2a2f3a 60%); display:flex; align-items:center; justify-content:center; font-weight: 700; color: white; }
 .server-pill { display:flex; align-items:center; gap: 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, var(--vscode-editor-background) 75%, #11151f 25%); border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent); color: var(--vscode-descriptionForeground); }
 .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #37c974; }
 </style>
@@ -106,16 +133,22 @@ body {
 
             <div id="panel-widgets" class="panel active" role="tabpanel" aria-labelledby="tab-widgets">
                 <div class="toolbar">
-                    <div class="toolbar-title" id="displayName">Available Widgets</div>
+                    <div class="toolbar-title"><span id="displayName">Available Widgets</span><span id="widgetsCount" class="muted"></span></div>
+                    <div class="toolbar-search">
+                        <input id="widgetsSearch" class="search-input" type="search" placeholder="Search widgets" />
+                    </div>
                 </div>
                 <div id="widgets" class="list status muted">Fetching widgets...</div>
             </div>
 
             <div id="panel-bundles" class="panel" role="tabpanel" aria-labelledby="tab-bundles">
                 <div class="toolbar">
-                    <div class="toolbar-title" id="bundleDisplayName">Widget Bundles</div>
+                    <div class="toolbar-title"><span id="bundleDisplayName">Widget Bundles</span><span id="bundlesCount" class="muted"></span></div>
+                    <div class="toolbar-search">
+                        <input id="bundlesSearch" class="search-input" type="search" placeholder="Search bundles" />
+                    </div>
                 </div>
-                <div id="widgetBundles" class="list status muted">Select a widget to view its bundles...</div>
+                <div id="widgetBundles" class="list status muted">Select a bundle to view its widgets...</div>
             </div>
 
         </div>
@@ -132,23 +165,28 @@ body {
     </div>
 </div>
 
-
 <script nonce="{{NONCE}}">
 const vscode = acquireVsCodeApi();
 const $ = (id) => document.getElementById(id);
-const createWidgetItem = (label, onClick) => {
+const ICONS = {
+    folder: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>',
+    code: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4Zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4Z"></path></svg>',
+    arrow: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 0 0 1.42 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.71 6.7a1 1 0 0 0-1.42.01Z"></path></svg>',
+    sync: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6V3L8 7l4 4V8c2.76 0 5 2.24 5 5 0 1.01-.3 1.94-.82 2.72l1.46 1.46C18.5 16.06 19 14.59 19 13c0-3.87-3.13-7-7-7ZM7.82 5.82 6.36 4.36C5.5 5.94 5 7.41 5 9c0 3.87 3.13 7 7 7v3l4-4-4-4v3c-2.76 0-5-2.24-5-5 0-1.01.3-1.94.82-2.72Z"></path></svg>'
+};
+const createWidgetItem = (label, onClick, { icon: iconKey = 'folder', action: actionKey = 'arrow' } = {}) => {
     const el = document.createElement('div');
     el.className = 'widget';
-    const icon = document.createElement('span');
-    icon.className = 'widget-icon';
-    icon.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>';
+    const iconEl = document.createElement('span');
+    iconEl.className = 'widget-icon';
+    iconEl.innerHTML = ICONS[iconKey] || ICONS.folder;
     const text = document.createElement('span');
     text.className = 'widget-label';
     text.textContent = label;
     const chevron = document.createElement('span');
     chevron.className = 'widget-chevron';
-    chevron.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 0 0 1.42 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.71 6.7a1 1 0 0 0-1.42.01Z"></path></svg>';
-    el.append(icon, text, chevron);
+    chevron.innerHTML = ICONS[actionKey] || ICONS.arrow;
+    el.append(iconEl, text, chevron);
     el.addEventListener('click', onClick);
     return el;
 };
@@ -167,55 +205,108 @@ const setActiveTab = (tabId) => {
         indicator.style.transform = `translateX(${tabRect.left - listRect.left}px)`;
     }
 };
+const setListStatus = (container, text) => {
+    container.className = 'list status muted';
+    container.textContent = text;
+};
+const setCount = (id, count) => {
+    const el = $(id);
+    if (!el) return;
+    el.textContent = typeof count === 'number' ? ` (${count})` : '';
+};
+const filterList = (container, query) => {
+    if (!container) return;
+    const term = (query || '').trim().toLowerCase();
+    const items = container.querySelectorAll('.widget');
+    if (!items.length) return;
+    items.forEach((item) => {
+        const label = item.querySelector('.widget-label')?.textContent?.toLowerCase() || '';
+        const match = !term || label.includes(term);
+        item.style.display = match ? '' : 'none';
+    });
+};
 document.getElementById('logout').addEventListener('click', () => vscode.postMessage({ type: 'logout' }));
 document.getElementById('reload').addEventListener('click', () => vscode.postMessage({ type: 'home' }));
-document.getElementById('tab-widgets').addEventListener('click', () => setActiveTab('tab-widgets'));
-document.getElementById('tab-bundles').addEventListener('click', () => setActiveTab('tab-bundles'));
+document.getElementById('tab-widgets').addEventListener('click', () => {
+    setActiveTab('tab-widgets');
+    setListStatus($('widgets'), 'Fetching widgets...');
+    vscode.postMessage({ type: 'home' });
+});
+document.getElementById('tab-bundles').addEventListener('click', () => {
+    setActiveTab('tab-bundles');
+    setListStatus($('widgetBundles'), 'Fetching widget bundles...');
+    vscode.postMessage({ type: 'widget-bundles' });
+});
 window.addEventListener('DOMContentLoaded', () => {
     vscode.postMessage({type: 'update-settings'});
     vscode.postMessage({ type: 'reload' });
     setActiveTab('tab-widgets');
+    $('widgetsSearch')?.addEventListener('input', (event) => {
+        filterList($('widgets'), event.target?.value);
+    });
+    $('bundlesSearch')?.addEventListener('input', (event) => {
+        filterList($('widgetBundles'), event.target?.value);
+    });
 });
 window.addEventListener('message', (event) => {
     const msg = event.data;
     const widgetsContainer = $('widgets');
     const bundlesContainer = $('widgetBundles');
-    widgetsContainer.innerHTML = '';
-    bundlesContainer.innerHTML = '';
-    widgetsContainer.className = 'list status muted';
-    bundlesContainer.className = 'list status muted';
-    $('displayName').textContent = 'Available Widgets';
-    $('bundleDisplayName').textContent = 'Widget Bundles';
     if (msg.type === 'widget-bundle-type') {
         setActiveTab('tab-bundles');
+        bundlesContainer.innerHTML = '';
+        bundlesContainer.className = 'list status muted';
         const bundleTitle = msg?.payload?.displayName ? `Widget: ${msg.payload.displayName}` : 'Widget Bundles';
         $('bundleDisplayName').textContent = bundleTitle;
+        setCount('bundlesCount', msg?.payload?.widgets?.length || 0);
         (msg?.payload?.widgets || []).forEach((w) => {
-            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle-type', payload: { widget: w } }));
+            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle-type', payload: { widget: w } }), { icon: 'code', action: 'sync' });
             bundlesContainer.appendChild(el);
         });
         if (msg?.payload?.widgets?.length) {
             bundlesContainer.className = 'list';
+            filterList(bundlesContainer, $('bundlesSearch')?.value);
         } else {
             bundlesContainer.textContent = 'No widget types.';
         }
     }
     if (msg?.type === 'widgets') {
         setActiveTab('tab-widgets');
+        widgetsContainer.innerHTML = '';
+        widgetsContainer.className = 'list status muted';
+        $('displayName').textContent = 'Available Widgets';
+        setCount('widgetsCount', msg.widgets?.length || 0);
         (msg.widgets || []).forEach((w) => {
-            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle', payload: { widget: w } }));
+            const el = createWidgetItem(w.name, () => vscode.postMessage({ type: 'widget-bundle-type', payload: { widget: w } }), { icon: 'code', action: 'sync' });
             widgetsContainer.appendChild(el);
         });
         if (msg.widgets?.length) {
             widgetsContainer.className = 'list';
+            filterList(widgetsContainer, $('widgetsSearch')?.value);
         } else {
             widgetsContainer.textContent = 'No widgets.';
         }
-    } else if (msg?.type === 'error') {
-        widgetsContainer.className = 'list status muted';
+    } else if (msg?.type === 'widget-bundles') {
+        setActiveTab('tab-bundles');
+        bundlesContainer.innerHTML = '';
         bundlesContainer.className = 'list status muted';
-        widgetsContainer.textContent = msg.message || 'Something went wrong.';
-        bundlesContainer.textContent = msg.message || 'Something went wrong.';
+        $('bundleDisplayName').textContent = 'Widget Bundles';
+        setCount('bundlesCount', msg.bundles?.length || 0);
+        (msg.bundles || []).forEach((bundle) => {
+            const el = createWidgetItem(bundle.name, () => vscode.postMessage({ type: 'widget-bundle', payload: { widget: bundle } }), { icon: 'folder', action: 'arrow' });
+            bundlesContainer.appendChild(el);
+        });
+        if (msg.bundles?.length) {
+            bundlesContainer.className = 'list';
+            filterList(bundlesContainer, $('bundlesSearch')?.value);
+        } else {
+            bundlesContainer.textContent = 'No widget bundles.';
+        }
+    } else if (msg?.type === 'error') {
+        setListStatus(widgetsContainer, msg.message || 'Something went wrong.');
+        setListStatus(bundlesContainer, msg.message || 'Something went wrong.');
+        setCount('widgetsCount', 0);
+        setCount('bundlesCount', 0);
     }
 });
 </script>

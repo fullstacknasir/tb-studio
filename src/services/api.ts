@@ -16,7 +16,8 @@ export function updateApiBaseURL() {
 }
 
 export type LoginResponse = { token: string; refreshToken: string };
-export type Widget = { id: string; name: string; tenantId?: { id: string } };
+export type WidgetBundle = { id: string | { id: string }; name?: string; title?: string; alias?: string; tenantId?: { id: string } };
+export type WidgetTypeInfo = { id: string | { id: string }; name: string };
 
 
 export async function login(username: string, password: string): Promise<LoginResponse> {
@@ -25,16 +26,16 @@ export async function login(username: string, password: string): Promise<LoginRe
 }
 
 
-export async function getWidgets(token: string): Promise<Widget[]> {
-    const res = await api.get<{ data: Widget[] }>(
+export async function getWidgetBundles(token: string): Promise<WidgetBundle[]> {
+    const res = await api.get<{ data: WidgetBundle[] }>(
         "/api/widgetsBundles",{ 
             params: { pageSize: 500, page: 0,sortProperty: "createdTime",sortOrder: "DESC", tenantOnly: false, fullSearch: false, scadaFirst: false }, 
             headers: { Authorization: `Bearer ${token}` } 
         });
     return res.data.data;
 }
-export async function getWidgetBundleTypes(token: string, id: string): Promise<string[]> {
-    const res = await api.get<{ data: string[] }>(
+export async function getWidgetBundleTypes(token: string, id: string): Promise<WidgetTypeInfo[]> {
+    const res = await api.get<{ data: WidgetTypeInfo[] }>(
         "/api/widgetTypesInfos", 
         { 
             params: { pageSize: 100, page: 0, widgetsBundleId: id, fullSearch: false, deprecatedFilter: "ALL" },

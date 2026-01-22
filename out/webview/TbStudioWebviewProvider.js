@@ -88,6 +88,9 @@ class TbStudioWebviewProvider {
             case message_1.Type.HOME:
                 await this.fetchAndPostWidgets();
                 break;
+            case message_1.Type.WIDGET_BUNDLES:
+                await this.fetchAndPostWidgetBundles();
+                break;
             case message_1.Type.RELOAD:
                 (0, env_1.reloadEnv)(); // Reload .env file
                 (0, api_2.updateApiBaseURL)(); // Update API base URL
@@ -143,11 +146,37 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const widgets = (await (0, api_1.getWidgets)(token)).filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID).map((w) => ({ id: w.id ?? cryptoRandomId(), name: w.name }));
-                this.post({ type: message_1.Type.WIDGETS, widgets });
+                const bundles = (await (0, api_1.getWidgetBundles)(token)).filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
+                const bundleIds = bundles.map((bundle) => normalizeId(bundle?.id)).filter((id) => Boolean(id));
+                const widgetTypeLists = await Promise.all(bundleIds.map((bundleId) => (0, api_1.getWidgetBundleTypes)(token, bundleId)));
+                const widgets = widgetTypeLists
+                    .flat()
+                    .map((w) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name }));
+                const unique = new Map();
+                widgets.forEach((w) => unique.set(w.id, w));
+                this.post({ type: message_1.Type.WIDGETS, widgets: Array.from(unique.values()) });
             }
             catch (e) {
                 this.post({ type: message_1.Type.ERROR, message: e?.message ?? "Failed to fetch widgets." });
+            }
+        }
+        else {
+            this.refresh();
+        }
+    }
+    async fetchAndPostWidgetBundles() {
+        if (await (0, api_1.checkExpire)(this.context)) {
+            const token = await credentials_1.Credentials.getAccessToken(this.context);
+            if (!token)
+                return;
+            try {
+                const bundleList = (await (0, api_1.getWidgetBundles)(token))
+                    .filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
+                const bundles = bundleList.map((w) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name ?? w.title ?? "Untitled bundle" }));
+                this.post({ type: message_1.Type.WIDGET_BUNDLES, bundles });
+            }
+            catch (e) {
+                this.post({ type: message_1.Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
             }
         }
         else {
@@ -160,7 +189,10 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const widgetBundleTypes = await (0, api_1.getWidgetBundleTypes)(token, widgetBundle.id.id);
+                const widgetBundleId = normalizeId(widgetBundle?.id);
+                if (!widgetBundleId)
+                    return;
+                const widgetBundleTypes = await (0, api_1.getWidgetBundleTypes)(token, widgetBundleId);
                 this.post({ type: message_1.Type.WIDGET_BUNDLE_TYPE, payload: { widgets: widgetBundleTypes, displayName: widgetBundle.name } });
             }
             catch (e) {
@@ -177,7 +209,10 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const singleWidget = await (0, api_1.getSingleWidget)(token, widget.id.id);
+                const widgetId = normalizeId(widget?.id);
+                if (!widgetId)
+                    return;
+                const singleWidget = await (0, api_1.getSingleWidget)(token, widgetId);
                 let files = [];
                 files.push({ name: singleWidget.name + FILE_EXTENSION.html, content: singleWidget.descriptor.templateHtml });
                 files.push({ name: singleWidget.name + FILE_EXTENSION.js, content: singleWidget.descriptor.controllerScript });
@@ -226,6 +261,15 @@ class TbStudioWebviewProvider {
 exports.TbStudioWebviewProvider = TbStudioWebviewProvider;
 _TbStudioWebviewProvider_view = new WeakMap();
 TbStudioWebviewProvider.viewType = "tbStudioView";
+function normalizeId(value) {
+    if (typeof value === "string")
+        return value;
+    if (value && typeof value === "object" && "id" in value) {
+        const nested = value.id;
+        return typeof nested === "string" ? nested : undefined;
+    }
+    return undefined;
+}
 function cryptoRandomId() {
     const buf = new Uint32Array(2);
     // eslint-disable-next-line no-undef

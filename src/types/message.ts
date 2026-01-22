@@ -6,6 +6,7 @@ export enum Type {
   WIDGET_BUNDLE="widget-bundle",
   WIDGET_BUNDLE_TYPE="widget-bundle-type",
   WIDGET="widget",
+  WIDGET_BUNDLES="widget-bundles",
   ERROR="error",
   WIDGETS="widgets",
   FILE="file",
@@ -36,12 +37,14 @@ export type InboundMessage =
 | Widget
 | HomeMessage
 | { type: Type.WIDGET_BUNDLE_TYPE; payload: { widget: any } }
+| { type: Type.WIDGET_BUNDLES }
 | {type: Type.FILE, payload: { name: string, content: string } }
 | {type: Type.HOST, payload: {}}
 | {type: Type.UPDATE_SETTINGS};
 
 export type OutboundError = { type: Type.ERROR; message: string };
 export type OutboundWidgets = { type: Type.WIDGETS; widgets: Array<{ id: string; name: string }> };
+export type OutboundWidgetBundles = { type: Type.WIDGET_BUNDLES; bundles: Array<{ id: string; name: string }> };
 
 export type Suggestion = {
   caption?: string;

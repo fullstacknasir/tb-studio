@@ -10,6 +10,7 @@ var Type;
     Type["WIDGET_BUNDLE"] = "widget-bundle";
     Type["WIDGET_BUNDLE_TYPE"] = "widget-bundle-type";
     Type["WIDGET"] = "widget";
+    Type["WIDGET_BUNDLES"] = "widget-bundles";
     Type["ERROR"] = "error";
     Type["WIDGETS"] = "widgets";
     Type["FILE"] = "file";

@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.api = exports.API_BASE_URL = void 0;
 exports.updateApiBaseURL = updateApiBaseURL;
 exports.login = login;
-exports.getWidgets = getWidgets;
+exports.getWidgetBundles = getWidgetBundles;
 exports.getWidgetBundleTypes = getWidgetBundleTypes;
 exports.getSingleWidget = getSingleWidget;
 exports.saveWidgetType = saveWidgetType;
@@ -61,7 +61,7 @@ async function login(username, password) {
     const res = await exports.api.post("/api/auth/login", { username, password });
     return res.data;
 }
-async function getWidgets(token) {
+async function getWidgetBundles(token) {
     const res = await exports.api.get("/api/widgetsBundles", {
         params: { pageSize: 500, page: 0, sortProperty: "createdTime", sortOrder: "DESC", tenantOnly: false, fullSearch: false, scadaFirst: false },
         headers: { Authorization: `Bearer ${token}` }
