@@ -54,28 +54,35 @@ export async function saveWidgetType(token: string, widget: any): Promise<any> {
   return await api.post("/api/widgetType",widget, { headers: { Authorization: `Bearer ${token}` } });
 }
 export async function checkExpire(context: vscode.ExtensionContext):Promise<boolean>{
-    let token=await Credentials.getAccessToken(context);
-    let authUser= decodeJwt(token);
-    if(new Date().getTime()<=authUser.exp*1000-6000) return true;
-    let refreshToken=await Credentials.getRefreshToken(context);
-    const res = await api.post(`/api/auth/token`, {"refreshToken":refreshToken});
-    if(res.status==200){
-        authUser= decodeJwt(res.data.token);
-        Credentials.setLogin(context,authUser.sub,res.data.token,res.data.refreshToken);
-        return true;
-    }else{
+    const token = await Credentials.getAccessToken(context);
+    if (!token) return false;
+    let authUser = decodeJwt(token);
+    if (new Date().getTime() <= authUser.exp * 1000 - 6000) return true;
+    const refreshToken = await Credentials.getRefreshToken(context);
+    if (!refreshToken) {
         await Credentials.clear(context);
-        vscode.window.showInformationMessage("Unable to refresh token, please login again.");
         return false;
     }
+    try {
+        const res = await api.post(`/api/auth/token`, {"refreshToken":refreshToken});
+        if (res.status === 200) {
+            authUser = decodeJwt(res.data.token);
+            Credentials.setLogin(context, authUser.sub, res.data.token, res.data.refreshToken);
+            return true;
+        }
+    } catch (e) {
+        // Fall through to clear credentials.
+    }
+    await Credentials.clear(context);
+    vscode.window.showInformationMessage("Unable to refresh token, please login again.");
+    return false;
 }
 function decodeJwt(token: string): any {
     if (!token) throw new Error("Missing token");
     const parts = token.split('.');
     if (parts.length !== 3) throw new Error("Invalid JWT");
     const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-        atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-    );
+    const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+    const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
     return JSON.parse(jsonPayload);
 }

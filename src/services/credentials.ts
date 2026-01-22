@@ -57,9 +57,8 @@ export const Credentials = {
 function decodeJwt(token: string): any {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-  );
+  const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+  const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
   return JSON.parse(jsonPayload);
 }
  

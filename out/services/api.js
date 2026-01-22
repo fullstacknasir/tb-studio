@@ -83,22 +83,31 @@ async function saveWidgetType(token, widget) {
     return await exports.api.post("/api/widgetType", widget, { headers: { Authorization: `Bearer ${token}` } });
 }
 async function checkExpire(context) {
-    let token = await credentials_1.Credentials.getAccessToken(context);
+    const token = await credentials_1.Credentials.getAccessToken(context);
+    if (!token)
+        return false;
     let authUser = decodeJwt(token);
     if (new Date().getTime() <= authUser.exp * 1000 - 6000)
         return true;
-    let refreshToken = await credentials_1.Credentials.getRefreshToken(context);
-    const res = await exports.api.post(`/api/auth/token`, { "refreshToken": refreshToken });
-    if (res.status == 200) {
-        authUser = decodeJwt(res.data.token);
-        credentials_1.Credentials.setLogin(context, authUser.sub, res.data.token, res.data.refreshToken);
-        return true;
-    }
-    else {
+    const refreshToken = await credentials_1.Credentials.getRefreshToken(context);
+    if (!refreshToken) {
         await credentials_1.Credentials.clear(context);
-        vscode.window.showInformationMessage("Unable to refresh token, please login again.");
         return false;
     }
+    try {
+        const res = await exports.api.post(`/api/auth/token`, { "refreshToken": refreshToken });
+        if (res.status === 200) {
+            authUser = decodeJwt(res.data.token);
+            credentials_1.Credentials.setLogin(context, authUser.sub, res.data.token, res.data.refreshToken);
+            return true;
+        }
+    }
+    catch (e) {
+        // Fall through to clear credentials.
+    }
+    await credentials_1.Credentials.clear(context);
+    vscode.window.showInformationMessage("Unable to refresh token, please login again.");
+    return false;
 }
 function decodeJwt(token) {
     if (!token)
@@ -107,7 +116,8 @@ function decodeJwt(token) {
     if (parts.length !== 3)
         throw new Error("Invalid JWT");
     const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+    const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
     return JSON.parse(jsonPayload);
 }
 //# sourceMappingURL=api.js.map
