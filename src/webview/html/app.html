@@ -9,20 +9,21 @@
 <style>
 :root { color-scheme: light dark; }
 *, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
     font: 13px/1.5 var(--vscode-font-family);
     color: var(--vscode-foreground);
     /* background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--vscode-textLink-foreground) 18%, transparent), transparent 60%), var(--vscode-editor-background); */
     background: var(--vscode-sideBar-background);
+    overflow: hidden;
 }
-.app { max-width: 1040px; margin: 0 auto; }
+.app { max-width: 1040px; margin: 0 auto; height: 100%; }
 .card {
     /* background: color-mix(in srgb, var(--vscode-editor-background) 70%, #0b0e14 30%); */
     /* border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent); */
     /* border-radius: 22px; */
     /* padding: 10px; */
-    min-height: 94vh;
-    height: auto;
+    height: 100%;
     /* box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35); */
     position: relative;
     overflow: hidden;
@@ -53,9 +54,9 @@ body {
 .tab { margin: 0; padding: 12px; background: transparent; border: 0; color: var(--vscode-descriptionForeground); cursor: pointer; font-size: 13px; font-weight: 600; text-transform: none; }
 .tab[aria-selected="true"] { color: #4c8bff; }
 .tab-indicator { position: absolute; bottom: -1px;left: 0; height: 3px; width: 0; background: #4c8bff; transition: transform 160ms ease, width 160ms ease; border-radius: 3px 3px 0 0; }
-.content { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.content { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
 .panel { display: none; }
-.panel.active { display: flex; flex-direction: column; min-height: 0; }
+.panel.active { display: flex; flex-direction: column; min-height: 0; flex: 1; }
 .toolbar { display:flex; align-items:center; justify-content: space-between; gap: 12px; padding: 18px 6px 10px; background: transparent; }
 .toolbar-title { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--vscode-descriptionForeground); }
 .toolbar-search {
@@ -85,7 +86,16 @@ body {
     border-color: var(--vscode-focusBorder);
     box-shadow: 0 0 0 1px var(--vscode-focusBorder);
 }
-.list { display:flex; flex-direction: column; gap: 12px; padding: 6px 0 12px; overflow: auto; min-height: 0; }
+.list {
+    flex: 1;
+    display:flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 6px 0 12px;
+    overflow: auto;
+    min-height: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.35), inset 0 -12px 12px -12px rgba(0, 0, 0, 0.35);
+}
 .widget {
     display:flex;
     align-items:center;
@@ -104,7 +114,7 @@ body {
 .widget-chevron { display:inline-flex; color: var(--vscode-descriptionForeground); }
 .widget-chevron svg { width: 18px; height: 18px; fill: currentColor; }
 .status { padding: 12px; border: 1px dashed var(--vscode-panel-border); border-radius: 12px; margin-top: 10px; }
-.footer { display:flex; align-items:center; justify-content: space-between; padding: 14px 6px 2px; border-top: 1px solid var(--vscode-panel-border); margin-top: 18px; position: sticky; bottom: 0; }
+.footer { display:flex; align-items:center; justify-content: space-between; padding: 14px 6px 2px; border-top: 1px solid var(--vscode-panel-border); position: sticky; bottom: 0; background: var(--vscode-sideBar-background); }
 .user-chip { display:flex; align-items:center; gap: 10px; }
 .avatar { width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--vscode-button-background) 40%, #2a2f3a 60%); display:flex; align-items:center; justify-content:center; font-weight: 700; color: white; }
 .server-pill { display:flex; align-items:center; gap: 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, var(--vscode-editor-background) 75%, #11151f 25%); border: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent); color: var(--vscode-descriptionForeground); }
@@ -172,7 +182,7 @@ const ICONS = {
     folder: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>',
     code: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4Zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4Z"></path></svg>',
     arrow: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 0 0 1.42 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.71 6.7a1 1 0 0 0-1.42.01Z"></path></svg>',
-    sync: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6V3L8 7l4 4V8c2.76 0 5 2.24 5 5 0 1.01-.3 1.94-.82 2.72l1.46 1.46C18.5 16.06 19 14.59 19 13c0-3.87-3.13-7-7-7ZM7.82 5.82 6.36 4.36C5.5 5.94 5 7.41 5 9c0 3.87 3.13 7 7 7v3l4-4-4-4v3c-2.76 0-5-2.24-5-5 0-1.01.3-1.94.82-2.72Z"></path></svg>'
+    sync: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-160v-80h110l-16-14q-52-46-73-105t-21-119q0-111 66.5-197.5T400-790v84q-72 26-116 88.5T240-478q0 45 17 87.5t53 78.5l10 10v-98h80v240H160Zm400-10v-84q72-26 116-88.5T720-482q0-45-17-87.5T650-648l-10-10v98h-80v-240h240v80H690l16 14q49 49 71.5 106.5T800-482q0 111-66.5 197.5T560-170Z"/></svg>'
 };
 const createWidgetItem = (label, onClick, { icon: iconKey = 'folder', action: actionKey = 'arrow' } = {}) => {
     const el = document.createElement('div');
