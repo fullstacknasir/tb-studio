@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { env } from "../env";
 import { Constant } from "../util/constant";
+import { safeDecodeJwt } from "../util/jwt";
 
 let url = new URL(Constant.DEFAULT_BASE_URL);
 try{
@@ -45,7 +46,9 @@ export const Credentials = {
     await ctx.secrets.store(KEYS.USERNAME, username);
     await ctx.secrets.store(KEYS.ACCESS_TOKEN, accessToken);
     await ctx.secrets.store(KEYS.REFRESH_TOKEN, refreshToken);
-    await ctx.secrets.store(KEYS.EXPIRE_AT, (decodeJwt(accessToken).exp * 1000).toString());
+    const payload = safeDecodeJwt(accessToken);
+    const exp = payload?.exp ? (payload.exp * 1000).toString() : "";
+    await ctx.secrets.store(KEYS.EXPIRE_AT, exp);
   },
   async clear(ctx: vscode.ExtensionContext) {
     await ctx.secrets.delete(KEYS.ACCESS_TOKEN);
@@ -53,12 +56,4 @@ export const Credentials = {
     await ctx.secrets.delete(KEYS.EXPIRE_AT);
   }
 };
-
-function decodeJwt(token: string): any {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-  const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
-  return JSON.parse(jsonPayload);
-}
  

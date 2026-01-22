@@ -151,7 +151,7 @@ class TbStudioWebviewProvider {
                 const widgetTypeLists = await Promise.all(bundleIds.map((bundleId) => (0, api_1.getWidgetBundleTypes)(token, bundleId)));
                 const widgets = widgetTypeLists
                     .flat()
-                    .map((w) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name }));
+                    .map((w) => ({ id: normalizeId(w.id) ?? cryptoRandomId(), name: w.name }));
                 const unique = new Map();
                 widgets.forEach((w) => unique.set(w.id, w));
                 this.post({ type: message_1.Type.WIDGETS, widgets: Array.from(unique.values()) });
@@ -172,7 +172,10 @@ class TbStudioWebviewProvider {
             try {
                 const bundleList = (await (0, api_1.getWidgetBundles)(token))
                     .filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
-                const bundles = bundleList.map((w) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name ?? w.title ?? "Untitled bundle" }));
+                const bundles = bundleList.map((w) => ({
+                    id: normalizeId(w.id) ?? cryptoRandomId(),
+                    name: w.name ?? w.title ?? "Untitled bundle"
+                }));
                 this.post({ type: message_1.Type.WIDGET_BUNDLES, bundles });
             }
             catch (e) {
@@ -189,11 +192,15 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const widgetBundleId = normalizeId(widgetBundle?.id);
+                const widgetBundleId = normalizeId(widgetBundle.id);
                 if (!widgetBundleId)
                     return;
                 const widgetBundleTypes = await (0, api_1.getWidgetBundleTypes)(token, widgetBundleId);
-                this.post({ type: message_1.Type.WIDGET_BUNDLE_TYPE, payload: { widgets: widgetBundleTypes, displayName: widgetBundle.name } });
+                const widgets = widgetBundleTypes.map((w) => ({
+                    id: normalizeId(w.id) ?? cryptoRandomId(),
+                    name: w.name
+                }));
+                this.post({ type: message_1.Type.WIDGET_BUNDLE_TYPE, payload: { widgets, displayName: widgetBundle.name } });
             }
             catch (e) {
                 this.post({ type: message_1.Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
@@ -209,7 +216,7 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const widgetId = normalizeId(widget?.id);
+                const widgetId = normalizeId(widget.id);
                 if (!widgetId)
                     return;
                 const singleWidget = await (0, api_1.getSingleWidget)(token, widgetId);

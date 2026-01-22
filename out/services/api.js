@@ -47,6 +47,7 @@ exports.checkExpire = checkExpire;
 const axios_1 = __importDefault(require("axios"));
 const env_1 = require("../env");
 const credentials_1 = require("./credentials");
+const jwt_1 = require("../util/jwt");
 const vscode = __importStar(require("vscode"));
 const constant_1 = require("../util/constant");
 // Prefer env-var / setting for baseURL. Fallback to localhost for dev.
@@ -86,7 +87,12 @@ async function checkExpire(context) {
     const token = await credentials_1.Credentials.getAccessToken(context);
     if (!token)
         return false;
-    let authUser = decodeJwt(token);
+    const existingUser = (0, jwt_1.safeDecodeJwt)(token);
+    if (!existingUser) {
+        await credentials_1.Credentials.clear(context);
+        return false;
+    }
+    let authUser = existingUser;
     if (new Date().getTime() <= authUser.exp * 1000 - 6000)
         return true;
     const refreshToken = await credentials_1.Credentials.getRefreshToken(context);
@@ -97,8 +103,8 @@ async function checkExpire(context) {
     try {
         const res = await exports.api.post(`/api/auth/token`, { "refreshToken": refreshToken });
         if (res.status === 200) {
-            authUser = decodeJwt(res.data.token);
-            credentials_1.Credentials.setLogin(context, authUser.sub, res.data.token, res.data.refreshToken);
+            authUser = (0, jwt_1.decodeJwt)(res.data.token);
+            credentials_1.Credentials.setLogin(context, authUser.sub ?? "", res.data.token, res.data.refreshToken);
             return true;
         }
     }
@@ -108,16 +114,5 @@ async function checkExpire(context) {
     await credentials_1.Credentials.clear(context);
     vscode.window.showInformationMessage("Unable to refresh token, please login again.");
     return false;
-}
-function decodeJwt(token) {
-    if (!token)
-        throw new Error("Missing token");
-    const parts = token.split('.');
-    if (parts.length !== 3)
-        throw new Error("Invalid JWT");
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-    const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
-    return JSON.parse(jsonPayload);
 }
 //# sourceMappingURL=api.js.map

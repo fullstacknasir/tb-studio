@@ -1,6 +1,7 @@
 import axios from "axios";
 import { env } from "../env";
 import { Credentials } from "./credentials";
+import { decodeJwt, safeDecodeJwt } from "../util/jwt";
 import * as vscode from 'vscode';
 import { Constant } from "../util/constant";
 
@@ -56,7 +57,12 @@ export async function saveWidgetType(token: string, widget: any): Promise<any> {
 export async function checkExpire(context: vscode.ExtensionContext):Promise<boolean>{
     const token = await Credentials.getAccessToken(context);
     if (!token) return false;
-    let authUser = decodeJwt(token);
+    const existingUser = safeDecodeJwt(token);
+    if (!existingUser) {
+        await Credentials.clear(context);
+        return false;
+    }
+    let authUser = existingUser;
     if (new Date().getTime() <= authUser.exp * 1000 - 6000) return true;
     const refreshToken = await Credentials.getRefreshToken(context);
     if (!refreshToken) {
@@ -67,7 +73,7 @@ export async function checkExpire(context: vscode.ExtensionContext):Promise<bool
         const res = await api.post(`/api/auth/token`, {"refreshToken":refreshToken});
         if (res.status === 200) {
             authUser = decodeJwt(res.data.token);
-            Credentials.setLogin(context, authUser.sub, res.data.token, res.data.refreshToken);
+            Credentials.setLogin(context, authUser.sub ?? "", res.data.token, res.data.refreshToken);
             return true;
         }
     } catch (e) {
@@ -76,13 +82,4 @@ export async function checkExpire(context: vscode.ExtensionContext):Promise<bool
     await Credentials.clear(context);
     vscode.window.showInformationMessage("Unable to refresh token, please login again.");
     return false;
-}
-function decodeJwt(token: string): any {
-    if (!token) throw new Error("Missing token");
-    const parts = token.split('.');
-    if (parts.length !== 3) throw new Error("Invalid JWT");
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-    const jsonPayload = Buffer.from(padded, 'base64').toString('utf8');
-    return JSON.parse(jsonPayload);
 }

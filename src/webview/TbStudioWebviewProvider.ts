@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
-import { InboundMessage, OutboundError, OutboundWidgets, OutboundWidgetBundleTypes, OutboundWidgetBundles, Type } from "../types/message";
+import { InboundMessage, OutboundError, OutboundWidgets, OutboundWidgetBundleTypes, OutboundWidgetBundles, Type, WidgetBundleListItem, WidgetListItem } from "../types/message";
 import { Credentials } from "../services/credentials";
 import { createNonce, getCsp } from "../util/csp";
 import { renderLoginHtml } from "./renderer/loginHtml";
 import { renderAppHtml } from "./renderer/appHtml";
-import { getWidgetBundleTypes, getWidgetBundles, login, getSingleWidget, checkExpire } from "../services/api";
+import { getWidgetBundleTypes, getWidgetBundles, login, getSingleWidget, checkExpire, WidgetBundle, WidgetTypeInfo } from "../services/api";
 import { log } from "../util/logger";
 import { reloadEnv } from '../env';
 import { createEnvFromHost } from "../commands/createEnvFromHost";
@@ -103,15 +103,15 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       const token = await Credentials.getAccessToken(this.context);
       if (!token) return;
       try {
-        const bundles = (await getWidgetBundles(token)).filter((w: any) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
+        const bundles = (await getWidgetBundles(token)).filter((w: WidgetBundle) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
         const bundleIds = bundles.map((bundle) => normalizeId(bundle?.id)).filter((id): id is string => Boolean(id));
         const widgetTypeLists = await Promise.all(
           bundleIds.map((bundleId) => getWidgetBundleTypes(token, bundleId))
         );
         const widgets = widgetTypeLists
           .flat()
-          .map((w: any) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name }));
-        const unique = new Map<string, { id: string; name: string }>();
+          .map((w: WidgetTypeInfo) => ({ id: normalizeId(w.id) ?? cryptoRandomId(), name: w.name }));
+        const unique = new Map<string, WidgetListItem>();
         widgets.forEach((w) => unique.set(w.id, w));
         this.post<OutboundWidgets>({ type: Type.WIDGETS, widgets: Array.from(unique.values()) });
       } catch (e: any) {
@@ -127,8 +127,11 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       if (!token) return;
       try {
         const bundleList = (await getWidgetBundles(token))
-          .filter((w: any) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
-        const bundles = bundleList.map((w) => ({ id: normalizeId(w?.id) ?? cryptoRandomId(), name: w.name ?? w.title ?? "Untitled bundle" }));
+          .filter((w: WidgetBundle) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
+        const bundles: WidgetBundleListItem[] = bundleList.map((w) => ({
+          id: normalizeId(w.id) ?? cryptoRandomId(),
+          name: w.name ?? w.title ?? "Untitled bundle"
+        }));
         this.post<OutboundWidgetBundles>({ type: Type.WIDGET_BUNDLES, bundles });
       } catch (e: any) {
         this.post<OutboundError>({ type: Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
@@ -137,15 +140,19 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       this.refresh();
     }
   }
-  private async fetchWidgetBundleType(widgetBundle:any) {
+  private async fetchWidgetBundleType(widgetBundle: WidgetBundleListItem) {
     if(await checkExpire(this.context)){
       const token = await Credentials.getAccessToken(this.context);
       if (!token) return;
       try {
-        const widgetBundleId = normalizeId(widgetBundle?.id);
+        const widgetBundleId = normalizeId(widgetBundle.id);
         if (!widgetBundleId) return;
         const widgetBundleTypes = await getWidgetBundleTypes(token, widgetBundleId);
-        this.post<OutboundWidgetBundleTypes>({ type: Type.WIDGET_BUNDLE_TYPE, payload: { widgets: widgetBundleTypes, displayName: widgetBundle.name } });
+        const widgets: WidgetListItem[] = widgetBundleTypes.map((w) => ({
+          id: normalizeId(w.id) ?? cryptoRandomId(),
+          name: w.name
+        }));
+        this.post<OutboundWidgetBundleTypes>({ type: Type.WIDGET_BUNDLE_TYPE, payload: { widgets, displayName: widgetBundle.name } });
       } catch (e: any) {
         this.post<OutboundError>({ type: Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
       }
@@ -153,12 +160,12 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       this.refresh();
     }
   }
-  private async fetchSingleWidget(widget: any) {
+  private async fetchSingleWidget(widget: WidgetListItem) {
     if(await checkExpire(this.context)){
       const token = await Credentials.getAccessToken(this.context);
       if (!token) return;
       try {
-        const widgetId = normalizeId(widget?.id);
+        const widgetId = normalizeId(widget.id);
         if (!widgetId) return;
         const singleWidget = await getSingleWidget(token, widgetId);
         let files=[];
