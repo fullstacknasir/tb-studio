@@ -43,7 +43,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _TbStudioWebviewProvider_view;
+var _TbStudioWebviewProvider_view, _TbStudioWebviewProvider_bundleCache, _TbStudioWebviewProvider_bundleTypesCache;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TbStudioWebviewProvider = void 0;
 const vscode = __importStar(require("vscode"));
@@ -69,6 +69,8 @@ class TbStudioWebviewProvider {
     constructor(context) {
         this.context = context;
         _TbStudioWebviewProvider_view.set(this, void 0);
+        _TbStudioWebviewProvider_bundleCache.set(this, void 0);
+        _TbStudioWebviewProvider_bundleTypesCache.set(this, new Map());
     }
     resolveWebviewView(webviewView) {
         __classPrivateFieldSet(this, _TbStudioWebviewProvider_view, webviewView, "f");
@@ -146,12 +148,10 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const bundles = (await (0, api_1.getWidgetBundles)(token)).filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
-                const bundleIds = bundles.map((bundle) => normalizeId(bundle?.id)).filter((id) => Boolean(id));
-                const widgetTypeLists = await Promise.all(bundleIds.map((bundleId) => (0, api_1.getWidgetBundleTypes)(token, bundleId)));
-                const widgets = widgetTypeLists
-                    .flat()
-                    .map((w) => ({ id: normalizeId(w.id) ?? cryptoRandomId(), name: w.name }));
+                const bundles = await this.getCachedBundles(token);
+                const bundleIds = bundles.map((bundle) => normalizeId(bundle.id)).filter((id) => Boolean(id));
+                const widgetTypeLists = await Promise.all(bundleIds.map((bundleId) => this.getCachedWidgetTypes(token, bundleId)));
+                const widgets = widgetTypeLists.flat();
                 const unique = new Map();
                 widgets.forEach((w) => unique.set(w.id, w));
                 this.post({ type: message_1.Type.WIDGETS, widgets: Array.from(unique.values()) });
@@ -170,12 +170,7 @@ class TbStudioWebviewProvider {
             if (!token)
                 return;
             try {
-                const bundleList = (await (0, api_1.getWidgetBundles)(token))
-                    .filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
-                const bundles = bundleList.map((w) => ({
-                    id: normalizeId(w.id) ?? cryptoRandomId(),
-                    name: w.name ?? w.title ?? "Untitled bundle"
-                }));
+                const bundles = await this.getCachedBundleList(token);
                 this.post({ type: message_1.Type.WIDGET_BUNDLES, bundles });
             }
             catch (e) {
@@ -195,11 +190,7 @@ class TbStudioWebviewProvider {
                 const widgetBundleId = normalizeId(widgetBundle.id);
                 if (!widgetBundleId)
                     return;
-                const widgetBundleTypes = await (0, api_1.getWidgetBundleTypes)(token, widgetBundleId);
-                const widgets = widgetBundleTypes.map((w) => ({
-                    id: normalizeId(w.id) ?? cryptoRandomId(),
-                    name: w.name
-                }));
+                const widgets = await this.getCachedWidgetTypes(token, widgetBundleId);
                 this.post({ type: message_1.Type.WIDGET_BUNDLE_TYPE, payload: { widgets, displayName: widgetBundle.name } });
             }
             catch (e) {
@@ -249,6 +240,42 @@ class TbStudioWebviewProvider {
     post(message) {
         __classPrivateFieldGet(this, _TbStudioWebviewProvider_view, "f")?.webview.postMessage(message);
     }
+    isCacheFresh(fetchedAt) {
+        return Date.now() - fetchedAt < 60000;
+    }
+    async getCachedBundles(token) {
+        if (__classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f") && this.isCacheFresh(__classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f").fetchedAt)) {
+            return __classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f").raw;
+        }
+        const raw = (await (0, api_1.getWidgetBundles)(token))
+            .filter((w) => w.tenantId?.id !== constant_1.Constant.DEFAULT_TENANT_ID);
+        const list = raw.map((w) => ({
+            id: normalizeId(w.id) ?? cryptoRandomId(),
+            name: w.name ?? w.title ?? "Untitled bundle"
+        }));
+        __classPrivateFieldSet(this, _TbStudioWebviewProvider_bundleCache, { raw, list, fetchedAt: Date.now() }, "f");
+        return raw;
+    }
+    async getCachedBundleList(token) {
+        if (__classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f") && this.isCacheFresh(__classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f").fetchedAt)) {
+            return __classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f").list;
+        }
+        await this.getCachedBundles(token);
+        return __classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleCache, "f")?.list ?? [];
+    }
+    async getCachedWidgetTypes(token, bundleId) {
+        const cached = __classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleTypesCache, "f").get(bundleId);
+        if (cached && this.isCacheFresh(cached.fetchedAt)) {
+            return cached.widgets;
+        }
+        const widgetBundleTypes = await (0, api_1.getWidgetBundleTypes)(token, bundleId);
+        const widgets = widgetBundleTypes.map((w) => ({
+            id: normalizeId(w.id) ?? cryptoRandomId(),
+            name: w.name
+        }));
+        __classPrivateFieldGet(this, _TbStudioWebviewProvider_bundleTypesCache, "f").set(bundleId, { widgets, fetchedAt: Date.now() });
+        return widgets;
+    }
     async refresh() {
         if (!__classPrivateFieldGet(this, _TbStudioWebviewProvider_view, "f"))
             return;
@@ -266,7 +293,7 @@ class TbStudioWebviewProvider {
     }
 }
 exports.TbStudioWebviewProvider = TbStudioWebviewProvider;
-_TbStudioWebviewProvider_view = new WeakMap();
+_TbStudioWebviewProvider_view = new WeakMap(), _TbStudioWebviewProvider_bundleCache = new WeakMap(), _TbStudioWebviewProvider_bundleTypesCache = new WeakMap();
 TbStudioWebviewProvider.viewType = "tbStudioView";
 function normalizeId(value) {
     if (typeof value === "string")

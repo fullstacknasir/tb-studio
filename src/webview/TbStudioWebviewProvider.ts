@@ -23,6 +23,8 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
   constructor(private readonly context: vscode.ExtensionContext) {}
 
   #view?: vscode.WebviewView;
+  #bundleCache?: { raw: WidgetBundle[]; list: WidgetBundleListItem[]; fetchedAt: number };
+  #bundleTypesCache = new Map<string, { widgets: WidgetListItem[]; fetchedAt: number }>();
 
   resolveWebviewView(webviewView: vscode.WebviewView) {
     this.#view = webviewView;
@@ -103,14 +105,12 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       const token = await Credentials.getAccessToken(this.context);
       if (!token) return;
       try {
-        const bundles = (await getWidgetBundles(token)).filter((w: WidgetBundle) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
-        const bundleIds = bundles.map((bundle) => normalizeId(bundle?.id)).filter((id): id is string => Boolean(id));
+        const bundles = await this.getCachedBundles(token);
+        const bundleIds = bundles.map((bundle) => normalizeId(bundle.id)).filter((id): id is string => Boolean(id));
         const widgetTypeLists = await Promise.all(
-          bundleIds.map((bundleId) => getWidgetBundleTypes(token, bundleId))
+          bundleIds.map((bundleId) => this.getCachedWidgetTypes(token, bundleId))
         );
-        const widgets = widgetTypeLists
-          .flat()
-          .map((w: WidgetTypeInfo) => ({ id: normalizeId(w.id) ?? cryptoRandomId(), name: w.name }));
+        const widgets = widgetTypeLists.flat();
         const unique = new Map<string, WidgetListItem>();
         widgets.forEach((w) => unique.set(w.id, w));
         this.post<OutboundWidgets>({ type: Type.WIDGETS, widgets: Array.from(unique.values()) });
@@ -126,12 +126,7 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       const token = await Credentials.getAccessToken(this.context);
       if (!token) return;
       try {
-        const bundleList = (await getWidgetBundles(token))
-          .filter((w: WidgetBundle) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
-        const bundles: WidgetBundleListItem[] = bundleList.map((w) => ({
-          id: normalizeId(w.id) ?? cryptoRandomId(),
-          name: w.name ?? w.title ?? "Untitled bundle"
-        }));
+        const bundles = await this.getCachedBundleList(token);
         this.post<OutboundWidgetBundles>({ type: Type.WIDGET_BUNDLES, bundles });
       } catch (e: any) {
         this.post<OutboundError>({ type: Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
@@ -147,11 +142,7 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
       try {
         const widgetBundleId = normalizeId(widgetBundle.id);
         if (!widgetBundleId) return;
-        const widgetBundleTypes = await getWidgetBundleTypes(token, widgetBundleId);
-        const widgets: WidgetListItem[] = widgetBundleTypes.map((w) => ({
-          id: normalizeId(w.id) ?? cryptoRandomId(),
-          name: w.name
-        }));
+        const widgets = await this.getCachedWidgetTypes(token, widgetBundleId);
         this.post<OutboundWidgetBundleTypes>({ type: Type.WIDGET_BUNDLE_TYPE, payload: { widgets, displayName: widgetBundle.name } });
       } catch (e: any) {
         this.post<OutboundError>({ type: Type.ERROR, message: e?.message ?? "Failed to fetch widget bundles." });
@@ -193,6 +184,46 @@ export class TbStudioWebviewProvider implements vscode.WebviewViewProvider {
 
   private post<T>(message: T) {
     this.#view?.webview.postMessage(message);
+  }
+
+  private isCacheFresh(fetchedAt: number) {
+    return Date.now() - fetchedAt < 60_000;
+  }
+
+  private async getCachedBundles(token: string): Promise<WidgetBundle[]> {
+    if (this.#bundleCache && this.isCacheFresh(this.#bundleCache.fetchedAt)) {
+      return this.#bundleCache.raw;
+    }
+    const raw = (await getWidgetBundles(token))
+      .filter((w: WidgetBundle) => w.tenantId?.id !== Constant.DEFAULT_TENANT_ID);
+    const list: WidgetBundleListItem[] = raw.map((w) => ({
+      id: normalizeId(w.id) ?? cryptoRandomId(),
+      name: w.name ?? w.title ?? "Untitled bundle"
+    }));
+    this.#bundleCache = { raw, list, fetchedAt: Date.now() };
+    return raw;
+  }
+
+  private async getCachedBundleList(token: string): Promise<WidgetBundleListItem[]> {
+    if (this.#bundleCache && this.isCacheFresh(this.#bundleCache.fetchedAt)) {
+      return this.#bundleCache.list;
+    }
+    await this.getCachedBundles(token);
+    return this.#bundleCache?.list ?? [];
+  }
+
+  private async getCachedWidgetTypes(token: string, bundleId: string): Promise<WidgetListItem[]> {
+    const cached = this.#bundleTypesCache.get(bundleId);
+    if (cached && this.isCacheFresh(cached.fetchedAt)) {
+      return cached.widgets;
+    }
+    const widgetBundleTypes = await getWidgetBundleTypes(token, bundleId);
+    const widgets: WidgetListItem[] = widgetBundleTypes.map((w: WidgetTypeInfo) => ({
+      id: normalizeId(w.id) ?? cryptoRandomId(),
+      name: w.name
+    }));
+    this.#bundleTypesCache.set(bundleId, { widgets, fetchedAt: Date.now() });
+    return widgets;
   }
 
   async refresh() {
