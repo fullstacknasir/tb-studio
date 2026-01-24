@@ -4,7 +4,7 @@
   "description": "Develop ThingsBoard widgets without leaving VS Code.",
   "version": "1.0.0",
   "publisher": "nasir",
-  "icon": "media/tb-studio.svg",
+  "icon": "media/tb-studio.png",
   "engines": {
     "vscode": "^1.104.0"
   },
